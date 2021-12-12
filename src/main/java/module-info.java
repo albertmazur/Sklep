@@ -5,4 +5,6 @@ module am.sklep {
 
     opens am.sklep to javafx.fxml;
     exports am.sklep;
+    exports am.sklep.controller;
+    opens am.sklep.controller to javafx.fxml;
 }

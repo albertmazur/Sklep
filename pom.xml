@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>am.sklep/am.sklep.HelloApplication</mainClass>
+                            <mainClass>am.sklep/am.sklep.Login</mainClass>
                         </configuration>
                     </execution>
                 </executions>
