@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 public class FxmlUtils {
     public static Pane FxmlLoader(String path){
-        FXMLLoader loader = new FXMLLoader(FxmlUtils.class.getResource(path));
+        FXMLLoader loader = new FXMLLoader(FxmlUtils.class.getResource(path),getResourceBundle());
 
         try {
             return loader.load();
@@ -16,6 +16,11 @@ public class FxmlUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static FXMLLoader getFxmlLoader(String path){
+        FXMLLoader fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource(path), getResourceBundle());
+        return fxmlLoader;
     }
 
     public static ResourceBundle getResourceBundle(){
