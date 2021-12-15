@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.RegistrationController">
+  <columnConstraints>
+    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+    <RowConstraints vgrow="SOMETIMES" />
+    <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+    <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Imie" />
+      <Label text="Nazwisko" GridPane.rowIndex="1" />
+      <Label text="Login" GridPane.rowIndex="2" />
+      <Label text="Hasło" GridPane.rowIndex="3" />
+      <Label text="Powtórz hasło" GridPane.rowIndex="4" />
+      <Label text="Data urodzenia" GridPane.rowIndex="5" />
+      <Label text="Email" GridPane.rowIndex="6" />
+      <PasswordField fx:id="passPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <PasswordField fx:id="repeatPassPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
+      <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="loginTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <DatePicker fx:id="birthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Button fx:id="registrationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrationOnAction" text="Utwórz konto" GridPane.rowIndex="7" />
+      <Label fx:id="passFailLabel" text="Hasła nie są takie same" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="40.0" top="20.0" />
+   </padding>
+</GridPane>

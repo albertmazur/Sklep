@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <VBox spacing="20.0">
+         <children>
+            <ToggleButton cache="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#productsOnAction" selected="true" text="Produkty do kupienia">
+               <toggleGroup>
+                  <ToggleGroup fx:id="menuToggleButton" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#basketOnAction" text="Koszyk" toggleGroup="$menuToggleButton" />
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="Kupione produkty" toggleGroup="$menuToggleButton" />
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addProductsOnAction" text="Dodane przedmioty" toggleGroup="$menuToggleButton" />
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#settingOnAction" text="Ustawienia konta" toggleGroup="$menuToggleButton" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <TableView fx:id="tableView" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="TOP_LEFT">
+        <columns>
+          <TableColumn fx:id="nameColumn" minWidth="-Infinity" text="Nazwa" />
+          <TableColumn fx:id="descColumn" minWidth="-Infinity" text="Opis" />
+            <TableColumn fx:id="priceColumn" minWidth="-Infinity" text="Cena" />
+            <TableColumn fx:id="sellerColumn" minWidth="-Infinity" text="Sprzedający" />
+        </columns>
+      </TableView>
+   </center>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</BorderPane>
