@@ -7,7 +7,7 @@ public class ProductFx {
     private StringProperty nazwa = new SimpleStringProperty();
     private StringProperty opis = new SimpleStringProperty();
     private DoubleProperty cena = new SimpleDoubleProperty();
-    private ObjectProperty<ClientFx> sprzedajacy = new SimpleObjectProperty<>();
+    private ObjectProperty<UserFx> sprzedajacy = new SimpleObjectProperty<>();
 
     public int getId() {
         return id.get();
@@ -57,15 +57,15 @@ public class ProductFx {
         this.cena.set(cena);
     }
 
-    public ClientFx getSprzedajacy() {
+    public UserFx getSprzedajacy() {
         return sprzedajacy.get();
     }
 
-    public ObjectProperty<ClientFx> sprzedajacyProperty() {
+    public ObjectProperty<UserFx> sprzedajacyProperty() {
         return sprzedajacy;
     }
 
-    public void setSprzedajacy(ClientFx sprzedajacy) {
+    public void setSprzedajacy(UserFx sprzedajacy) {
         this.sprzedajacy.set(sprzedajacy);
     }
 }

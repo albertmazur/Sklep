@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public class ShoppingFx {
     private IntegerProperty id = new SimpleIntegerProperty();
-    private ObjectProperty<ClientFx> clientFx = new SimpleObjectProperty<>();
+    private ObjectProperty<UserFx> clientFx = new SimpleObjectProperty<>();
     private ObjectProperty<ProductFx> productFx = new SimpleObjectProperty<>();
     private ObjectProperty<LocalDate> dataDodanie = new SimpleObjectProperty<>();
 
@@ -25,16 +25,16 @@ public class ShoppingFx {
         this.id.set(id);
     }
 
-    public ClientFx getClientFx() {
+    public UserFx getClientFx() {
         return clientFx.get();
     }
 
-    public ObjectProperty<ClientFx> clientFxProperty() {
+    public ObjectProperty<UserFx> clientFxProperty() {
         return clientFx;
     }
 
-    public void setClientFx(ClientFx clientFx) {
-        this.clientFx.set(clientFx);
+    public void setClientFx(UserFx userFx) {
+        this.clientFx.set(userFx);
     }
 
     public ProductFx getProductFx() {

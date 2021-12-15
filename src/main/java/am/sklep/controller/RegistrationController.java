@@ -2,7 +2,7 @@ package am.sklep.controller;
 
 import am.sklep.Login;
 import am.sklep.database.DbManager;
-import am.sklep.database.models.Client;
+import am.sklep.database.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -54,16 +54,16 @@ public class RegistrationController {
         String repeatPass = repeatPassPasswordField.getText();
 
         if(pass.equals(repeatPass)){
-            Client newClient = new Client();
-            newClient.setImie(nameTextField.getText());
-            newClient.setNazwisko(surnameTextField.getText());
-            newClient.setHaslo(pass);
-            newClient.setLogin(loginTextField.getText());
-            newClient.setEmail(emailTextField.getText());
-            newClient.setRokUrodzenia(birthDatePicker.getValue());
-            newClient.setStanKonta(1000.00);
+            User newUser = new User();
+            newUser.setImie(nameTextField.getText());
+            newUser.setNazwisko(surnameTextField.getText());
+            newUser.setHaslo(pass);
+            newUser.setLogin(loginTextField.getText());
+            newUser.setEmail(emailTextField.getText());
+            newUser.setRokUrodzenia(birthDatePicker.getValue());
+            newUser.setStanKonta(1000.00);
             passFailLabel.setVisible(false);
-            DbManager.save(newClient);
+            DbManager.save(newUser);
 
             LoginController.getStageRegistration().close();
             stageLogin.getScene().getRoot().setDisable(false);

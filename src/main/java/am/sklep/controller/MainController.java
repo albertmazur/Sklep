@@ -1,7 +1,7 @@
 package am.sklep.controller;
 
 import am.sklep.database.DbManager;
-import am.sklep.models.ClientFx;
+import am.sklep.models.UserFx;
 import am.sklep.models.ProductFx;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -15,7 +15,7 @@ public class MainController {
     @FXML
     private TableColumn<ProductFx, Double> priceColumn;
     @FXML
-    private TableColumn<ProductFx, ClientFx> sellerColumn;
+    private TableColumn<ProductFx, UserFx> sellerColumn;
     @FXML
     private TableView tableView;
 

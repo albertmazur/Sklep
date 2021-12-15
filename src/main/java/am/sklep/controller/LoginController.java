@@ -2,7 +2,7 @@ package am.sklep.controller;
 
 import am.sklep.Login;
 import am.sklep.SingletonConnection;
-import am.sklep.database.models.Client;
+import am.sklep.database.models.User;
 import am.sklep.untils.FxmlUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,9 +43,9 @@ public class LoginController {
         String pass = passwordPasswordField.getText();
         boolean log = true;
         Session session = sessionFactory.openSession();
-        List<Client> clients = session.createSQLQuery("SELECT * from client").addEntity(Client.class).list();
-        for(Client client: clients){
-            if(login.equals(client.getLogin()) && pass.equals(client.getHaslo())){
+        List<User> users = session.createSQLQuery("SELECT * from users").addEntity(User.class).list();
+        for(User user : users){
+            if(login.equals(user.getLogin()) && pass.equals(user.getHaslo())){
                 stageLogin.close();
                 stageLogin = new Stage();
                 Scene scene = new Scene(FxmlUtils.FxmlLoader("/view/main.fxml"));

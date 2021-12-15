@@ -22,15 +22,15 @@ public class Product {
     private String opis;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_sprzedawcy", nullable = false)
-    private Client idSprzedawcy;
+    @JoinColumn(name = "id_user", nullable = false)
+    private User idUser;
 
-    public Client getIdSprzedawcy() {
-        return idSprzedawcy;
+    public User getIdUser() {
+        return idUser;
     }
 
-    public void setIdSprzedawcy(Client idSprzedawcy) {
-        this.idSprzedawcy = idSprzedawcy;
+    public void setIdUser(User idUser) {
+        this.idUser = idUser;
     }
 
     public String getOpis() {

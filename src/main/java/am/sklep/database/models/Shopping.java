@@ -13,7 +13,7 @@ public class Shopping {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_client", nullable = false)
-    private Client idClient;
+    private User idUser;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_product", nullable = false)
@@ -38,12 +38,12 @@ public class Shopping {
         this.idProduct = idProduct;
     }
 
-    public Client getIdClient() {
-        return idClient;
+    public User getIdClient() {
+        return idUser;
     }
 
-    public void setIdClient(Client idClient) {
-        this.idClient = idClient;
+    public void setIdClient(User idUser) {
+        this.idUser = idUser;
     }
 
     public Integer getId() {
