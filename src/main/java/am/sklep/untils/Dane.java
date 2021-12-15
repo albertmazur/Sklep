@@ -90,25 +90,25 @@ public class Dane {
 
         Shopping shopping1 = new Shopping();
         shopping1.setDataZakupu(LocalDate.of(2020,4,22));
-        shopping1.setIdClient(user1);
+        shopping1.setIdUser(user1);
         shopping1.setIdProduct(product1);
         DbManager.save(shopping1);
 
         Shopping shopping2 = new Shopping();
         shopping2.setDataZakupu(LocalDate.of(2021, 4, 2));
-        shopping2.setIdClient(user1);
+        shopping2.setIdUser(user1);
         shopping2.setIdProduct(product2);
         DbManager.save(shopping2);
 
         Shopping shopping3 = new Shopping();
         shopping3.setDataZakupu(LocalDate.of(2019, 4, 21));
-        shopping3.setIdClient(user2);
+        shopping3.setIdUser(user2);
         shopping3.setIdProduct(product4);
         DbManager.save(shopping3);
 
         Shopping shopping4 = new Shopping();
         shopping4.setDataZakupu(LocalDate.of(2021, 11, 15));
-        shopping4.setIdClient(user3);
+        shopping4.setIdUser(user3);
         shopping4.setIdProduct(product4);
         DbManager.save(shopping4);
     }
