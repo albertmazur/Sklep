@@ -1,43 +1,67 @@
 package am.sklep.models;
 
+import am.sklep.controller.LoginController;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.Product;
+import am.sklep.database.models.Shopping;
+import am.sklep.untils.Converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductModel {
-    ObservableList<ProductFx> productFxObservableList = FXCollections.observableArrayList();
+
+    public final static String DO_KUPIENIA = "Do kupienia";
+    public final static String KUPIONE = "Kupione";
+
+    private UserFx userFx = LoginController.getUserFx();
+    private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
+    private ObservableList<ProductFx> productFxBuyObservableList = FXCollections.observableArrayList();
 
     public void downloadProduct(){
         List<Product> list = DbManager.downloadProduct();
+        productFxToBuyObservableList.clear();
         list.forEach(item->{
-            ProductFx productFx = new ProductFx();
-            productFx.setId(item.getId());
-            productFx.setNazwa(item.getNazwa());
-            productFx.setOpis(item.getOpis());
-            productFx.setCena(item.getCena());
-            productFx.setStatus(item.getStatus());
-            UserFx userFx = new UserFx();
-            userFx.setId(item.getIdUser().getId());
-            userFx.setName(item.getIdUser().getImie());
-            userFx.setSurname(item.getIdUser().getNazwisko());
-            userFx.setLogin(item.getIdUser().getLogin());
-            userFx.setHaslo(item.getIdUser().getHaslo());
-            userFx.setDataUrdzenia(item.getIdUser().getRokUrodzenia());
-            userFx.setEmail(item.getIdUser().getEmail());
-            userFx.setStanKonta(item.getIdUser().getStanKonta());
-            productFx.setSprzedajacy(userFx);
-            productFxObservableList.add(productFx);
+            if(item.getStatus().equals(DO_KUPIENIA) && item.getIdUser().getId()!=userFx.getId()){
+                ProductFx productFx = Converter.converterToProductFX(item);
+                productFxToBuyObservableList.add(productFx);
+           }
         });
     }
 
-    public ObservableList<ProductFx> getProductFxObservableList() {
-        return productFxObservableList;
+    public void buy(){
+        productFxBuyObservableList.forEach( item ->{
+            item.setStatus(ProductModel.KUPIONE);
+            item.setSprzedajacy(userFx);
+
+            Shopping shopping = new Shopping();
+            shopping.setIdProduct(Converter.converterToProduct(item));
+            shopping.setIdUser(Converter.converterToUser(userFx));
+            shopping.setDataZakupu(LocalDate.now());
+            DbManager.save(shopping);
+
+            userFx.setStanKonta(userFx.getStanKonta() - item.getCena());
+            DbManager.update(Converter.converterToProduct(item));
+        });
+        DbManager.update(Converter.converterToUser(userFx));
+        productFxBuyObservableList.clear();
+    }
+
+    public ObservableList<ProductFx> getProductFxToBuyObservableList() {
+        return productFxToBuyObservableList;
     }
 
     public void setProductFxObservableList(ObservableList<ProductFx> productFxObservableList) {
-        this.productFxObservableList = productFxObservableList;
+        this.productFxToBuyObservableList = productFxObservableList;
+    }
+
+    public ObservableList<ProductFx> getProductFxBuyObservableList() {
+        return productFxBuyObservableList;
+    }
+
+    public void setProductfxBuyObservableList(ObservableList<ProductFx> productfxBuyObservableList) {
+        this.productFxBuyObservableList = productfxBuyObservableList;
     }
 }

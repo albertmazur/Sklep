@@ -2,7 +2,10 @@ package am.sklep.controller;
 
 import am.sklep.Login;
 import am.sklep.SingletonConnection;
+import am.sklep.database.DbManager;
 import am.sklep.database.models.User;
+import am.sklep.models.UserFx;
+import am.sklep.untils.Converter;
 import am.sklep.untils.FxmlUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,9 +36,7 @@ public class LoginController {
 
     private static Stage stageRegistration = new Stage();
 
-    public static Stage getStageRegistration() {
-        return stageRegistration;
-    }
+    private static UserFx user;
 
     @FXML
     private void logInOnAction(){
@@ -43,18 +44,19 @@ public class LoginController {
         String pass = passwordPasswordField.getText();
         boolean log = true;
         Session session = sessionFactory.openSession();
-        List<User> users = session.createSQLQuery("SELECT * from users").addEntity(User.class).list();
+        List<User> users = DbManager.downloadUsers();
         for(User user : users){
             if(login.equals(user.getLogin()) && pass.equals(user.getHaslo())){
+                setUserFx(Converter.converterToUserFX(user));
+                log=false;
+                loginFailLabel.setVisible(log);
+
                 stageLogin.close();
                 stageLogin = new Stage();
                 Scene scene = new Scene(FxmlUtils.FxmlLoader("/view/main.fxml"));
                 stageLogin.setScene(scene);
                 stageLogin.setTitle("Sklep");
                 stageLogin.show();
-
-                log=false;
-                loginFailLabel.setVisible(log);
             }
             else{
                 loginFailLabel.setVisible(log);
@@ -96,5 +98,17 @@ public class LoginController {
         if(keyEvent.getCode() == KeyCode.ENTER){
             passwordPasswordField.requestFocus();
         }
+    }
+
+    public static UserFx getUserFx() {
+        return user;
+    }
+
+    public void setUserFx(UserFx user) {
+        this.user = user;
+    }
+
+    public static Stage getStageRegistration() {
+        return stageRegistration;
     }
 }

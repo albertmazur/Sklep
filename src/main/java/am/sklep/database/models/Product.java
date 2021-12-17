@@ -10,17 +10,18 @@ public class Product {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Lob
-    @Column(name = "opis", nullable = false)
-    private String opis;
+    @Column(name = "cena", nullable = false)
+    private Double cena;
 
     @Lob
     @Column(name = "nazwa", nullable = false)
     private String nazwa;
 
-    @Column(name = "cena", nullable = false)
-    private Double cena;
+    @Lob
+    @Column(name = "opis", nullable = false)
+    private String opis;
 
+    @Lob
     @Column(name = "status", nullable = false)
     private String status;
 
@@ -44,12 +45,12 @@ public class Product {
         this.status = status;
     }
 
-    public Double getCena() {
-        return cena;
+    public String getOpis() {
+        return opis;
     }
 
-    public void setCena(Double cena) {
-        this.cena = cena;
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     public String getNazwa() {
@@ -60,12 +61,12 @@ public class Product {
         this.nazwa = nazwa;
     }
 
-    public String getOpis() {
-        return opis;
+    public Double getCena() {
+        return cena;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setCena(Double cena) {
+        this.cena = cena;
     }
 
     public Integer getId() {

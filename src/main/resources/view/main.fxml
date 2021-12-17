@@ -35,7 +35,7 @@
                </toggleGroup>
             </ToggleButton>
             <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#basketOnAction" text="Koszyk" toggleGroup="$menuToggleButton" />
-            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="Kupione produkty" toggleGroup="$menuToggleButton" />
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="Moje produkty" toggleGroup="$menuToggleButton" />
             <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addProductsOnAction" text="Dodane przedmioty" toggleGroup="$menuToggleButton" />
             <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#settingOnAction" text="Ustawienia konta" toggleGroup="$menuToggleButton" />
          </children>
@@ -51,14 +51,31 @@
       <TableView fx:id="tableView" editable="true" BorderPane.alignment="TOP_LEFT">
         <columns>
           <TableColumn fx:id="nameColumn" text="Nazwa" />
-          <TableColumn fx:id="descColumn" prefWidth="200.0" text="Opis" />
+          <TableColumn fx:id="descColumn" prefWidth="160.0" text="Opis" />
             <TableColumn fx:id="priceColumn" text="Cena (zł)" />
             <TableColumn fx:id="sellerColumn" text="Sprzedający" />
-            <TableColumn fx:id="buyColumn" prefWidth="75.0" text="Dodawanie" />
+            <TableColumn fx:id="buyColumn" prefWidth="150.0" text="Dodawanie" />
         </columns>
       </TableView>
    </center>
    <opaqueInsets>
       <Insets />
    </opaqueInsets>
+   <bottom>
+      <HBox alignment="BOTTOM_LEFT" fillHeight="false" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" text="Wyloguj się" />
+            <HBox alignment="CENTER_RIGHT" spacing="20.0" HBox.hgrow="ALWAYS">
+               <children>
+                   <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyOnAction" text="Kup" />
+                  <Label text="Stan konta:" />
+                   <Label fx:id="balanceLabel" maxWidth="-Infinity" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
 </BorderPane>
