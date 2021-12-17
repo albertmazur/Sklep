@@ -50,6 +50,7 @@ public class LoginController {
                 stageLogin = new Stage();
                 Scene scene = new Scene(FxmlUtils.FxmlLoader("/view/main.fxml"));
                 stageLogin.setScene(scene);
+                stageLogin.setTitle("Sklep");
                 stageLogin.show();
 
                 log=false;
@@ -59,6 +60,7 @@ public class LoginController {
                 loginFailLabel.setVisible(log);
                 loginTextField.clear();
                 passwordPasswordField.clear();
+                loginTextField.requestFocus();
                 log=true;
             }
         }

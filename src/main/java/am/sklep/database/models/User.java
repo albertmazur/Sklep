@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_users", nullable = false)
+    @Column(name = "id_user", nullable = false)
     private Integer id;
 
     @Lob

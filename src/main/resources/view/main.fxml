@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -48,12 +48,13 @@
       </VBox>
    </left>
    <center>
-      <TableView fx:id="tableView" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="TOP_LEFT">
+      <TableView fx:id="tableView" editable="true" BorderPane.alignment="TOP_LEFT">
         <columns>
-          <TableColumn fx:id="nameColumn" minWidth="-Infinity" text="Nazwa" />
-          <TableColumn fx:id="descColumn" minWidth="-Infinity" text="Opis" />
-            <TableColumn fx:id="priceColumn" minWidth="-Infinity" text="Cena" />
-            <TableColumn fx:id="sellerColumn" minWidth="-Infinity" text="Sprzedający" />
+          <TableColumn fx:id="nameColumn" text="Nazwa" />
+          <TableColumn fx:id="descColumn" prefWidth="200.0" text="Opis" />
+            <TableColumn fx:id="priceColumn" text="Cena (zł)" />
+            <TableColumn fx:id="sellerColumn" text="Sprzedający" />
+            <TableColumn fx:id="buyColumn" prefWidth="75.0" text="Dodawanie" />
         </columns>
       </TableView>
    </center>

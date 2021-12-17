@@ -6,7 +6,8 @@ public class ProductFx {
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty nazwa = new SimpleStringProperty();
     private StringProperty opis = new SimpleStringProperty();
-    private DoubleProperty cena = new SimpleDoubleProperty();
+    private DoublePropertyBase cena = new SimpleDoubleProperty();
+    private StringProperty status = new SimpleStringProperty();
     private ObjectProperty<UserFx> sprzedajacy = new SimpleObjectProperty<>();
 
     public int getId() {
@@ -55,6 +56,18 @@ public class ProductFx {
 
     public void setCena(double cena) {
         this.cena.set(cena);
+    }
+
+    public String getStatus() {
+        return status.get();
+    }
+
+    public StringProperty statusProperty() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
     }
 
     public UserFx getSprzedajacy() {
