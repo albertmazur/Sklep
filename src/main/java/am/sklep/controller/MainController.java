@@ -13,11 +13,12 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MainController {
     @FXML
-    private Label balanceFalesLabel;
+    private Label balanceFailedLabel;
     @FXML
     private Label balanceLabel;
     @FXML
@@ -69,7 +70,7 @@ public class MainController {
         tableView.setItems(productModel.getProductFxToBuyObservableList());
         buyButton.setVisible(false);
         statusColumn.setVisible(true);
-        balanceFalesLabel.setVisible(false);
+        balanceFailedLabel.setVisible(false);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button("Dodaj do kosztyka");
@@ -92,7 +93,7 @@ public class MainController {
     private void basketOnAction() {
         buyButton.setVisible(true);
         statusColumn.setVisible(true);
-        balanceFalesLabel.setVisible(false);
+        balanceFailedLabel.setVisible(false);
 
         tableView.setItems(productModel.getProductFxBuyObservableList());
 
@@ -119,7 +120,7 @@ public class MainController {
         productModel.myProducts();
         buyButton.setVisible(false);
         statusColumn.setVisible(true);
-        balanceFalesLabel.setVisible(false);
+        balanceFailedLabel.setVisible(false);
         tableView.setItems(productModel.getProductFxMyObservableList());
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
@@ -145,14 +146,26 @@ public class MainController {
     private void addProductsOnAction() {
         buyButton.setVisible(false);
         statusColumn.setVisible(true);
-        balanceFalesLabel.setVisible(false);
+        balanceFailedLabel.setVisible(false);
     }
 
     @FXML
     private void settingOnAction() {
         buyButton.setVisible(false);
         statusColumn.setVisible(true);
-        balanceFalesLabel.setVisible(false);
+        balanceFailedLabel.setVisible(false);
+
+        Stage stageMain = LoginController.getStageLogin();
+        stageMain.getScene().getRoot().setDisable(true);
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/registration.fxml")));
+        stage.setTitle("Rejestracja");
+        stage.setAlwaysOnTop(true);
+        stage.setOnHiding(e->{
+            stageMain.getScene().getRoot().setDisable(false);
+        });
+        stage.show();
     }
 
     @FXML
@@ -162,10 +175,10 @@ public class MainController {
             productModel.buy();
             basketOnAction();
             balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
-            balanceFalesLabel.setVisible(false);
+            balanceFailedLabel.setVisible(false);
         }
         else{
-            balanceFalesLabel.setVisible(true);
+            balanceFailedLabel.setVisible(true);
         }
     }
 

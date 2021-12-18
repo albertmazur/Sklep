@@ -3,6 +3,7 @@ package am.sklep.controller;
 import am.sklep.Login;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.User;
+import am.sklep.models.UserFx;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -29,14 +30,14 @@ public class RegistrationController {
 
     private Stage stageLogin;
     private Stage stageRegistration;
-
-    public RegistrationController() {
-        stageLogin = Login.getLoginStage();
-        stageRegistration = LoginController.getStageRegistration();
-    }
+    private UserFx userFx;
 
     @FXML
     private void initialize(){
+        stageLogin = Login.getLoginStage();
+        stageRegistration = LoginController.getStageRegistration();
+        userFx = LoginController.getUserFx();
+
         registrationButton.disableProperty().bind(
                     passPasswordField.textProperty().isEmpty()
                 .or(repeatPassPasswordField.textProperty().isEmpty())
@@ -50,6 +51,10 @@ public class RegistrationController {
         stageRegistration.setOnHidden(event -> {
             stageLogin.getScene().getRoot().setDisable(false);
         });
+        System.out.println(userFx);
+        if(userFx!=null){
+            emailTextField.textProperty().bindBidirectional(userFx.emailProperty());
+        }
     }
 
     @FXML

@@ -69,7 +69,7 @@
             <Button mnemonicParsing="false" onAction="#logoutOnAction" text="Wyloguj się" />
             <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="balanceFalesLabel" text="Nie masz wystarczających środków na koncie" textFill="RED" visible="false" />
+                  <Label fx:id="balanceFailedLabel" text="Nie masz wystarczających środków na koncie" textFill="RED" visible="false" />
                    <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyOnAction" text="Kup" visible="false">
                      <HBox.margin>
                         <Insets left="15.0" right="15.0" />

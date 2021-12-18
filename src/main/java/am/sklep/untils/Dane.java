@@ -41,7 +41,6 @@ public class Dane {
         DbManager.save(user3);
 
         Product product1 = new Product();
-        //product1.setCena(new BigDecimal(500));
         product1.setCena(500.00);
         product1.setNazwa("Kuchenka");
         product1.setOpis("Super nowoszesna kuchenka");
@@ -50,7 +49,6 @@ public class Dane {
         DbManager.save(product1);
 
         Product product2 = new Product();
-        //product2.setCena(new BigDecimal(5.99").movePointRight(2));
         product2.setCena(5.99);
         product2.setNazwa("Zeszyt");
         product2.setOpis("Ma 100 kartek");
@@ -59,7 +57,6 @@ public class Dane {
         DbManager.save(product2);
 
         Product product3 = new Product();
-        //product3.setCena(new BigDecimal("2.5"));
         product3.setCena(2.50);
         product3.setNazwa("Długopis");
         product3.setOpis("Dużo tuszu");
@@ -68,7 +65,6 @@ public class Dane {
         DbManager.save(product3);
 
         Product product4 = new Product();
-        //product4.setCena(new BigDecimal(50));
         product4.setCena(50.00);
         product4.setNazwa("Książka");
         product4.setStatus(ProductModel.KUPIONE);
@@ -77,7 +73,6 @@ public class Dane {
         DbManager.save(product4);
 
         Product product5 = new Product();
-        //product5.setCena(new BigDecimal(200));
         product5.setCena(200.00);
         product5.setNazwa("Zegarek");
         product5.setOpis("Zegarek super marki");
@@ -86,7 +81,6 @@ public class Dane {
         DbManager.save(product5);
 
         Product product6 = new Product();
-        //product6.setCena(new BigDecimal(450.0));
         product6.setCena(450.00);
         product6.setNazwa("Telefon");
         product6.setOpis("Najnowszy telefon tego roku");
@@ -95,7 +89,6 @@ public class Dane {
         DbManager.save(product6);
 
         Product product7 = new Product();
-        //product7.setCena(new BigDecimal(725.00));
         product7.setCena(725.00);
         product7.setNazwa("Monotor");
         product7.setOpis("Monitor do gier");
@@ -104,7 +97,6 @@ public class Dane {
         DbManager.save(product7);
 
         Product product8 = new Product();
-        //product8.setCena(new BigDecimal(725.00));
         product8.setCena(3000.00);
         product8.setNazwa("Samochód");
         product8.setOpis("Samochód dla całej rodziny");
