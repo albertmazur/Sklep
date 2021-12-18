@@ -27,9 +27,13 @@ public class RegistrationController {
     @FXML
     private Button registrationButton;
 
-    private Stage stageLogin = Login.getLoginStage();
-    private Stage stageRegistration =LoginController.getStageRegistration();
+    private Stage stageLogin;
+    private Stage stageRegistration;
 
+    public RegistrationController() {
+        stageLogin = Login.getLoginStage();
+        stageRegistration = LoginController.getStageRegistration();
+    }
 
     @FXML
     private void initialize(){
@@ -65,7 +69,7 @@ public class RegistrationController {
             passFailLabel.setVisible(false);
             DbManager.save(newUser);
 
-            LoginController.getStageRegistration().close();
+            stageRegistration.close();
             stageLogin.getScene().getRoot().setDisable(false);
         }
         else passFailLabel.setVisible(true);

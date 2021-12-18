@@ -19,6 +19,7 @@ public class ProductModel {
     private UserFx userFx = LoginController.getUserFx();
     private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
     private ObservableList<ProductFx> productFxBuyObservableList = FXCollections.observableArrayList();
+    private ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
 
     public void downloadProduct(){
         List<Product> list = DbManager.downloadProduct();
@@ -32,21 +33,32 @@ public class ProductModel {
     }
 
     public void buy(){
-        productFxBuyObservableList.forEach( item ->{
-            item.setStatus(ProductModel.KUPIONE);
-            item.setSprzedajacy(userFx);
+            productFxBuyObservableList.forEach( item ->{
+                Shopping shopping = new Shopping();
+                shopping.setIdProduct(Converter.converterToProduct(item));
+                shopping.setIdUser(Converter.converterToUser(userFx));
+                shopping.setDataZakupu(LocalDate.now());
+                DbManager.save(shopping);
 
-            Shopping shopping = new Shopping();
-            shopping.setIdProduct(Converter.converterToProduct(item));
-            shopping.setIdUser(Converter.converterToUser(userFx));
-            shopping.setDataZakupu(LocalDate.now());
-            DbManager.save(shopping);
+                userFx.setStanKonta(userFx.getStanKonta() - item.getCena());
 
-            userFx.setStanKonta(userFx.getStanKonta() - item.getCena());
-            DbManager.update(Converter.converterToProduct(item));
+                item.getSprzedajacy().setStanKonta(item.getSprzedajacy().getStanKonta()+ item.getCena());
+                DbManager.update(Converter.converterToUser(item.getSprzedajacy()));
+
+                item.setStatus(ProductModel.KUPIONE);
+                item.setSprzedajacy(userFx);
+                DbManager.update(Converter.converterToProduct(item));
+            });
+            DbManager.update(Converter.converterToUser(userFx));
+            productFxBuyObservableList.clear();
+    }
+
+    public void myProducts(){
+        List<Product> myProducts = DbManager.downloadProduct();
+        productFxMyObservableList.clear();
+        myProducts.forEach(item ->{
+            if(item.getIdUser().getId() == userFx.getId()) productFxMyObservableList.add(Converter.converterToProductFX(item));
         });
-        DbManager.update(Converter.converterToUser(userFx));
-        productFxBuyObservableList.clear();
     }
 
     public ObservableList<ProductFx> getProductFxToBuyObservableList() {
@@ -63,5 +75,13 @@ public class ProductModel {
 
     public void setProductfxBuyObservableList(ObservableList<ProductFx> productfxBuyObservableList) {
         this.productFxBuyObservableList = productfxBuyObservableList;
+    }
+
+    public ObservableList<ProductFx> getProductFxMyObservableList() {
+        return productFxMyObservableList;
+    }
+
+    public void setProductFxMyObservableList(ObservableList<ProductFx> productFxMyObservableList) {
+        this.productFxMyObservableList = productFxMyObservableList;
     }
 }

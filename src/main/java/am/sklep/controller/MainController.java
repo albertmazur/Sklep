@@ -1,22 +1,23 @@
 package am.sklep.controller;
 
+import am.sklep.Login;
 import am.sklep.database.DbManager;
-import am.sklep.database.models.Shopping;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
+import am.sklep.untils.FxmlUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-
-import java.time.LocalDate;
+import javafx.stage.Stage;
 
 public class MainController {
+    @FXML
+    private Label balanceFalesLabel;
     @FXML
     private Label balanceLabel;
     @FXML
@@ -30,6 +31,8 @@ public class MainController {
     @FXML
     private TableColumn<ProductFx, String> priceColumn;
     @FXML
+    private TableColumn<ProductFx, String> statusColumn;
+    @FXML
     private TableColumn<ProductFx, UserFx> sellerColumn;
     @FXML
     private TableView<ProductFx> tableView;
@@ -42,7 +45,7 @@ public class MainController {
     private void initialize(){
         productModel = new ProductModel();
         productModel.downloadProduct();
-        
+
         nameColumn.setCellValueFactory(cellDate -> cellDate.getValue().nazwaProperty());
         descColumn.setCellValueFactory(cellDate -> cellDate.getValue().opisProperty());
         //priceColumn.setCellValueFactory(cellDate -> cellDate.getValue().cenaProperty().asObject());
@@ -52,18 +55,21 @@ public class MainController {
             s.setValue(Converter.addZero(d));
             return s;
         });
+        statusColumn.setCellValueFactory(cellDate -> cellDate.getValue().statusProperty());
         sellerColumn.setCellValueFactory(cellDate -> cellDate.getValue().sprzedajacyProperty());
         buyColumn.setCellValueFactory(cellDate -> new SimpleObjectProperty<>(cellDate.getValue()));
-        productsOnAction();
 
         balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
-        buyButton.setVisible(false);
+
+        productsOnAction();
     }
 
     @FXML
     private void productsOnAction() {
         tableView.setItems(productModel.getProductFxToBuyObservableList());
         buyButton.setVisible(false);
+        statusColumn.setVisible(true);
+        balanceFalesLabel.setVisible(false);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button("Dodaj do kosztyka");
@@ -76,7 +82,6 @@ public class MainController {
                     button.setOnAction(event -> {
                         productModel.getProductFxBuyObservableList().add(item);
                         productModel.getProductFxToBuyObservableList().remove(item);
-                        productsOnAction();
                     });
                 }
             }
@@ -85,8 +90,12 @@ public class MainController {
 
     @FXML
     private void basketOnAction() {
-        productModel.downloadProduct();
         buyButton.setVisible(true);
+        statusColumn.setVisible(true);
+        balanceFalesLabel.setVisible(false);
+
+        tableView.setItems(productModel.getProductFxBuyObservableList());
+
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button("Usuń z koszyka");
             @Override
@@ -98,34 +107,76 @@ public class MainController {
                     button.setOnAction(event -> {
                         productModel.getProductFxBuyObservableList().remove(item);
                         productModel.getProductFxToBuyObservableList().add(item);
-                        basketOnAction();
                     });
                 }
             }
         });
-        tableView.setItems(productModel.getProductFxBuyObservableList());
+
     }
 
     @FXML
     private void boughtOnAction() {
+        productModel.myProducts();
         buyButton.setVisible(false);
-        tableView.setItems(productModel.getProductFxBuyObservableList());
+        statusColumn.setVisible(true);
+        balanceFalesLabel.setVisible(false);
+        tableView.setItems(productModel.getProductFxMyObservableList());
+
+        buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
+            Button button = new Button("Sprzedaj");
+            @Override
+            protected void updateItem(ProductFx item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty || item.getStatus().equals(ProductModel.DO_KUPIENIA)) setGraphic(null);
+                else{
+                    setGraphic(button);
+                    button.setOnAction(event -> {
+                        item.setStatus(ProductModel.DO_KUPIENIA);
+                        DbManager.update(Converter.converterToProduct(item));
+                        productModel.getProductFxMyObservableList().remove(item);
+                    });
+                }
+            }
+        });
+        tableView.setItems(productModel.getProductFxMyObservableList());
     }
 
     @FXML
     private void addProductsOnAction() {
         buyButton.setVisible(false);
+        statusColumn.setVisible(true);
+        balanceFalesLabel.setVisible(false);
     }
 
     @FXML
     private void settingOnAction() {
         buyButton.setVisible(false);
+        statusColumn.setVisible(true);
+        balanceFalesLabel.setVisible(false);
     }
 
     @FXML
     private void buyOnAction() {
-        productModel.buy();
-        basketOnAction();
-        balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
+        double suma = productModel.getProductFxBuyObservableList().stream().mapToDouble(ProductFx::getCena).sum();
+        if(suma< userFx.getStanKonta()){
+            productModel.buy();
+            basketOnAction();
+            balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
+            balanceFalesLabel.setVisible(false);
+        }
+        else{
+            balanceFalesLabel.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void logoutOnAction(){
+        LoginController.setUserFx(null);
+        Stage stage = LoginController.getStageLogin();
+        stage.close();
+        stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/login.fxml")));
+        stage.setTitle("Sklep");
+        stage.show();
+        Login.setLoginStage(stage);
     }
 }

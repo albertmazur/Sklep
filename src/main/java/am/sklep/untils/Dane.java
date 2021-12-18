@@ -2,8 +2,8 @@ package am.sklep.untils;
 
 import am.sklep.database.DbManager;
 import am.sklep.database.models.Product;
-import am.sklep.database.models.User;
 import am.sklep.database.models.Shopping;
+import am.sklep.database.models.User;
 import am.sklep.models.ProductModel;
 
 import java.time.LocalDate;
@@ -102,6 +102,15 @@ public class Dane {
         product7.setStatus(ProductModel.DO_KUPIENIA);
         product7.setIdUser(user1);
         DbManager.save(product7);
+
+        Product product8 = new Product();
+        //product8.setCena(new BigDecimal(725.00));
+        product8.setCena(3000.00);
+        product8.setNazwa("Samochód");
+        product8.setOpis("Samochód dla całej rodziny");
+        product8.setStatus(ProductModel.DO_KUPIENIA);
+        product8.setIdUser(user3);
+        DbManager.save(product8);
 
         Shopping shopping1 = new Shopping();
         shopping1.setDataZakupu(LocalDate.of(2020,4,22));

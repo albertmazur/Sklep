@@ -1,7 +1,6 @@
 package am.sklep.controller;
 
 import am.sklep.Login;
-import am.sklep.SingletonConnection;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.User;
 import am.sklep.models.UserFx;
@@ -16,8 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,20 +27,20 @@ public class LoginController {
     @FXML
     private PasswordField passwordPasswordField;
 
-    private SessionFactory sessionFactory = SingletonConnection.getSessionFactory();
+    private static Stage stageLogin;
+    private static Stage stageRegistration;
+    private static UserFx userFx;
 
-    private Stage stageLogin = Login.getLoginStage();
-
-    private static Stage stageRegistration = new Stage();
-
-    private static UserFx user;
+    public LoginController() {
+        stageRegistration = new Stage();
+        stageLogin = Login.getLoginStage();
+    }
 
     @FXML
     private void logInOnAction(){
         String login = loginTextField.getText();
         String pass = passwordPasswordField.getText();
         boolean log = true;
-        Session session = sessionFactory.openSession();
         List<User> users = DbManager.downloadUsers();
         for(User user : users){
             if(login.equals(user.getLogin()) && pass.equals(user.getHaslo())){
@@ -52,9 +49,7 @@ public class LoginController {
                 loginFailLabel.setVisible(log);
 
                 stageLogin.close();
-                stageLogin = new Stage();
-                Scene scene = new Scene(FxmlUtils.FxmlLoader("/view/main.fxml"));
-                stageLogin.setScene(scene);
+                stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader("/view/main.fxml")));
                 stageLogin.setTitle("Sklep");
                 stageLogin.show();
             }
@@ -66,14 +61,12 @@ public class LoginController {
                 log=true;
             }
         }
-        session.close();
     }
 
     @FXML
     private void registrationOnAction(){
         FXMLLoader loader = FxmlUtils.getFxmlLoader("/view/registration.fxml");
-        Scene sceneLogin = stageLogin.getScene();
-        sceneLogin.getRoot().setDisable(true);
+        stageLogin.getScene().getRoot().setDisable(true);
         try {
             Scene scene = new Scene(loader.load());
             stageRegistration.setScene(scene);
@@ -101,14 +94,23 @@ public class LoginController {
     }
 
     public static UserFx getUserFx() {
-        return user;
+        return userFx;
     }
 
-    public void setUserFx(UserFx user) {
-        this.user = user;
+    public static void setUserFx(UserFx userFx) {
+        LoginController.userFx = userFx;
     }
 
     public static Stage getStageRegistration() {
         return stageRegistration;
     }
+
+    public static Stage getStageLogin() {
+        return stageLogin;
+    }
+
+    public void setStageLogin(Stage stageLogin) {
+        this.stageLogin = stageLogin;
+    }
+
 }

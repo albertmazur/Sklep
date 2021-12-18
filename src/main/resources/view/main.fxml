@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
    <top>
@@ -53,8 +54,9 @@
           <TableColumn fx:id="nameColumn" text="Nazwa" />
           <TableColumn fx:id="descColumn" prefWidth="160.0" text="Opis" />
             <TableColumn fx:id="priceColumn" text="Cena (zł)" />
+            <TableColumn fx:id="statusColumn" text="Status" />
             <TableColumn fx:id="sellerColumn" text="Sprzedający" />
-            <TableColumn fx:id="buyColumn" prefWidth="150.0" text="Dodawanie" />
+            <TableColumn fx:id="buyColumn" prefWidth="150.0" text="Akcja" />
         </columns>
       </TableView>
    </center>
@@ -64,12 +66,27 @@
    <bottom>
       <HBox alignment="BOTTOM_LEFT" fillHeight="false" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" text="Wyloguj się" />
-            <HBox alignment="CENTER_RIGHT" spacing="20.0" HBox.hgrow="ALWAYS">
+            <Button mnemonicParsing="false" onAction="#logoutOnAction" text="Wyloguj się" />
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                <children>
-                   <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyOnAction" text="Kup" />
-                  <Label text="Stan konta:" />
-                   <Label fx:id="balanceLabel" maxWidth="-Infinity" />
+                  <Label fx:id="balanceFalesLabel" text="Nie masz wystarczających środków na koncie" textFill="RED" visible="false" />
+                   <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyOnAction" text="Kup" visible="false">
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin></Button>
+                  <Label text="Stan konta:">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Label>
+                   <Label fx:id="balanceLabel" maxWidth="-Infinity">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font></Label>
+                  <Label text=" zł">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
          </children>

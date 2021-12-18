@@ -2,8 +2,8 @@ package am.sklep.database;
 
 import am.sklep.SingletonConnection;
 import am.sklep.database.models.Product;
-import am.sklep.database.models.User;
 import am.sklep.database.models.Shopping;
+import am.sklep.database.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -37,13 +37,6 @@ public class DbManager{
     }
 
     public static List downloadProduct(){
-        Session session = sessionFactory.openSession();
-        List<Product> products = session.createSQLQuery("SELECT * FROM product").addEntity(Product.class).list();
-        session.close();
-        return products;
-    }
-
-    public static List downloadProductByUser(User user){
         Session session = sessionFactory.openSession();
         List<Product> products = session.createSQLQuery("SELECT * FROM product").addEntity(Product.class).list();
         session.close();

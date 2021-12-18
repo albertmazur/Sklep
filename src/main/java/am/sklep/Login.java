@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class Login extends Application {
     private static Stage loginStage;
+
     @Override
     public void start(Stage stage) throws IOException {
         loginStage = stage;
@@ -27,5 +28,9 @@ public class Login extends Application {
 
     public static Stage getLoginStage() {
         return loginStage;
+    }
+
+    public static void setLoginStage(Stage loginStage) {
+        Login.loginStage = loginStage;
     }
 }
