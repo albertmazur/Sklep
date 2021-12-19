@@ -1,6 +1,5 @@
 package am.sklep.controller;
 
-import am.sklep.Login;
 import am.sklep.database.DbManager;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
@@ -13,7 +12,6 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -49,7 +47,6 @@ public class MainController {
 
         nameColumn.setCellValueFactory(cellDate -> cellDate.getValue().nazwaProperty());
         descColumn.setCellValueFactory(cellDate -> cellDate.getValue().opisProperty());
-        //priceColumn.setCellValueFactory(cellDate -> cellDate.getValue().cenaProperty().asObject());
         priceColumn.setCellValueFactory(cellDate ->{
             Double d = cellDate.getValue().cenaProperty().getValue();
             StringProperty s = new SimpleStringProperty();
@@ -134,7 +131,7 @@ public class MainController {
                     button.setOnAction(event -> {
                         item.setStatus(ProductModel.DO_KUPIENIA);
                         DbManager.update(Converter.converterToProduct(item));
-                        productModel.getProductFxMyObservableList().remove(item);
+                        boughtOnAction();
                     });
                 }
             }
@@ -158,13 +155,8 @@ public class MainController {
         Stage stageMain = LoginController.getStageLogin();
         stageMain.getScene().getRoot().setDisable(true);
 
-        Stage stage = new Stage();
+        Stage stage = LoginController.getStageRegistration();
         stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/registration.fxml")));
-        stage.setTitle("Rejestracja");
-        stage.setAlwaysOnTop(true);
-        stage.setOnHiding(e->{
-            stageMain.getScene().getRoot().setDisable(false);
-        });
         stage.show();
     }
 
@@ -188,8 +180,6 @@ public class MainController {
         Stage stage = LoginController.getStageLogin();
         stage.close();
         stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/login.fxml")));
-        stage.setTitle("Sklep");
         stage.show();
-        Login.setLoginStage(stage);
     }
 }

@@ -22,7 +22,7 @@ public class ProductModel {
     private ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
 
     public void downloadProduct(){
-        List<Product> list = DbManager.downloadProduct();
+        List<Product> list = DbManager.download(Product.class);
         productFxToBuyObservableList.clear();
         list.forEach(item->{
             if(item.getStatus().equals(DO_KUPIENIA) && item.getIdUser().getId()!=userFx.getId()){
@@ -54,7 +54,7 @@ public class ProductModel {
     }
 
     public void myProducts(){
-        List<Product> myProducts = DbManager.downloadProduct();
+        List<Product> myProducts = DbManager.download(Product.class);
         productFxMyObservableList.clear();
         myProducts.forEach(item ->{
             if(item.getIdUser().getId() == userFx.getId()) productFxMyObservableList.add(Converter.converterToProductFX(item));
@@ -73,8 +73,8 @@ public class ProductModel {
         return productFxBuyObservableList;
     }
 
-    public void setProductfxBuyObservableList(ObservableList<ProductFx> productfxBuyObservableList) {
-        this.productFxBuyObservableList = productfxBuyObservableList;
+    public void setProductFxBuyObservableList(ObservableList<ProductFx> productFxBuyObservableList) {
+        this.productFxBuyObservableList = productFxBuyObservableList;
     }
 
     public ObservableList<ProductFx> getProductFxMyObservableList() {

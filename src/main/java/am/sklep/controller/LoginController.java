@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -31,7 +32,8 @@ public class LoginController {
     private static Stage stageRegistration;
     private static UserFx userFx;
 
-    public LoginController() {
+    @FXML
+    private void initialize(){
         stageRegistration = new Stage();
         stageLogin = Login.getLoginStage();
     }
@@ -41,7 +43,7 @@ public class LoginController {
         String login = loginTextField.getText();
         String pass = passwordPasswordField.getText();
         boolean log = true;
-        List<User> users = DbManager.downloadUsers();
+        List<User> users = DbManager.download(User.class);
         for(User user : users){
             if(login.equals(user.getLogin()) && pass.equals(user.getHaslo())){
                 setUserFx(Converter.converterToUserFX(user));
@@ -69,9 +71,13 @@ public class LoginController {
         stageLogin.getScene().getRoot().setDisable(true);
         try {
             Scene scene = new Scene(loader.load());
+            stageRegistration.getIcons().add(new Image(Login.class.getResourceAsStream("/img/iconM.png")));
             stageRegistration.setScene(scene);
             stageRegistration.setAlwaysOnTop(true);
             stageRegistration.setTitle("Rejestraction");
+            stageRegistration.setOnHiding(e->{
+                stageLogin.getScene().getRoot().setDisable(false);
+            });
             stageRegistration.show();
         } catch (IOException e) {
             e.printStackTrace();

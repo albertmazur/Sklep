@@ -13,8 +13,8 @@ public class Dane {
         User user1 = new User();
         user1.setImie("Albert");
         user1.setNazwisko("Mazur");
-        user1.setLogin("amazur");
-        user1.setHaslo("P@$$w0rd");
+        user1.setLogin("a");
+        user1.setHaslo("1");
         user1.setStanKonta(1000.00);
         user1.setRokUrodzenia(LocalDate.of(2000, 5, 22));
         user1.setEmail("amazur@gmail.com");

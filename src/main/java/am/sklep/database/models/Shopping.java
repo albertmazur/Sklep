@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "shopping")
-public class Shopping {
+public class Shopping implements BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

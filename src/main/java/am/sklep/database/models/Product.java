@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
