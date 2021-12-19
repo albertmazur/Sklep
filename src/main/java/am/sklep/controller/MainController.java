@@ -155,8 +155,8 @@ public class MainController {
         Stage stageMain = LoginController.getStageLogin();
         stageMain.getScene().getRoot().setDisable(true);
 
-        Stage stage = LoginController.getStageRegistration();
-        stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/registration.fxml")));
+        Stage stage = LoginController.getStageSettingUser();
+        stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/settingUser.fxml")));
         stage.show();
     }
 

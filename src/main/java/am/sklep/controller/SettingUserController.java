@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
-public class RegistrationController {
+public class SettingUserController {
     @FXML
     private Button deleteUserButton;
     @FXML
@@ -37,13 +37,13 @@ public class RegistrationController {
     private Button registrationButton;
 
     private Stage stageLogin;
-    private Stage stageRegistration;
+    private Stage stageSettingUser;
     private UserFx userFx;
 
     @FXML
     private void initialize(){
         stageLogin = Login.getLoginStage();
-        stageRegistration = LoginController.getStageRegistration();
+        stageSettingUser = LoginController.getStageSettingUser();
         userFx = LoginController.getUserFx();
 
         LocalDate maxDate = LocalDate.now();
@@ -65,11 +65,10 @@ public class RegistrationController {
                 .or(emailTextField.textProperty().isEmpty())
         );
 
-
-        stageRegistration.setOnHidden(event -> {
+        stageSettingUser.setOnHidden(event -> {
             stageLogin.getScene().getRoot().setDisable(false);
         });
-        System.out.println(userFx);
+
         if(userFx!=null){
             registrationButton.setText("Zapisz zmiany");
             deleteUserButton.setVisible(true);
@@ -126,7 +125,7 @@ public class RegistrationController {
 
             passFailLabel.setVisible(false);
 
-            stageRegistration.close();
+            stageSettingUser.close();
             stageLogin.getScene().getRoot().setDisable(false);
         }
         else passFailLabel.setVisible(true);
@@ -136,7 +135,7 @@ public class RegistrationController {
     private void deleteUserOnAction(){
         ProductModel productModel = new ProductModel();
         if(!productModel.getProductFxMyObservableList().isEmpty()){
-            stageRegistration.close();
+            stageSettingUser.close();
             DbManager.delete(Converter.converterToUser(userFx));
             Login.setLoginStage(null);
             stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader("/view/login.fxml")));

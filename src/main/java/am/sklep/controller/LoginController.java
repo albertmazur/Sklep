@@ -29,12 +29,12 @@ public class LoginController {
     private PasswordField passwordPasswordField;
 
     private static Stage stageLogin;
-    private static Stage stageRegistration;
+    private static Stage stageSettingUser;
     private static UserFx userFx;
 
     @FXML
     private void initialize(){
-        stageRegistration = new Stage();
+        stageSettingUser = new Stage();
         stageLogin = Login.getLoginStage();
     }
 
@@ -67,18 +67,18 @@ public class LoginController {
 
     @FXML
     private void registrationOnAction(){
-        FXMLLoader loader = FxmlUtils.getFxmlLoader("/view/registration.fxml");
+        FXMLLoader loader = FxmlUtils.getFxmlLoader("/view/settingUser.fxml");
         stageLogin.getScene().getRoot().setDisable(true);
         try {
             Scene scene = new Scene(loader.load());
-            stageRegistration.getIcons().add(new Image(Login.class.getResourceAsStream("/img/iconM.png")));
-            stageRegistration.setScene(scene);
-            stageRegistration.setAlwaysOnTop(true);
-            stageRegistration.setTitle("Rejestraction");
-            stageRegistration.setOnHiding(e->{
+            stageSettingUser.getIcons().add(new Image(Login.class.getResourceAsStream("/img/iconM.png")));
+            stageSettingUser.setScene(scene);
+            stageSettingUser.setAlwaysOnTop(true);
+            stageSettingUser.setTitle("Rejestraction");
+            stageSettingUser.setOnHiding(e->{
                 stageLogin.getScene().getRoot().setDisable(false);
             });
-            stageRegistration.show();
+            stageSettingUser.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,8 +107,8 @@ public class LoginController {
         LoginController.userFx = userFx;
     }
 
-    public static Stage getStageRegistration() {
-        return stageRegistration;
+    public static Stage getStageSettingUser() {
+        return stageSettingUser;
     }
 
     public static Stage getStageLogin() {
