@@ -7,7 +7,6 @@ import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
 import am.sklep.untils.FxmlUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -17,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.List;
 
 public class LoginController {
@@ -35,11 +33,19 @@ public class LoginController {
     @FXML
     private void initialize(){
         stageSettingUser = new Stage();
+
         stageLogin = Login.getLoginStage();
+        stageLogin.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
+        stageLogin.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
+        stageLogin.setResizable(false);
+        stageLogin.setOnCloseRequest(c ->{
+            System.exit(0);
+        });
     }
 
     @FXML
     private void logInOnAction(){
+
         String login = loginTextField.getText();
         String pass = passwordPasswordField.getText();
         boolean log = true;
@@ -47,12 +53,12 @@ public class LoginController {
         for(User user : users){
             if(login.equals(user.getLogin()) && pass.equals(user.getHaslo())){
                 setUserFx(Converter.converterToUserFX(user));
+
                 log=false;
                 loginFailLabel.setVisible(log);
 
                 stageLogin.close();
-                stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader("/view/main.fxml")));
-                stageLogin.setTitle("Sklep");
+                stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_MAIN_FXML)));
                 stageLogin.show();
             }
             else{
@@ -67,22 +73,9 @@ public class LoginController {
 
     @FXML
     private void registrationOnAction(){
-        FXMLLoader loader = FxmlUtils.getFxmlLoader("/view/settingUser.fxml");
         stageLogin.getScene().getRoot().setDisable(true);
-        try {
-            Scene scene = new Scene(loader.load());
-            stageSettingUser.getIcons().add(new Image(Login.class.getResourceAsStream("/img/iconM.png")));
-            stageSettingUser.setScene(scene);
-            stageSettingUser.setAlwaysOnTop(true);
-            stageSettingUser.setTitle("Rejestraction");
-            stageSettingUser.setOnHiding(e->{
-                stageLogin.getScene().getRoot().setDisable(false);
-            });
-            stageSettingUser.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+        stageSettingUser.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_SETTING_USER_FXML)));
     }
 
     @FXML
@@ -110,13 +103,4 @@ public class LoginController {
     public static Stage getStageSettingUser() {
         return stageSettingUser;
     }
-
-    public static Stage getStageLogin() {
-        return stageLogin;
-    }
-
-    public void setStageLogin(Stage stageLogin) {
-        this.stageLogin = stageLogin;
-    }
-
 }

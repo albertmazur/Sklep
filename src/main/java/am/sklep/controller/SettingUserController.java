@@ -10,6 +10,7 @@ import am.sklep.untils.FxmlUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -43,8 +44,17 @@ public class SettingUserController {
     @FXML
     private void initialize(){
         stageLogin = Login.getLoginStage();
-        stageSettingUser = LoginController.getStageSettingUser();
+
         userFx = LoginController.getUserFx();
+
+        stageSettingUser = LoginController.getStageSettingUser();
+        stageSettingUser.getIcons().add(new Image(SettingUserController.class.getResourceAsStream(MainController.IMG_M)));
+        stageSettingUser.setAlwaysOnTop(true);
+        stageSettingUser.setResizable(false);
+        stageSettingUser.setTitle("Rejestraction");
+        stageSettingUser.setOnHiding(e->{
+            stageLogin.getScene().getRoot().setDisable(false);
+        });
 
         LocalDate maxDate = LocalDate.now();
         birthDatePicker.setDayCellFactory(d-> new DateCell(){
@@ -56,13 +66,13 @@ public class SettingUserController {
         });
 
         registrationButton.disableProperty().bind(
-                    passPasswordField.textProperty().isEmpty()
-                .or(repeatPassPasswordField.textProperty().isEmpty())
-                .or(nameTextField.textProperty().isEmpty())
-                .or(surnameTextField.textProperty().isEmpty())
-                .or(loginTextField.textProperty().isEmpty())
-                .or(birthDatePicker.valueProperty().isNull())
-                .or(emailTextField.textProperty().isEmpty())
+            passPasswordField.textProperty().isEmpty()
+            .or(repeatPassPasswordField.textProperty().isEmpty())
+            .or(nameTextField.textProperty().isEmpty())
+            .or(surnameTextField.textProperty().isEmpty())
+            .or(loginTextField.textProperty().isEmpty())
+            .or(birthDatePicker.valueProperty().isNull())
+            .or(emailTextField.textProperty().isEmpty())
         );
 
         stageSettingUser.setOnHidden(event -> {
@@ -71,7 +81,6 @@ public class SettingUserController {
 
         if(userFx!=null){
             registrationButton.setText("Zapisz zmiany");
-            deleteUserButton.setVisible(true);
 
             nameTextField.setText(userFx.getName());
             surnameTextField.setText(userFx.getSurname());
@@ -81,17 +90,9 @@ public class SettingUserController {
             birthDatePicker.setValue(userFx.getDataUrdzenia());
             emailTextField.setText(userFx.getEmail());
 
-            /*
-            nameTextField.textProperty().bind(userFx.nameProperty());
-            surnameTextField.textProperty().bind(userFx.surnameProperty());
-            loginTextField.textProperty().bind(userFx.loginProperty());
-            passPasswordField.textProperty().bind(userFx.hasloProperty());
-            repeatPassPasswordField.textProperty().bind(userFx.hasloProperty());
-            birthDatePicker.valueProperty().bind(userFx.dataUrdzeniaProperty());
-            emailTextField.textProperty().bind(userFx.emailProperty());
-
-             */
+            deleteUserButton.setVisible(true);
         }
+        stageSettingUser.show();
     }
 
     @FXML
@@ -135,10 +136,13 @@ public class SettingUserController {
     private void deleteUserOnAction(){
         ProductModel productModel = new ProductModel();
         if(!productModel.getProductFxMyObservableList().isEmpty()){
+
             stageSettingUser.close();
+
             DbManager.delete(Converter.converterToUser(userFx));
             Login.setLoginStage(null);
-            stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader("/view/login.fxml")));
+
+            stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
             stageLogin.getScene().getRoot().setDisable(false);
         }
         else passFailLabel.setVisible(true);

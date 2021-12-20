@@ -1,26 +1,27 @@
 package am.sklep.controller;
 
+import am.sklep.Login;
 import am.sklep.database.DbManager;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
 import am.sklep.untils.FxmlUtils;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class MainController {
+    public static final String VIEW_SETTING_USER_FXML = "/view/settingUser.fxml";
+    public static final String VIEW_LOGIN_FXML = "/view/login.fxml";
+    public static final String VIEW_SETTING_PRODUCT_FXML = "/view/settingProduct.fxml";
+    public static final String VIEW_MAIN_FXML = "/view/main.fxml";
+    public static final String IMG_M = "/img/iconM.png";
+
     @FXML
-    private Label balanceFailedLabel;
-    @FXML
-    private Label balanceLabel;
-    @FXML
-    private Button buyButton;
+    private TableView<ProductFx> tableView;
     @FXML
     private TableColumn<ProductFx, ProductFx> buyColumn;
     @FXML
@@ -33,17 +34,35 @@ public class MainController {
     private TableColumn<ProductFx, String> statusColumn;
     @FXML
     private TableColumn<ProductFx, UserFx> sellerColumn;
+
     @FXML
-    private TableView<ProductFx> tableView;
+    private Label sumLabel;
+    @FXML
+    private Label sumViewLabel;
+    @FXML
+    private Label currencyLabel;
+    @FXML
+    private Label balanceFailedLabel;
+    @FXML
+    private Label balanceLabel;
+    @FXML
+    private Button buyButton;
 
     private ProductModel productModel;
-
-    private UserFx userFx = LoginController.getUserFx();
+    private UserFx userFx;
+    private Stage stageMain;
+    private static Stage stageSettingProduct;
+    private BooleanProperty checkBuy;
 
     @FXML
     private void initialize(){
         productModel = new ProductModel();
         productModel.downloadProduct();
+
+        stageMain = Login.getLoginStage();
+        stageMain.setResizable(true);
+
+        userFx = LoginController.getUserFx();
 
         nameColumn.setCellValueFactory(cellDate -> cellDate.getValue().nazwaProperty());
         descColumn.setCellValueFactory(cellDate -> cellDate.getValue().opisProperty());
@@ -59,16 +78,18 @@ public class MainController {
 
         balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
 
+        checkBuy = new SimpleBooleanProperty();
+        balanceFailedLabel.visibleProperty().bind(checkBuy);
+        buyButton.disableProperty().bind(checkBuy);
+
         productsOnAction();
     }
 
     @FXML
     private void productsOnAction() {
         tableView.setItems(productModel.getProductFxToBuyObservableList());
-        buyButton.setVisible(false);
-        statusColumn.setVisible(true);
-        balanceFailedLabel.setVisible(false);
 
+        viewMyBasket(false);
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button("Dodaj do kosztyka");
             @Override
@@ -88,11 +109,9 @@ public class MainController {
 
     @FXML
     private void basketOnAction() {
-        buyButton.setVisible(true);
-        statusColumn.setVisible(true);
-        balanceFailedLabel.setVisible(false);
-
         tableView.setItems(productModel.getProductFxBuyObservableList());
+        viewMyBasket(true);
+        checkBuy();
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button("Usuń z koszyka");
@@ -105,30 +124,68 @@ public class MainController {
                     button.setOnAction(event -> {
                         productModel.getProductFxBuyObservableList().remove(item);
                         productModel.getProductFxToBuyObservableList().add(item);
+                        basketOnAction();
                     });
                 }
             }
         });
+    }
 
+    @FXML
+    private void buyOnAction() {
+        if(!checkBuy.get()){
+            productModel.buy();
+            basketOnAction();
+            balanceFailedLabel.setText("Dziękujemy za zakup");
+            balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
+        }
+    }
+
+    private void checkBuy(){
+        double suma = productModel.getProductFxBuyObservableList().stream().mapToDouble(ProductFx::getCena).sum();
+        if(suma==0.0){
+            checkBuy.setValue(true);
+            balanceFailedLabel.setText("Nie wybrałeś żadengo produktu");
+        }
+        else if(suma> userFx.getStanKonta()){
+            checkBuy.setValue(true);
+            balanceFailedLabel.setText("Nie masz wystarczających środków na koncie");
+        }
+        else{
+            checkBuy.setValue(false);
+        }
+        sumViewLabel.setText(String.valueOf(suma));
     }
 
     @FXML
     private void boughtOnAction() {
         productModel.myProducts();
-        buyButton.setVisible(false);
-        statusColumn.setVisible(true);
-        balanceFailedLabel.setVisible(false);
         tableView.setItems(productModel.getProductFxMyObservableList());
+        checkBuy();
+
+        viewMyBasket(false);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
-            Button button = new Button("Sprzedaj");
+            Button buttonSell = new Button("Sprzedaj");
+            Button buttonRemove = new Button("Usuń ze sprzedarzy");
             @Override
             protected void updateItem(ProductFx item, boolean empty) {
                 super.updateItem(item, empty);
-                if(empty || item.getStatus().equals(ProductModel.DO_KUPIENIA)) setGraphic(null);
+
+                if(empty){
+                    setGraphic(null);
+                }
+                else if(item.getStatus().equals(ProductModel.DO_KUPIENIA)){
+                    setGraphic(buttonRemove);
+                    buttonRemove.setOnAction(event ->{
+                        item.setStatus(ProductModel.DODANY);
+                        DbManager.update(Converter.converterToProduct(item));
+                        boughtOnAction();
+                    });
+                }
                 else{
-                    setGraphic(button);
-                    button.setOnAction(event -> {
+                    setGraphic(buttonSell);
+                    buttonSell.setOnAction(event -> {
                         item.setStatus(ProductModel.DO_KUPIENIA);
                         DbManager.update(Converter.converterToProduct(item));
                         boughtOnAction();
@@ -136,50 +193,46 @@ public class MainController {
                 }
             }
         });
-        tableView.setItems(productModel.getProductFxMyObservableList());
+    }
+
+    private void viewMyBasket(boolean b){
+        buyButton.setVisible(b);
+        statusColumn.setVisible(!b);
+        sumLabel.setVisible(b);
+        sumViewLabel.setVisible(b);
+        currencyLabel.setVisible(b);
+        checkBuy.setValue(b);
     }
 
     @FXML
     private void addProductsOnAction() {
-        buyButton.setVisible(false);
-        statusColumn.setVisible(true);
-        balanceFailedLabel.setVisible(false);
+        stageMain.getScene().getRoot().setDisable(true);
+
+        setStageSettingProduct(new Stage());
+        stageSettingProduct.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_PRODUCT_FXML)));
     }
 
     @FXML
     private void settingOnAction() {
-        buyButton.setVisible(false);
-        statusColumn.setVisible(true);
-        balanceFailedLabel.setVisible(false);
-
-        Stage stageMain = LoginController.getStageLogin();
         stageMain.getScene().getRoot().setDisable(true);
 
         Stage stage = LoginController.getStageSettingUser();
-        stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/settingUser.fxml")));
-        stage.show();
-    }
-
-    @FXML
-    private void buyOnAction() {
-        double suma = productModel.getProductFxBuyObservableList().stream().mapToDouble(ProductFx::getCena).sum();
-        if(suma< userFx.getStanKonta()){
-            productModel.buy();
-            basketOnAction();
-            balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
-            balanceFailedLabel.setVisible(false);
-        }
-        else{
-            balanceFailedLabel.setVisible(true);
-        }
+        stage.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_USER_FXML)));
     }
 
     @FXML
     private void logoutOnAction(){
         LoginController.setUserFx(null);
-        Stage stage = LoginController.getStageLogin();
-        stage.close();
-        stage.setScene(new Scene(FxmlUtils.FxmlLoader("/view/login.fxml")));
-        stage.show();
+        stageMain.close();
+        stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_LOGIN_FXML)));
+        stageMain.show();
+    }
+
+    public static Stage getStageSettingProduct() {
+        return stageSettingProduct;
+    }
+
+    public static void setStageSettingProduct(Stage stageSettingProduct) {
+        MainController.stageSettingProduct = stageSettingProduct;
     }
 }

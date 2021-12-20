@@ -15,6 +15,7 @@ public class ProductModel {
 
     public final static String DO_KUPIENIA = "Do kupienia";
     public final static String KUPIONE = "Kupione";
+    public final static String DODANY = "Dodany";
 
     private UserFx userFx = LoginController.getUserFx();
     private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
