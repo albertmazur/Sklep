@@ -21,6 +21,8 @@ public class MainController {
     public static final String IMG_M = "/img/iconM.png";
 
     @FXML
+    private MenuItem editProductMenuItem;
+    @FXML
     private TableView<ProductFx> tableView;
     @FXML
     private TableColumn<ProductFx, ProductFx> buyColumn;
@@ -76,6 +78,11 @@ public class MainController {
         sellerColumn.setCellValueFactory(cellDate -> cellDate.getValue().sprzedajacyProperty());
         buyColumn.setCellValueFactory(cellDate -> new SimpleObjectProperty<>(cellDate.getValue()));
 
+        this.tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+            this.productModel.setProductFxEdit(newValue);
+        });
+        editProductMenuItem.disableProperty().bind(this.tableView.getSelectionModel().selectedItemProperty().isNull());
+
         balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
 
         checkBuy = new SimpleBooleanProperty();
@@ -90,6 +97,8 @@ public class MainController {
         tableView.setItems(productModel.getProductFxToBuyObservableList());
 
         viewMyBasket(false);
+        editProductMenuItem.setVisible(false);
+
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button("Dodaj do kosztyka");
             @Override
@@ -110,7 +119,9 @@ public class MainController {
     @FXML
     private void basketOnAction() {
         tableView.setItems(productModel.getProductFxBuyObservableList());
+
         viewMyBasket(true);
+        editProductMenuItem.setVisible(false);
         checkBuy();
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
@@ -154,16 +165,18 @@ public class MainController {
         else{
             checkBuy.setValue(false);
         }
-        sumViewLabel.setText(String.valueOf(suma));
+        sumViewLabel.setText(Converter.addZero(suma));
     }
 
     @FXML
     private void boughtOnAction() {
         productModel.myProducts();
         tableView.setItems(productModel.getProductFxMyObservableList());
+
         checkBuy();
 
         viewMyBasket(false);
+        editProductMenuItem.setVisible(true);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button buttonSell = new Button("Sprzedaj");
@@ -226,6 +239,12 @@ public class MainController {
         stageMain.close();
         stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_LOGIN_FXML)));
         stageMain.show();
+    }
+
+    @FXML
+    private void editProductOnAction() {
+        stageSettingProduct = new Stage();
+        stageSettingProduct.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_PRODUCT_FXML)));
     }
 
     public static Stage getStageSettingProduct() {

@@ -18,6 +18,8 @@ public class ProductModel {
     public final static String DODANY = "Dodany";
 
     private UserFx userFx = LoginController.getUserFx();
+    private static ProductFx productFxEdit;
+
     private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
     private ObservableList<ProductFx> productFxBuyObservableList = FXCollections.observableArrayList();
     private ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
@@ -84,5 +86,13 @@ public class ProductModel {
 
     public void setProductFxMyObservableList(ObservableList<ProductFx> productFxMyObservableList) {
         this.productFxMyObservableList = productFxMyObservableList;
+    }
+
+    public static ProductFx getProductFxEdit() {
+        return productFxEdit;
+    }
+
+    public static void setProductFxEdit(ProductFx productFxEdit) {
+        ProductModel.productFxEdit = productFxEdit;
     }
 }
