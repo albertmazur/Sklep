@@ -2,6 +2,7 @@ package am.sklep.database;
 
 import am.sklep.untils.ApplicationException;
 import am.sklep.untils.DialogUtils;
+import am.sklep.untils.FxmlUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -16,8 +17,7 @@ public class SingletonConnection {
             if (sessionFactory == null) sessionFactory = new Configuration().configure().buildSessionFactory();
         }
         catch (Exception e){
-            DialogUtils.errorDialog(e.getMessage());
-            throw new ApplicationException("Nie można połączuć się z bazą danych");
+            throw new ApplicationException(FxmlUtils.getResourceBundle().getString("disconnect_date"));
         }
         return sessionFactory;
     }

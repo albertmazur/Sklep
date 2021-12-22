@@ -16,7 +16,6 @@ public class Login extends Application {
     public void start(Stage stage) throws IOException {
         setLoginStage(stage);
         stage.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
-        stage.show();
 
         new Dane();
     }

@@ -10,7 +10,7 @@ public class UserFx {
     private StringProperty surname = new SimpleStringProperty();
     private StringProperty login = new SimpleStringProperty();
     private StringProperty haslo = new SimpleStringProperty();
-    private ObjectProperty<LocalDate> dataUrdzenia = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> dataUrodzenia = new SimpleObjectProperty<>();
     private StringProperty email = new SimpleStringProperty();
     private DoubleProperty stanKonta = new SimpleDoubleProperty();
     private IntegerProperty czyAktywne = new SimpleIntegerProperty();
@@ -75,16 +75,16 @@ public class UserFx {
         this.haslo.set(haslo);
     }
 
-    public LocalDate getDataUrdzenia() {
-        return dataUrdzenia.get();
+    public LocalDate getDataUrodzenia() {
+        return dataUrodzenia.get();
     }
 
-    public ObjectProperty<LocalDate> dataUrdzeniaProperty() {
-        return dataUrdzenia;
+    public ObjectProperty<LocalDate> dataUrodzeniaProperty() {
+        return dataUrodzenia;
     }
 
-    public void setDataUrdzenia(LocalDate dataUrdzenia) {
-        this.dataUrdzenia.set(dataUrdzenia);
+    public void setDataUrodzenia(LocalDate dataUrodzenia) {
+        this.dataUrodzenia.set(dataUrodzenia);
     }
 
     public String getEmail() {

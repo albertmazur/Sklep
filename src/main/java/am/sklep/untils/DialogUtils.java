@@ -11,24 +11,24 @@ public class DialogUtils {
 
     public static Optional<ButtonType> confirmationDialog(){
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationDialog.setTitle("Zamknij");
-        confirmationDialog.setHeaderText("Czy chcesz zamjnąć apkikację");
+        confirmationDialog.setTitle(bundle.getString("close"));
+        confirmationDialog.setHeaderText(bundle.getString("close_text"));
         Optional<ButtonType> result = confirmationDialog.showAndWait();
         return result;
     }
 
     public static void dialogAboutApplication() {
         Alert informationAlert = new Alert(Alert.AlertType.INFORMATION);
-        informationAlert.setTitle("O Aplikacji");
-        informationAlert.setHeaderText("Aplikacje Sklep");
-        informationAlert.setContentText("Aplikacje wykonał Albert Mazur");
+        informationAlert.setTitle(bundle.getString("about_title"));
+        informationAlert.setHeaderText(bundle.getString("about_header"));
+        informationAlert.setContentText(bundle.getString("about_text"));
         informationAlert.showAndWait();
     }
 
     public static void errorDialog(String error){
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setTitle("Błąd");
-        errorAlert.setHeaderText("Błąd z bazą danych");
+        errorAlert.setTitle(bundle.getString("error_title"));
+        errorAlert.setHeaderText(bundle.getString("error_header"));
         errorAlert.setContentText(error);
         errorAlert.showAndWait();
     }

@@ -7,6 +7,7 @@ import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
+import am.sklep.untils.FxmlUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -42,7 +43,6 @@ public class SettingProductController {
 
         stageSettingProduct = MainController.getStageSettingProduct();
         stageSettingProduct.getIcons().add(new Image(SettingProductController.class.getResourceAsStream(MainController.IMG_M)));
-        stageSettingProduct.setTitle("Dodaj produkt");
         stageSettingProduct.setAlwaysOnTop(true);
         stageSettingProduct.setResizable(false);
         stageSettingProduct.setOnHiding(e->{
@@ -64,6 +64,13 @@ public class SettingProductController {
             nameTextField.setText(productFxEdit.getNazwa());
             descTextArea.setText(productFxEdit.getOpis());
             priceTextField.setText(String.valueOf(productFxEdit.getCena()));
+
+            stageSettingProduct.setTitle(FxmlUtils.getResourceBundle().getString("edit_product"));
+            addButton.setText(FxmlUtils.getResourceBundle().getString("save_changes"));
+        }
+        else {
+            stageSettingProduct.setTitle(FxmlUtils.getResourceBundle().getString("add_product"));
+            addButton.setText(FxmlUtils.getResourceBundle().getString("add"));
         }
     }
 
@@ -78,7 +85,7 @@ public class SettingProductController {
             productFxEdit.setOpis(descTextArea.getText());
             productFxEdit.setCena(Double.valueOf(priceTextField.getText()));
 
-            DbManager.update(Converter.converterToProduct(productFxEdit));
+            //DbManager.update(Converter.converterToProduct(productFxEdit));
             ProductModel.getProductFxMyObservableList().add(productFxEdit);
         }
         else{
@@ -86,7 +93,7 @@ public class SettingProductController {
             product.setNazwa(nameTextField.getText());
             product.setOpis(descTextArea.getText());
             product.setCena(Double.valueOf(priceTextField.getText()));
-            product.setStatus(ProductModel.DODANY);
+            product.setStatus(ProductModel.ADDED);
             product.setIdUser(Converter.converterToUser(userFx));
             DbManager.save(product);
         }
@@ -102,7 +109,7 @@ public class SettingProductController {
             DbManager.delete(product);
         }
         catch (Exception e){
-            product.setStatus(ProductModel.USUNIETY);
+            product.setStatus(ProductModel.DELETED);
             DbManager.update(product);
         }
         ProductModel.getProductFxMyObservableList().remove(productFxEdit);

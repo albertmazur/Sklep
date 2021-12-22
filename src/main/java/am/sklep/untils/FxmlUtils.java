@@ -18,11 +18,6 @@ public class FxmlUtils {
         return null;
     }
 
-    public static FXMLLoader getFxmlLoader(String path){
-        FXMLLoader fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource(path), getResourceBundle());
-        return fxmlLoader;
-    }
-
     public static ResourceBundle getResourceBundle(){
         return ResourceBundle.getBundle("bundles/languages");
     }

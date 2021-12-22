@@ -16,11 +16,11 @@
       <RowConstraints vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="Nazwa" />
-      <Label text="Opis" GridPane.rowIndex="1" />
-      <Label text="Cena" GridPane.rowIndex="2" />
-      <Button fx:id="addButton" mnemonicParsing="false" onAction="#addOnAction" text="Dodaj" GridPane.rowIndex="3" />
-      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteOnAction" text="Usuń" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label text="%name" />
+      <Label text="%description" GridPane.rowIndex="1" />
+      <Label text="%price" GridPane.rowIndex="2" />
+      <Button fx:id="addButton" mnemonicParsing="false" onAction="#addOnAction" text="%add" GridPane.rowIndex="3" />
+      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteOnAction" text="%delete" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
       <TextArea fx:id="descTextArea" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="priceTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />

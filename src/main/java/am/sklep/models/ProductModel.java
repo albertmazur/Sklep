@@ -5,6 +5,7 @@ import am.sklep.database.DbManager;
 import am.sklep.database.models.Product;
 import am.sklep.database.models.Shopping;
 import am.sklep.untils.Converter;
+import am.sklep.untils.FxmlUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,10 +14,10 @@ import java.util.List;
 
 public class ProductModel {
 
-    public final static String DO_KUPIENIA = "Do kupienia";
-    public final static String KUPIONE = "Kupione";
-    public final static String DODANY = "Dodany";
-    public final static String USUNIETY = "Usunięty";
+    public final static String TO_BUY = FxmlUtils.getResourceBundle().getString("to_buy");
+    public final static String BOUGHT = FxmlUtils.getResourceBundle().getString("bought");
+    public final static String ADDED = FxmlUtils.getResourceBundle().getString("added");
+    public final static String DELETED = FxmlUtils.getResourceBundle().getString("deleted");
 
     private UserFx userFx = LoginController.getUserFx();
     private static ProductFx productFxEdit;
@@ -29,7 +30,7 @@ public class ProductModel {
         List<Product> list = DbManager.download(Product.class);
         productFxToBuyObservableList.clear();
         list.forEach(item->{
-            if(item.getStatus().equals(DO_KUPIENIA) && item.getIdUser().getId()!=userFx.getId()){
+            if(item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId()){
                 ProductFx productFx = Converter.converterToProductFX(item);
                 productFxToBuyObservableList.add(productFx);
            }
@@ -49,7 +50,7 @@ public class ProductModel {
                 item.getSprzedajacy().setStanKonta(item.getSprzedajacy().getStanKonta()+ item.getCena());
                 DbManager.update(Converter.converterToUser(item.getSprzedajacy()));
 
-                item.setStatus(ProductModel.KUPIONE);
+                item.setStatus(ProductModel.BOUGHT);
                 item.setSprzedajacy(userFx);
                 DbManager.update(Converter.converterToProduct(item));
             });
@@ -61,7 +62,7 @@ public class ProductModel {
         List<Product> myProducts = DbManager.download(Product.class);
         productFxMyObservableList.clear();
         myProducts.forEach(item ->{
-            if(item.getIdUser().getId() == userFx.getId() && !item.getStatus().equals(USUNIETY)) productFxMyObservableList.add(Converter.converterToProductFX(item));
+            if(item.getIdUser().getId() == userFx.getId() && !item.getStatus().equals(DELETED)) productFxMyObservableList.add(Converter.converterToProductFX(item));
         });
     }
 

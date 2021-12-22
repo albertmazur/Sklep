@@ -47,7 +47,7 @@ public class Dane {
         product1.setCena(500.00);
         product1.setNazwa("Kuchenka");
         product1.setOpis("Super nowoszesna kuchenka");
-        product1.setStatus(ProductModel.KUPIONE);
+        product1.setStatus(ProductModel.BOUGHT);
         product1.setIdUser(user1);
         DbManager.save(product1);
 
@@ -55,7 +55,7 @@ public class Dane {
         product2.setCena(5.99);
         product2.setNazwa("Zeszyt");
         product2.setOpis("Ma 100 kartek");
-        product2.setStatus(ProductModel.KUPIONE);
+        product2.setStatus(ProductModel.BOUGHT);
         product2.setIdUser(user1);
         DbManager.save(product2);
 
@@ -63,14 +63,14 @@ public class Dane {
         product3.setCena(2.50);
         product3.setNazwa("Długopis");
         product3.setOpis("Dużo tuszu");
-        product3.setStatus(ProductModel.DO_KUPIENIA);
+        product3.setStatus(ProductModel.TO_BUY);
         product3.setIdUser(user2);
         DbManager.save(product3);
 
         Product product4 = new Product();
         product4.setCena(50.00);
         product4.setNazwa("Książka");
-        product4.setStatus(ProductModel.KUPIONE);
+        product4.setStatus(ProductModel.BOUGHT);
         product4.setOpis("Romeo i Julia");
         product4.setIdUser(user2);
         DbManager.save(product4);
@@ -79,7 +79,7 @@ public class Dane {
         product5.setCena(200.00);
         product5.setNazwa("Zegarek");
         product5.setOpis("Zegarek super marki");
-        product5.setStatus(ProductModel.DO_KUPIENIA);
+        product5.setStatus(ProductModel.TO_BUY);
         product5.setIdUser(user2);
         DbManager.save(product5);
 
@@ -87,7 +87,7 @@ public class Dane {
         product6.setCena(450.00);
         product6.setNazwa("Telefon");
         product6.setOpis("Najnowszy telefon tego roku");
-        product6.setStatus(ProductModel.KUPIONE);
+        product6.setStatus(ProductModel.BOUGHT);
         product6.setIdUser(user1);
         DbManager.save(product6);
 
@@ -95,7 +95,7 @@ public class Dane {
         product7.setCena(725.00);
         product7.setNazwa("Monotor");
         product7.setOpis("Monitor do gier");
-        product7.setStatus(ProductModel.DO_KUPIENIA);
+        product7.setStatus(ProductModel.TO_BUY);
         product7.setIdUser(user1);
         DbManager.save(product7);
 
@@ -103,7 +103,7 @@ public class Dane {
         product8.setCena(3000.00);
         product8.setNazwa("Samochód");
         product8.setOpis("Samochód dla całej rodziny");
-        product8.setStatus(ProductModel.DO_KUPIENIA);
+        product8.setStatus(ProductModel.TO_BUY);
         product8.setIdUser(user3);
         DbManager.save(product8);
 

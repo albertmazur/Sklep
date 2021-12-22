@@ -1,43 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioMenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="%file">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Zamknij" />
+              <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="%close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edtyuj">
+          <Menu mnemonicParsing="false" text="%edit">
                <items>
-                  <RadioMenuItem mnemonicParsing="false" onAction="#setCaspian" text="Caspian">
+                  <RadioMenuItem mnemonicParsing="false" onAction="#setCaspian" text="%caspian">
                      <toggleGroup>
                         <ToggleGroup fx:id="styleCroup" />
                      </toggleGroup>
                   </RadioMenuItem>
-                  <RadioMenuItem mnemonicParsing="false" onAction="#setModena" selected="true" text="Modena" toggleGroup="$styleCroup" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#setModena" selected="true" text="%modena" toggleGroup="$styleCroup" />
                </items></Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="%help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#about" text="%about_title" />
             </items>
           </Menu>
         </menus>
@@ -46,18 +34,18 @@
    <left>
       <VBox spacing="20.0">
          <children>
-            <ToggleButton cache="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#productsOnAction" selected="true" text="Produkty do kupienia">
+            <ToggleButton cache="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#productsOnAction" selected="true" text="%products_to_buy">
                <toggleGroup>
                   <ToggleGroup fx:id="menuToggleButton" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#basketOnAction" text="Koszyk" toggleGroup="$menuToggleButton" />
-            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="Moje produkty" toggleGroup="$menuToggleButton" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addProductsOnAction" text="Dodane przedmioty" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#settingOnAction" text="Ustawienia konta" />
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#basketOnAction" text="%basket" toggleGroup="$menuToggleButton" />
+            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="%my_products" toggleGroup="$menuToggleButton" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addProductsOnAction" text="%add_product" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#settingOnAction" text="%account_setup" />
             <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#logoutOnAction" text="Wyloguj się" />
+                  <Button mnemonicParsing="false" onAction="#logoutOnAction" text="%log_out" />
                </children>
             </VBox>
          </children>
@@ -77,12 +65,12 @@
          <children>
             <TableView fx:id="tableView" editable="true" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn fx:id="nameColumn" text="Nazwa" />
-                <TableColumn fx:id="descColumn" prefWidth="160.0" text="Opis" />
-                  <TableColumn fx:id="priceColumn" text="Cena (zł)" />
-                  <TableColumn fx:id="statusColumn" text="Status" />
-                  <TableColumn fx:id="sellerColumn" text="Sprzedający" />
-                  <TableColumn fx:id="buyColumn" prefWidth="150.0" text="Akcja" />
+                <TableColumn fx:id="nameColumn" text="%name" />
+                <TableColumn fx:id="descColumn" prefWidth="160.0" text="%description" />
+                  <TableColumn fx:id="priceColumn" text="%price" />
+                  <TableColumn fx:id="statusColumn" text="%status" />
+                  <TableColumn fx:id="sellerColumn" text="%seller" />
+                  <TableColumn fx:id="buyColumn" prefWidth="150.0" />
               </columns>
                <contextMenu>
                   <ContextMenu>
@@ -111,13 +99,13 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Label fx:id="balanceFailedLabel" text="Nie masz wystarczających środków na koncie" textFill="RED" visible="false" />
-                         <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyOnAction" text="Kup" visible="false">
+                        <Label fx:id="balanceFailedLabel" text="%not_balance" textFill="RED" visible="false" />
+                         <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyOnAction" text="%buy" visible="false">
                            <HBox.margin>
                               <Insets left="15.0" right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Label text="Stan konta:">
+                        <Label text="%acc_balance">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>

@@ -21,13 +21,13 @@
       <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="Imie" />
-      <Label text="Nazwisko" GridPane.rowIndex="1" />
-      <Label text="Login" GridPane.rowIndex="2" />
-      <Label text="Hasło" GridPane.rowIndex="3" />
-      <Label text="Powtórz hasło" GridPane.rowIndex="4" />
-      <Label text="Data urodzenia" GridPane.rowIndex="5" />
-      <Label text="Email" GridPane.rowIndex="6" />
+      <Label text="%name_person" />
+      <Label text="%surname" GridPane.rowIndex="1" />
+      <Label text="%login" GridPane.rowIndex="2" />
+      <Label text="%passowrd" GridPane.rowIndex="3" />
+      <Label text="%repeat_password" GridPane.rowIndex="4" />
+      <Label text="%date_birth" GridPane.rowIndex="5" />
+      <Label text="%email" GridPane.rowIndex="6" />
       <PasswordField fx:id="passPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <PasswordField fx:id="repeatPassPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
@@ -35,8 +35,8 @@
       <TextField fx:id="loginTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <DatePicker fx:id="birthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <Button fx:id="registrationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrationOnAction" text="Utwórz konto" GridPane.rowIndex="8" />
-      <Label fx:id="passFailLabel" text="Hasła nie są takie same" textFill="RED" visible="false" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+      <Button fx:id="registrationButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrationOnAction" text="%create_account" GridPane.rowIndex="8" />
+      <Label fx:id="passFailLabel" text="%not_similar_passwords" textFill="RED" visible="false" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
       <Button fx:id="deleteUserButton" alignment="CENTER" mnemonicParsing="false" onAction="#deleteUserOnAction" text="Usuń konto" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
    </children>
    <padding>

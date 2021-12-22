@@ -105,7 +105,7 @@ public class MainController {
         editProductMenuItem.setVisible(false);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
-            Button button = new Button("Dodaj do kosztyka");
+            Button button = new Button(FxmlUtils.getResourceBundle().getString("add_basket"));
             @Override
             protected void updateItem(ProductFx item, boolean empty) {
                 super.updateItem(item, empty);
@@ -130,7 +130,7 @@ public class MainController {
         checkBuy();
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
-            Button button = new Button("Usuń z koszyka");
+            Button button = new Button(FxmlUtils.getResourceBundle().getString("remove_basket"));
             @Override
             protected void updateItem(ProductFx item, boolean empty) {
                 super.updateItem(item, empty);
@@ -152,7 +152,7 @@ public class MainController {
         if(!checkBuy.get()){
             productModel.buy();
             basketOnAction();
-            balanceFailedLabel.setText("Dziękujemy za zakup");
+            balanceFailedLabel.setText(FxmlUtils.getResourceBundle().getString("thank"));
             balanceLabel.setText(Converter.addZero(userFx.stanKontaProperty().getValue()));
         }
     }
@@ -161,11 +161,11 @@ public class MainController {
         double suma = productModel.getProductFxBuyObservableList().stream().mapToDouble(ProductFx::getCena).sum();
         if(suma==0.0){
             checkBuy.setValue(true);
-            balanceFailedLabel.setText("Nie wybrałeś żadengo produktu");
+            balanceFailedLabel.setText(FxmlUtils.getResourceBundle().getString("nothing"));
         }
         else if(suma> userFx.getStanKonta()){
             checkBuy.setValue(true);
-            balanceFailedLabel.setText("Nie masz wystarczających środków na koncie");
+            balanceFailedLabel.setText(FxmlUtils.getResourceBundle().getString("not_balance"));
         }
         else{
             checkBuy.setValue(false);
@@ -184,8 +184,8 @@ public class MainController {
         editProductMenuItem.setVisible(true);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
-            Button buttonSell = new Button("Sprzedaj");
-            Button buttonRemove = new Button("Usuń ze sprzedarzy");
+            Button buttonSell = new Button(FxmlUtils.getResourceBundle().getString("sell"));
+            Button buttonRemove = new Button(FxmlUtils.getResourceBundle().getString("remove_sell"));
             @Override
             protected void updateItem(ProductFx item, boolean empty) {
                 super.updateItem(item, empty);
@@ -193,10 +193,10 @@ public class MainController {
                 if(empty){
                     setGraphic(null);
                 }
-                else if(item.getStatus().equals(ProductModel.DO_KUPIENIA)){
+                else if(item.getStatus().equals(ProductModel.TO_BUY)){
                     setGraphic(buttonRemove);
                     buttonRemove.setOnAction(event ->{
-                        item.setStatus(ProductModel.DODANY);
+                        item.setStatus(ProductModel.ADDED);
                         DbManager.update(Converter.converterToProduct(item));
                         boughtOnAction();
                     });
@@ -204,7 +204,7 @@ public class MainController {
                 else{
                     setGraphic(buttonSell);
                     buttonSell.setOnAction(event -> {
-                        item.setStatus(ProductModel.DO_KUPIENIA);
+                        item.setStatus(ProductModel.TO_BUY);
                         DbManager.update(Converter.converterToProduct(item));
                         boughtOnAction();
                     });

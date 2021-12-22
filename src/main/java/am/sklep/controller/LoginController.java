@@ -36,9 +36,8 @@ public class LoginController {
 
     @FXML
     private void initialize(){
-        stageSettingUser = new Stage();
-
         if(userFx==null) stageMain = Login.getLoginStage();
+        stageMain.show();
         stageMain.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
         stageMain.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
         stageMain.setResizable(false);
@@ -49,7 +48,7 @@ public class LoginController {
                 System.exit(0);
             }
         });
-        stageMain.show();
+        stageSettingUser = new Stage();
     }
 
     @FXML

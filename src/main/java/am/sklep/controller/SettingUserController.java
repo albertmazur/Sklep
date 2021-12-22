@@ -54,7 +54,6 @@ public class SettingUserController {
         stageSettingUser.getIcons().add(new Image(SettingUserController.class.getResourceAsStream(MainController.IMG_M)));
         stageSettingUser.setAlwaysOnTop(true);
         stageSettingUser.setResizable(false);
-        stageSettingUser.setTitle("Rejestraction");
         stageSettingUser.setOnHiding(e->{
             stageMain.getScene().getRoot().setDisable(false);
         });
@@ -83,17 +82,22 @@ public class SettingUserController {
         });
 
         if(userFx!=null){
-            registrationButton.setText("Zapisz zmiany");
+            stageSettingUser.setTitle(FxmlUtils.getResourceBundle().getString("account_setup"));
+            registrationButton.setText(FxmlUtils.getResourceBundle().getString("save_changes"));
 
             nameTextField.setText(userFx.getName());
             surnameTextField.setText(userFx.getSurname());
             loginTextField.setText(userFx.getLogin());
             passPasswordField.setText(userFx.getHaslo());
             repeatPassPasswordField.setText(userFx.getHaslo());
-            birthDatePicker.setValue(userFx.getDataUrdzenia());
+            birthDatePicker.setValue(userFx.getDataUrodzenia());
             emailTextField.setText(userFx.getEmail());
 
             deleteUserButton.setVisible(true);
+        }
+        else{
+            stageSettingUser.setTitle(FxmlUtils.getResourceBundle().getString("registration"));
+            registrationButton.setText(FxmlUtils.getResourceBundle().getString("create_account"));
         }
         stageSettingUser.show();
     }
@@ -123,7 +127,7 @@ public class SettingUserController {
                 userFx.setHaslo(pass);
                 userFx.setLogin(loginTextField.getText());
                 userFx.setEmail(emailTextField.getText());
-                userFx.setDataUrdzenia(birthDatePicker.getValue());
+                userFx.setDataUrodzenia(birthDatePicker.getValue());
                 System.out.println(userFx.getCzyAktywne());
                 DbManager.update(Converter.converterToUser(userFx));
             }
@@ -157,7 +161,7 @@ public class SettingUserController {
             stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
         }
         else{
-            passFailLabel.setText("Najpierw usuń swoje produkty");
+            passFailLabel.setText(FxmlUtils.getResourceBundle().getString("remove_products"));
             passFailLabel.setVisible(true);
         }
     }
