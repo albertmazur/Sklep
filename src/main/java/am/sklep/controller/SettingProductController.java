@@ -2,8 +2,10 @@ package am.sklep.controller;
 
 import am.sklep.Login;
 import am.sklep.database.DbManager;
+import am.sklep.database.models.Product;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
+import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,13 +29,14 @@ public class SettingProductController {
     private Stage stageMain;
     private Stage stageSettingProduct;
     private ProductFx productFxEdit;
-    private ProductModel productModel;
+    private UserFx userFx;
 
     @FXML
     private void initialize(){
         stageMain = Login.getLoginStage();
+        stageMain.getScene().getRoot().setDisable(true);
 
-        productModel = new ProductModel();
+        userFx = LoginController.getUserFx();
 
         deleteButton.setVisible(false);
 
@@ -68,15 +71,25 @@ public class SettingProductController {
     public void addOnAction() {
         stageMain.getScene().getRoot().setDisable(false);
         stageSettingProduct.close();
+        if(productFxEdit!=null){
+            ProductModel.getProductFxMyObservableList().remove(productFxEdit);
 
-        productModel.getProductFxMyObservableList().remove(productFxEdit);
+            productFxEdit.setNazwa(nameTextField.getText());
+            productFxEdit.setOpis(descTextArea.getText());
+            productFxEdit.setCena(Double.valueOf(priceTextField.getText()));
 
-        productFxEdit.setNazwa(nameTextField.getText());
-        productFxEdit.setOpis(descTextArea.getText());
-        productFxEdit.setCena(Double.valueOf(priceTextField.getText()));
-
-        DbManager.update(Converter.converterToProduct(productFxEdit));
-        productModel.getProductFxMyObservableList().add(productFxEdit);
+            DbManager.update(Converter.converterToProduct(productFxEdit));
+            ProductModel.getProductFxMyObservableList().add(productFxEdit);
+        }
+        else{
+            Product product = new Product();
+            product.setNazwa(nameTextField.getText());
+            product.setOpis(descTextArea.getText());
+            product.setCena(Double.valueOf(priceTextField.getText()));
+            product.setStatus(ProductModel.DODANY);
+            product.setIdUser(Converter.converterToUser(userFx));
+            DbManager.save(product);
+        }
     }
 
     @FXML
@@ -84,7 +97,14 @@ public class SettingProductController {
         stageMain.getScene().getRoot().setDisable(false);
         stageSettingProduct.close();
 
-        DbManager.delete(Converter.converterToProduct(productFxEdit));
-        productModel.getProductFxMyObservableList().remove(productFxEdit);
+        Product product = Converter.converterToProduct(productFxEdit);
+        try{
+            DbManager.delete(product);
+        }
+        catch (Exception e){
+            product.setStatus(ProductModel.USUNIETY);
+            DbManager.update(product);
+        }
+        ProductModel.getProductFxMyObservableList().remove(productFxEdit);
     }
 }

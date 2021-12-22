@@ -28,6 +28,7 @@ public class Converter {
         userFx.setSurname(user.getNazwisko());
         userFx.setDataUrdzenia(user.getRokUrodzenia());
         userFx.setStanKonta(user.getStanKonta());
+        userFx.setCzyAktywne(user.getCzyAktywne());
         return userFx;
     }
 
@@ -52,6 +53,7 @@ public class Converter {
         user.setNazwisko(userFx.getSurname());
         user.setRokUrodzenia(userFx.getDataUrdzenia());
         user.setStanKonta(userFx.getStanKonta());
+        user.setCzyAktywne(userFx.getCzyAktywne());
         return user;
     }
 

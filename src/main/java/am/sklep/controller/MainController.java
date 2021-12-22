@@ -219,6 +219,8 @@ public class MainController {
 
     @FXML
     private void addProductsOnAction() {
+        ProductModel.setProductFxEdit(null);
+
         stageMain.getScene().getRoot().setDisable(true);
 
         setStageSettingProduct(new Stage());
@@ -238,7 +240,6 @@ public class MainController {
         LoginController.setUserFx(null);
         stageMain.close();
         stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_LOGIN_FXML)));
-        stageMain.show();
     }
 
     @FXML

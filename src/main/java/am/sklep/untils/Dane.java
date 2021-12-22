@@ -18,6 +18,7 @@ public class Dane {
         user1.setStanKonta(1000.00);
         user1.setRokUrodzenia(LocalDate.of(2000, 5, 22));
         user1.setEmail("amazur@gmail.com");
+        user1.setCzyAktywne(1);
         DbManager.save(user1);
 
         User user2 = new User();
@@ -28,6 +29,7 @@ public class Dane {
         user2.setStanKonta(1000.00);
         user2.setRokUrodzenia(LocalDate.of(1989, 3, 15));
         user2.setEmail("mnowak@gmail.com");
+        user2.setCzyAktywne(1);
         DbManager.save(user2);
 
         User user3 = new User();
@@ -38,6 +40,7 @@ public class Dane {
         user3.setStanKonta(1000.00);
         user3.setRokUrodzenia(LocalDate.of(1999, 11, 26));
         user3.setEmail("akowal@gmail.com");
+        user3.setCzyAktywne(1);
         DbManager.save(user3);
 
         Product product1 = new Product();

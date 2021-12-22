@@ -15,11 +15,11 @@ public class Shopping implements BaseModel{
     private LocalDate dataZakupu;
 
     @ManyToOne
-    @JoinColumn(name = "id_product")
+    @JoinColumn(name = "id_product", nullable = false)
     private Product idProduct;
 
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", nullable = false)
     private User idUser;
 
     public User getIdUser() {

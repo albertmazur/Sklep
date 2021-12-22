@@ -37,15 +37,18 @@ public class SettingUserController {
     @FXML
     private Button registrationButton;
 
-    private Stage stageLogin;
+    private Stage stageMain;
     private Stage stageSettingUser;
     private UserFx userFx;
+    private ProductModel productModel;
 
     @FXML
     private void initialize(){
-        stageLogin = Login.getLoginStage();
+        stageMain = Login.getLoginStage();
 
         userFx = LoginController.getUserFx();
+
+        productModel = new ProductModel();
 
         stageSettingUser = LoginController.getStageSettingUser();
         stageSettingUser.getIcons().add(new Image(SettingUserController.class.getResourceAsStream(MainController.IMG_M)));
@@ -53,7 +56,7 @@ public class SettingUserController {
         stageSettingUser.setResizable(false);
         stageSettingUser.setTitle("Rejestraction");
         stageSettingUser.setOnHiding(e->{
-            stageLogin.getScene().getRoot().setDisable(false);
+            stageMain.getScene().getRoot().setDisable(false);
         });
 
         LocalDate maxDate = LocalDate.now();
@@ -76,7 +79,7 @@ public class SettingUserController {
         );
 
         stageSettingUser.setOnHidden(event -> {
-            stageLogin.getScene().getRoot().setDisable(false);
+            stageMain.getScene().getRoot().setDisable(false);
         });
 
         if(userFx!=null){
@@ -110,6 +113,7 @@ public class SettingUserController {
                 newUser.setEmail(emailTextField.getText());
                 newUser.setRokUrodzenia(birthDatePicker.getValue());
                 newUser.setStanKonta(1000.00);
+                newUser.setCzyAktywne(1);
 
                 DbManager.save(newUser);
             }
@@ -120,31 +124,41 @@ public class SettingUserController {
                 userFx.setLogin(loginTextField.getText());
                 userFx.setEmail(emailTextField.getText());
                 userFx.setDataUrdzenia(birthDatePicker.getValue());
-
+                System.out.println(userFx.getCzyAktywne());
                 DbManager.update(Converter.converterToUser(userFx));
             }
-
             passFailLabel.setVisible(false);
 
             stageSettingUser.close();
-            stageLogin.getScene().getRoot().setDisable(false);
+            stageMain.getScene().getRoot().setDisable(false);
         }
         else passFailLabel.setVisible(true);
         }
 
     @FXML
     private void deleteUserOnAction(){
-        ProductModel productModel = new ProductModel();
-        if(!productModel.getProductFxMyObservableList().isEmpty()){
-
+        productModel.myProducts();
+        if(productModel.getProductFxMyObservableList().isEmpty()){
             stageSettingUser.close();
 
-            DbManager.delete(Converter.converterToUser(userFx));
+            User user = Converter.converterToUser(userFx);
+
+            try{
+                DbManager.delete(user);
+            }
+            catch (Exception e){
+                user.setCzyAktywne(0);
+                DbManager.update(user);
+            }
+
             Login.setLoginStage(null);
 
-            stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
-            stageLogin.getScene().getRoot().setDisable(false);
+            stageMain.getScene().getRoot().setDisable(false);
+            stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
         }
-        else passFailLabel.setVisible(true);
+        else{
+            passFailLabel.setText("Najpierw usuń swoje produkty");
+            passFailLabel.setVisible(true);
+        }
     }
 }

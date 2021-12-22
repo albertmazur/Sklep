@@ -16,13 +16,14 @@ public class ProductModel {
     public final static String DO_KUPIENIA = "Do kupienia";
     public final static String KUPIONE = "Kupione";
     public final static String DODANY = "Dodany";
+    public final static String USUNIETY = "Usunięty";
 
     private UserFx userFx = LoginController.getUserFx();
     private static ProductFx productFxEdit;
 
     private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
     private ObservableList<ProductFx> productFxBuyObservableList = FXCollections.observableArrayList();
-    private ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
+    private static ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
 
     public void downloadProduct(){
         List<Product> list = DbManager.download(Product.class);
@@ -60,7 +61,7 @@ public class ProductModel {
         List<Product> myProducts = DbManager.download(Product.class);
         productFxMyObservableList.clear();
         myProducts.forEach(item ->{
-            if(item.getIdUser().getId() == userFx.getId()) productFxMyObservableList.add(Converter.converterToProductFX(item));
+            if(item.getIdUser().getId() == userFx.getId() && !item.getStatus().equals(USUNIETY)) productFxMyObservableList.add(Converter.converterToProductFX(item));
         });
     }
 
@@ -80,7 +81,7 @@ public class ProductModel {
         this.productFxBuyObservableList = productFxBuyObservableList;
     }
 
-    public ObservableList<ProductFx> getProductFxMyObservableList() {
+    public static ObservableList<ProductFx> getProductFxMyObservableList() {
         return productFxMyObservableList;
     }
 

@@ -22,17 +22,6 @@ public class DbManager{
         session.close();
     }
 
-    public static<b extends BaseModel> List download(Class<b> cls){
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<b> query = builder.createQuery(cls);
-        Root<b> root = query.from(cls);
-        query.select(root);
-        Query<b> q =session.createQuery(query);
-        List<b> list = q.getResultList();
-        return list;
-    }
-
     public static<b extends BaseModel> void update(b baseModel){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -47,5 +36,16 @@ public class DbManager{
         session.delete(baseModel);
         session.getTransaction().commit();
         session.close();
+    }
+
+    public static<b extends BaseModel> List download(Class<b> cls){
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<b> query = builder.createQuery(cls);
+        Root<b> root = query.from(cls);
+        query.select(root);
+        Query<b> q =session.createQuery(query);
+        List<b> list = q.getResultList();
+        return list;
     }
 }

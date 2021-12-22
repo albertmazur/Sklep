@@ -13,6 +13,7 @@ public class UserFx {
     private ObjectProperty<LocalDate> dataUrdzenia = new SimpleObjectProperty<>();
     private StringProperty email = new SimpleStringProperty();
     private DoubleProperty stanKonta = new SimpleDoubleProperty();
+    private IntegerProperty czyAktywne = new SimpleIntegerProperty();
 
     public int getId() {
         return id.get();
@@ -108,6 +109,18 @@ public class UserFx {
 
     public void setStanKonta(double stanKonta) {
         this.stanKonta.set(stanKonta);
+    }
+
+    public int getCzyAktywne() {
+        return czyAktywne.get();
+    }
+
+    public IntegerProperty czyAktywneProperty() {
+        return czyAktywne;
+    }
+
+    public void setCzyAktywne(int czyAktywne) {
+        this.czyAktywne.set(czyAktywne);
     }
 
     @Override

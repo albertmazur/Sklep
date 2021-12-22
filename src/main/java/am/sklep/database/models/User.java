@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
-public class User implements BaseModel{
+public class User implements BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user", nullable = false)
@@ -36,6 +36,17 @@ public class User implements BaseModel{
 
     @Column(name = "stan_konta", nullable = false)
     private Double stanKonta;
+
+    @Column(name = "czy_aktywne", nullable = false)
+    private Integer czyAktywne;
+
+    public Integer getCzyAktywne() {
+        return czyAktywne;
+    }
+
+    public void setCzyAktywne(Integer czyAktywne) {
+        this.czyAktywne = czyAktywne;
+    }
 
     public Double getStanKonta() {
         return stanKonta;

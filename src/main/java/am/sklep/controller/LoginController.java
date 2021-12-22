@@ -26,7 +26,7 @@ public class LoginController {
     @FXML
     private PasswordField passwordPasswordField;
 
-    private static Stage stageLogin;
+    private static Stage stageMain;
     private static Stage stageSettingUser;
     private static UserFx userFx;
 
@@ -34,13 +34,14 @@ public class LoginController {
     private void initialize(){
         stageSettingUser = new Stage();
 
-        stageLogin = Login.getLoginStage();
-        stageLogin.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
-        stageLogin.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
-        stageLogin.setResizable(false);
-        stageLogin.setOnCloseRequest(c ->{
+        if(userFx==null) stageMain = Login.getLoginStage();
+        stageMain.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
+        stageMain.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
+        stageMain.setResizable(false);
+        stageMain.setOnCloseRequest(c ->{
             System.exit(0);
         });
+        stageMain.show();
     }
 
     @FXML
@@ -51,15 +52,15 @@ public class LoginController {
         boolean log = true;
         List<User> users = DbManager.download(User.class);
         for(User user : users){
-            if(login.equals(user.getLogin()) && pass.equals(user.getHaslo())){
+            if(login.equals(user.getLogin()) && pass.equals(user.getHaslo()) && user.getCzyAktywne()==1){
                 setUserFx(Converter.converterToUserFX(user));
 
                 log=false;
                 loginFailLabel.setVisible(log);
 
-                stageLogin.close();
-                stageLogin.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_MAIN_FXML)));
-                stageLogin.show();
+                stageMain.close();
+                stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_MAIN_FXML)));
+                stageMain.show();
             }
             else{
                 loginFailLabel.setVisible(log);
@@ -73,7 +74,7 @@ public class LoginController {
 
     @FXML
     private void registrationOnAction(){
-        stageLogin.getScene().getRoot().setDisable(true);
+        stageMain.getScene().getRoot().setDisable(true);
 
         stageSettingUser.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_SETTING_USER_FXML)));
     }
