@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleButton?>
@@ -22,17 +23,21 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Zamknij" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+          <Menu mnemonicParsing="false" text="Edtyuj">
+               <items>
+                  <RadioMenuItem mnemonicParsing="false" onAction="#setCaspian" text="Caspian">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="styleCroup" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem mnemonicParsing="false" onAction="#setModena" selected="true" text="Modena" toggleGroup="$styleCroup" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
             </items>
           </Menu>
         </menus>

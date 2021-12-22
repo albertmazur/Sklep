@@ -6,12 +6,17 @@ import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
+import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 public class MainController {
     public static final String VIEW_SETTING_USER_FXML = "/view/settingUser.fxml";
@@ -254,5 +259,31 @@ public class MainController {
 
     public static void setStageSettingProduct(Stage stageSettingProduct) {
         MainController.stageSettingProduct = stageSettingProduct;
+    }
+
+    //----------------------TopMenuBar------------------------------
+
+    @FXML
+    private void closeApplication() {
+        Optional<ButtonType> result = DialogUtils.confirmationDialog();
+        if(result.get()==ButtonType.OK){
+            Platform.exit();
+            System.exit(0);
+        }
+    }
+
+    @FXML
+    private void setCaspian() {
+        Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
+    }
+
+    @FXML
+    private void setModena() {
+        Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+    }
+
+    @FXML
+    private void about() {
+        DialogUtils.dialogAboutApplication();
     }
 }

@@ -5,9 +5,12 @@ import am.sklep.database.DbManager;
 import am.sklep.database.models.User;
 import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
+import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LoginController {
     @FXML
@@ -39,7 +43,11 @@ public class LoginController {
         stageMain.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
         stageMain.setResizable(false);
         stageMain.setOnCloseRequest(c ->{
-            System.exit(0);
+            Optional<ButtonType> result = DialogUtils.confirmationDialog();
+            if(result.get()==ButtonType.OK){
+                Platform.exit();
+                System.exit(0);
+            }
         });
         stageMain.show();
     }
@@ -75,7 +83,6 @@ public class LoginController {
     @FXML
     private void registrationOnAction(){
         stageMain.getScene().getRoot().setDisable(true);
-
         stageSettingUser.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_SETTING_USER_FXML)));
     }
 

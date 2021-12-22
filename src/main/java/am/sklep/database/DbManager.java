@@ -1,6 +1,8 @@
 package am.sklep.database;
 
 import am.sklep.database.models.BaseModel;
+import am.sklep.untils.ApplicationException;
+import am.sklep.untils.DialogUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -11,7 +13,15 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class DbManager{
-    private static SessionFactory sessionFactory = SingletonConnection.getSessionFactory();
+    private static SessionFactory sessionFactory;
+
+    static {
+        try {
+            sessionFactory = SingletonConnection.getSessionFactory();
+        } catch (ApplicationException e) {
+            DialogUtils.errorDialog(e.getMessage());
+        }
+    }
 
 
     public static<b extends BaseModel> void save(b baseModel){
