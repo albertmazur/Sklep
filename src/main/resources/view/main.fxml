@@ -55,6 +55,7 @@
                      <children>
                         <Button mnemonicParsing="false" onAction="#addBalanceOnAction" text="-" />
                         <Label fx:id="addBalanceLabel" text="0.00" />
+                        <Label text="zł" />
                         <Button mnemonicParsing="false" onAction="#addBalanceOnAction" text="+" />
                      </children>
                   </HBox>

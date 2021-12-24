@@ -41,6 +41,7 @@ public class LoginController {
         stageMain.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
         stageMain.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
         stageMain.setResizable(false);
+        stageMain.setMaximized(false);
         stageMain.setOnCloseRequest(c ->{
             Optional<ButtonType> result = DialogUtils.confirmationDialog();
             if(result.get()==ButtonType.OK){
