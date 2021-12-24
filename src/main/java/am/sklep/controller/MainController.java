@@ -321,10 +321,10 @@ public class MainController {
     private void updateBalanceOnAction() {
         VBoxAddBalance.setVisible(false);
 
-        addBalanceLabel.setText("0.00");
-        balanceLabel.setText(Converter.addZero(userFx.getStanKonta()));
-
         userFx.setStanKonta(userFx.getStanKonta()+Double.parseDouble(addBalanceLabel.getText()));
+        balanceLabel.setText(Converter.addZero(userFx.getStanKonta()));
         DbManager.update(Converter.converterToUser(userFx));
+
+        addBalanceLabel.setText("0.00");
     }
 }
