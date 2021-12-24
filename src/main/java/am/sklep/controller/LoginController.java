@@ -36,7 +36,7 @@ public class LoginController {
 
     @FXML
     private void initialize(){
-        if(userFx==null) stageMain = Login.getLoginStage();
+        stageMain = Login.getLoginStage();
         stageMain.show();
         stageMain.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
         stageMain.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
@@ -53,7 +53,6 @@ public class LoginController {
 
     @FXML
     private void logInOnAction(){
-
         String login = loginTextField.getText();
         String pass = passwordPasswordField.getText();
         boolean log = true;
@@ -109,5 +108,9 @@ public class LoginController {
 
     public static Stage getStageSettingUser() {
         return stageSettingUser;
+    }
+
+    public static void setStageSettingUser(Stage stageSettingUser) {
+        LoginController.stageSettingUser = stageSettingUser;
     }
 }

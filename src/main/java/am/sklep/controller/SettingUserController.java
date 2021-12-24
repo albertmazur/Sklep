@@ -3,6 +3,9 @@ package am.sklep.controller;
 import am.sklep.Login;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.User;
+import am.sklep.listener.CheckEmail;
+import am.sklep.listener.CheckText;
+import am.sklep.listener.CheckName;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
 import am.sklep.untils.Converter;
@@ -43,7 +46,7 @@ public class SettingUserController {
     private ProductModel productModel;
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         stageMain = Login.getLoginStage();
 
         userFx = LoginController.getUserFx();
@@ -54,12 +57,12 @@ public class SettingUserController {
         stageSettingUser.getIcons().add(new Image(SettingUserController.class.getResourceAsStream(MainController.IMG_M)));
         stageSettingUser.setAlwaysOnTop(true);
         stageSettingUser.setResizable(false);
-        stageSettingUser.setOnHiding(e->{
+        stageSettingUser.setOnHiding(e -> {
             stageMain.getScene().getRoot().setDisable(false);
         });
 
         LocalDate maxDate = LocalDate.now();
-        birthDatePicker.setDayCellFactory(d-> new DateCell(){
+        birthDatePicker.setDayCellFactory(d -> new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -67,21 +70,26 @@ public class SettingUserController {
             }
         });
 
+        nameTextField.textProperty().addListener(new CheckName(nameTextField));
+        surnameTextField.textProperty().addListener(new CheckName(surnameTextField));
+        loginTextField.textProperty().addListener(new CheckText(loginTextField));
+        emailTextField.textProperty().addListener(new CheckEmail(emailTextField));
+
         registrationButton.disableProperty().bind(
-            passPasswordField.textProperty().isEmpty()
-            .or(repeatPassPasswordField.textProperty().isEmpty())
-            .or(nameTextField.textProperty().isEmpty())
-            .or(surnameTextField.textProperty().isEmpty())
-            .or(loginTextField.textProperty().isEmpty())
-            .or(birthDatePicker.valueProperty().isNull())
-            .or(emailTextField.textProperty().isEmpty())
+                passPasswordField.textProperty().isEmpty()
+                        .or(repeatPassPasswordField.textProperty().isEmpty())
+                        .or(nameTextField.textProperty().isEmpty())
+                        .or(surnameTextField.textProperty().isEmpty())
+                        .or(loginTextField.textProperty().isEmpty())
+                        .or(birthDatePicker.valueProperty().isNull())
+                        .or(emailTextField.textProperty().isEmpty())
         );
 
         stageSettingUser.setOnHidden(event -> {
             stageMain.getScene().getRoot().setDisable(false);
         });
 
-        if(userFx!=null){
+        if (userFx != null) {
             stageSettingUser.setTitle(FxmlUtils.getResourceBundle().getString("account_setup"));
             registrationButton.setText(FxmlUtils.getResourceBundle().getString("save_changes"));
 
@@ -94,8 +102,7 @@ public class SettingUserController {
             emailTextField.setText(userFx.getEmail());
 
             deleteUserButton.setVisible(true);
-        }
-        else{
+        } else {
             stageSettingUser.setTitle(FxmlUtils.getResourceBundle().getString("registration"));
             registrationButton.setText(FxmlUtils.getResourceBundle().getString("create_account"));
         }
@@ -103,41 +110,53 @@ public class SettingUserController {
     }
 
     @FXML
-    private void registrationOnAction(){
+    private void registrationOnAction() {
         String pass = passPasswordField.getText();
         String repeatPass = repeatPassPasswordField.getText();
+        String email = emailTextField.getText();
 
-        if(pass.equals(repeatPass)){
-            if(userFx==null){
-                User newUser = new User();
-                newUser.setImie(nameTextField.getText());
-                newUser.setNazwisko(surnameTextField.getText());
-                newUser.setHaslo(pass);
-                newUser.setLogin(loginTextField.getText());
-                newUser.setEmail(emailTextField.getText());
-                newUser.setRokUrodzenia(birthDatePicker.getValue());
-                newUser.setStanKonta(1000.00);
-                newUser.setCzyAktywne(1);
+        if(email.indexOf('@')==email.lastIndexOf('@') && email.lastIndexOf('@')!=-1 && email.indexOf('.')==email.lastIndexOf('.') && email.lastIndexOf('.')!=-1 && (email.lastIndexOf('@')+1)<email.lastIndexOf('.') && email.lastIndexOf('.')<email.length()) {
+            if (pass.length() > 8) {
+                if (pass.equals(repeatPass)) {
+                    if (userFx == null) {
+                        User newUser = new User();
+                        newUser.setImie(nameTextField.getText());
+                        newUser.setNazwisko(surnameTextField.getText());
+                        newUser.setHaslo(pass);
+                        newUser.setLogin(loginTextField.getText());
+                        newUser.setEmail(emailTextField.getText());
+                        newUser.setRokUrodzenia(birthDatePicker.getValue());
+                        newUser.setStanKonta(1000.00);
+                        newUser.setCzyAktywne(1);
 
-                DbManager.save(newUser);
+                        DbManager.save(newUser);
+                    } else {
+                        userFx.setName(nameTextField.getText());
+                        userFx.setSurname(surnameTextField.getText());
+                        userFx.setHaslo(pass);
+                        userFx.setLogin(loginTextField.getText());
+                        userFx.setEmail(emailTextField.getText());
+                        userFx.setDataUrodzenia(birthDatePicker.getValue());
+                        System.out.println(userFx.getCzyAktywne());
+                        DbManager.update(Converter.converterToUser(userFx));
+                    }
+                    passFailLabel.setVisible(false);
+
+                    stageSettingUser.close();
+                    stageMain.getScene().getRoot().setDisable(false);
+                } else {
+                    passFailLabel.setText(FxmlUtils.getResourceBundle().getString("not_similar_passwords"));
+                    passFailLabel.setVisible(true);
+                }
+            } else {
+                passFailLabel.setText(FxmlUtils.getResourceBundle().getString("too_short_password"));
+                passFailLabel.setVisible(true);
             }
-            else{
-                userFx.setName(nameTextField.getText());
-                userFx.setSurname(surnameTextField.getText());
-                userFx.setHaslo(pass);
-                userFx.setLogin(loginTextField.getText());
-                userFx.setEmail(emailTextField.getText());
-                userFx.setDataUrodzenia(birthDatePicker.getValue());
-                System.out.println(userFx.getCzyAktywne());
-                DbManager.update(Converter.converterToUser(userFx));
-            }
-            passFailLabel.setVisible(false);
-
-            stageSettingUser.close();
-            stageMain.getScene().getRoot().setDisable(false);
+        } else {
+            passFailLabel.setText(FxmlUtils.getResourceBundle().getString("incorrect_email"));
+            passFailLabel.setVisible(true);
         }
-        else passFailLabel.setVisible(true);
-        }
+    }
 
     @FXML
     private void deleteUserOnAction(){
@@ -154,11 +173,11 @@ public class SettingUserController {
                 user.setCzyAktywne(0);
                 DbManager.update(user);
             }
-
-            Login.setLoginStage(null);
+            LoginController.setUserFx(null);
 
             stageMain.getScene().getRoot().setDisable(false);
             stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
+            stageMain.show();
         }
         else{
             passFailLabel.setText(FxmlUtils.getResourceBundle().getString("remove_products"));

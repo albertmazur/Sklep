@@ -11,9 +11,11 @@ import am.sklep.untils.FxmlUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Optional;
@@ -25,8 +27,6 @@ public class MainController {
     public static final String VIEW_MAIN_FXML = "/view/main.fxml";
     public static final String IMG_M = "/img/iconM.png";
 
-    @FXML
-    private MenuItem editProductMenuItem;
     @FXML
     private TableView<ProductFx> tableView;
     @FXML
@@ -43,6 +43,10 @@ public class MainController {
     private TableColumn<ProductFx, UserFx> sellerColumn;
 
     @FXML
+    private VBox VBoxAddBalance;
+    @FXML
+    private MenuItem editProductMenuItem;
+    @FXML
     private Label sumLabel;
     @FXML
     private Label sumViewLabel;
@@ -54,6 +58,8 @@ public class MainController {
     private Label balanceLabel;
     @FXML
     private Button buyButton;
+    @FXML
+    private Label addBalanceLabel;
 
     private ProductModel productModel;
     private UserFx userFx;
@@ -245,6 +251,7 @@ public class MainController {
         LoginController.setUserFx(null);
         stageMain.close();
         stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_LOGIN_FXML)));
+        stageMain.show();
     }
 
     @FXML
@@ -252,6 +259,8 @@ public class MainController {
         stageSettingProduct = new Stage();
         stageSettingProduct.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_PRODUCT_FXML)));
     }
+
+    //-----------------Getter and Setter---------------------------------
 
     public static Stage getStageSettingProduct() {
         return stageSettingProduct;
@@ -285,5 +294,37 @@ public class MainController {
     @FXML
     private void about() {
         DialogUtils.dialogAboutApplication();
+    }
+
+    //---------Add balance----------------------------------------------------
+
+    @FXML
+    private void showAddBalanceOnAction() {
+        if (VBoxAddBalance.isVisible()) VBoxAddBalance.setVisible(false);
+        else VBoxAddBalance.setVisible(true);
+        addBalanceLabel.setText("0.00");
+    }
+
+    @FXML
+    private void addBalanceOnAction(ActionEvent actionEvent) {
+        double value = Double.parseDouble(addBalanceLabel.getText());
+
+        if (((Button) actionEvent.getSource()).getText().equals("+")){
+            if(value<10000) addBalanceLabel.setText(Converter.addZero(value+100.0));
+        }
+        if (((Button) actionEvent.getSource()).getText().equals("-")){
+            if(value>0) addBalanceLabel.setText(Converter.addZero(value-100.0));
+        }
+    }
+
+    @FXML
+    private void updateBalanceOnAction() {
+        VBoxAddBalance.setVisible(false);
+
+        addBalanceLabel.setText("0.00");
+        balanceLabel.setText(Converter.addZero(userFx.getStanKonta()));
+
+        userFx.setStanKonta(userFx.getStanKonta()+Double.parseDouble(addBalanceLabel.getText()));
+        DbManager.update(Converter.converterToUser(userFx));
     }
 }

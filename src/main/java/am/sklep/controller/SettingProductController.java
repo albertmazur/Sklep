@@ -3,6 +3,7 @@ package am.sklep.controller;
 import am.sklep.Login;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.Product;
+import am.sklep.listener.CheckPrice;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
@@ -72,6 +73,8 @@ public class SettingProductController {
             stageSettingProduct.setTitle(FxmlUtils.getResourceBundle().getString("add_product"));
             addButton.setText(FxmlUtils.getResourceBundle().getString("add"));
         }
+
+        priceTextField.textProperty().addListener(new CheckPrice(priceTextField));
     }
 
     @FXML
@@ -85,7 +88,6 @@ public class SettingProductController {
             productFxEdit.setOpis(descTextArea.getText());
             productFxEdit.setCena(Double.valueOf(priceTextField.getText()));
 
-            //DbManager.update(Converter.converterToProduct(productFxEdit));
             ProductModel.getProductFxMyObservableList().add(productFxEdit);
         }
         else{
@@ -96,6 +98,7 @@ public class SettingProductController {
             product.setStatus(ProductModel.ADDED);
             product.setIdUser(Converter.converterToUser(userFx));
             DbManager.save(product);
+            ProductModel.getProductFxMyObservableList().add(Converter.converterToProductFX(product));
         }
     }
 
@@ -114,4 +117,5 @@ public class SettingProductController {
         }
         ProductModel.getProductFxMyObservableList().remove(productFxEdit);
     }
+
 }

@@ -43,6 +43,24 @@
             <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="%my_products" toggleGroup="$menuToggleButton" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addProductsOnAction" text="%add_product" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#settingOnAction" text="%account_setup" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAddBalanceOnAction" text="%add_balance" />
+            <VBox fx:id="VBoxAddBalance" alignment="CENTER" spacing="5.0" visible="false">
+               <children>
+                  <Label text="%add_balance">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#addBalanceOnAction" text="-" />
+                        <Label fx:id="addBalanceLabel" text="0.00" />
+                        <Button mnemonicParsing="false" onAction="#addBalanceOnAction" text="+" />
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#updateBalanceOnAction" text="%top_up" />
+               </children>
+            </VBox>
             <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <children>
                   <Button mnemonicParsing="false" onAction="#logoutOnAction" text="%log_out" />
@@ -70,7 +88,7 @@
                   <TableColumn fx:id="priceColumn" text="%price" />
                   <TableColumn fx:id="statusColumn" text="%status" />
                   <TableColumn fx:id="sellerColumn" text="%seller" />
-                  <TableColumn fx:id="buyColumn" prefWidth="150.0" />
+                  <TableColumn fx:id="buyColumn" prefWidth="150.0" style="fx-text-alignment: center;" />
               </columns>
                <contextMenu>
                   <ContextMenu>
