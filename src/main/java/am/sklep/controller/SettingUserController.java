@@ -45,6 +45,9 @@ public class SettingUserController {
     private UserFx userFx;
     private ProductModel productModel;
 
+    /**
+     * Ustawianie sceny, kiedy jest uruchomiana (tytuł, ikony, brak możliwości rozszerzaniu okna i zgaszenie stage main) i przypisanie zalogowanego użytkownika do edycji
+     */
     @FXML
     private void initialize() {
         stageMain = Login.getLoginStage();
@@ -109,6 +112,9 @@ public class SettingUserController {
         stageSettingUser.show();
     }
 
+    /**
+     * Edycja lub dodanie użytkownika do bazy
+     */
     @FXML
     private void registrationOnAction() {
         String pass = passPasswordField.getText();
@@ -158,6 +164,9 @@ public class SettingUserController {
         }
     }
 
+    /**
+     * Usuwanie użytkownika z bazy
+     */
     @FXML
     private void deleteUserOnAction(){
         productModel.myProducts();

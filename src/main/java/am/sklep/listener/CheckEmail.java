@@ -7,10 +7,20 @@ import javafx.scene.control.TextField;
 public class CheckEmail implements ChangeListener<String> {
     private TextField textField;
 
+    /**
+     * Konstruktor, który przyjmuje TextFiled
+     * @param textField TextFiled, na jakim ma działać filtrowanie
+     */
     public CheckEmail(TextField textField) {
         this.textField = textField;
     }
 
+    /**
+     * Umożliwiania wpisanie tylko znaków do poprawnego wpisania emailu
+     * @param observableValue Obiekt
+     * @param s Stara wartość nasłuchiwanego textFiledu
+     * @param t1 Nowa wartość nasłuchiwanego textFiledu
+     */
     @Override
     public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
         boolean f=true;

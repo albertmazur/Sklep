@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 public class MainController {
+    /**
+     * Odnośniki do plików fxml (scen)
+     */
     public static final String VIEW_SETTING_USER_FXML = "/view/settingUser.fxml";
     public static final String VIEW_LOGIN_FXML = "/view/login.fxml";
     public static final String VIEW_SETTING_PRODUCT_FXML = "/view/settingProduct.fxml";
@@ -67,6 +70,9 @@ public class MainController {
     private static Stage stageSettingProduct;
     private BooleanProperty checkBuy;
 
+    /**
+     * Ustawienie stage wartości dla tabelView
+     */
     @FXML
     private void initialize(){
         productModel = new ProductModel();
@@ -104,6 +110,9 @@ public class MainController {
         productsOnAction();
     }
 
+    /**
+     * Wyświetlenie produktów do kupienia
+     */
     @FXML
     private void productsOnAction() {
         tableView.setItems(productModel.getProductFxToBuyObservableList());
@@ -128,6 +137,9 @@ public class MainController {
         });
     }
 
+    /**
+     * Wyświetlenie produktów, które zostały dodane do koszyka
+     */
     @FXML
     private void basketOnAction() {
         tableView.setItems(productModel.getProductFxBuyObservableList());
@@ -154,6 +166,9 @@ public class MainController {
         });
     }
 
+    /**
+     * Funkcja odpowiedzialna za kliknięcie przycisku Kup
+     */
     @FXML
     private void buyOnAction() {
         if(!checkBuy.get()){
@@ -164,6 +179,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Funkcja odpowiedzialna za wyświetlenie użytkownikowi odpowiedniego komunikatu zależności czy jest coś w koszyku lub nie ma wystarczających środków na koncie
+     */
     private void checkBuy(){
         double suma = productModel.getProductFxBuyObservableList().stream().mapToDouble(ProductFx::getCena).sum();
         if(suma==0.0){
@@ -180,6 +198,9 @@ public class MainController {
         sumViewLabel.setText(Converter.addZero(suma));
     }
 
+    /**
+     * Wyświetlanie produktów, które należą do zalogowanego użytkownika
+     */
     @FXML
     private void boughtOnAction() {
         productModel.myProducts();
@@ -220,6 +241,10 @@ public class MainController {
         });
     }
 
+    /**
+     *
+     * @param b Jeśli jest <strong>true</strong> to wyświetla przysiek kup, kwotę do zapłaty produktów w koszyku, jeśli jest <strong>false</strong> to wyświetla kolumnę status
+     */
     private void viewMyBasket(boolean b){
         buyButton.setVisible(b);
         statusColumn.setVisible(!b);
@@ -229,6 +254,9 @@ public class MainController {
         checkBuy.setValue(b);
     }
 
+    /**
+     * Funkcja odpowiedzialna za wyświetlanie stage do dodawania produktów
+     */
     @FXML
     private void addProductsOnAction() {
         ProductModel.setProductFxEdit(null);
@@ -239,6 +267,9 @@ public class MainController {
         stageSettingProduct.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_PRODUCT_FXML)));
     }
 
+    /**
+     * Funkcja odpowiedzialna za wyświetlanie stage do zmiany ustawień użytkownika, który jest zalogowany
+     */
     @FXML
     private void settingOnAction() {
         stageMain.getScene().getRoot().setDisable(true);
@@ -247,6 +278,9 @@ public class MainController {
         stage.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_USER_FXML)));
     }
 
+    /**
+     * Wylogowanie się z aplikacji, ustawionei zalogowanie użytkownika na null i przełączenie sceny main.fxml na login.fxml
+     */
     @FXML
     private void logoutOnAction(){
         LoginController.setUserFx(null);
@@ -255,24 +289,38 @@ public class MainController {
         stageMain.show();
     }
 
+    /**
+     * Funkcja odpowiedzialna za możliwości edytowania wybranego produktu
+     */
     @FXML
     private void editProductOnAction() {
-        stageSettingProduct = new Stage();
+        setStageSettingProduct(new Stage());
         stageSettingProduct.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_PRODUCT_FXML)));
     }
 
     //-----------------Getter and Setter---------------------------------
 
+    /**
+     *  Zwraca stage stageSettingProdukt
+     * @return stage dodawania lub edytowania produktu
+     */
     public static Stage getStageSettingProduct() {
         return stageSettingProduct;
     }
 
+    /**
+     * Ustawia stage dla stageSettingProdukt
+     * @param stageSettingProduct stage dla stageSettingProdukt
+     */
     public static void setStageSettingProduct(Stage stageSettingProduct) {
         MainController.stageSettingProduct = stageSettingProduct;
     }
 
     //----------------------TopMenuBar------------------------------
 
+    /**
+     * Zamykanie aplikacji
+     */
     @FXML
     private void closeApplication() {
         Optional<ButtonType> result = DialogUtils.confirmationDialog();
@@ -282,16 +330,25 @@ public class MainController {
         }
     }
 
+    /**
+     * Ustawienie stylu Caspian dla aplikacji
+     */
     @FXML
     private void setCaspian() {
         Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
     }
 
+    /**
+     * Ustawienie stylu Modena dla aplikacji
+     */
     @FXML
     private void setModena() {
         Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
     }
 
+    /**
+     * Wyświetlenie alertu z informacjami o aplikacji
+     */
     @FXML
     private void about() {
         DialogUtils.dialogAboutApplication();
@@ -299,6 +356,9 @@ public class MainController {
 
     //---------Add balance----------------------------------------------------
 
+    /**
+     * Wyświetlanie lub chowanie pane z możliwością dodawania środków na konto
+     */
     @FXML
     private void showAddBalanceOnAction() {
         if (VBoxAddBalance.isVisible()) VBoxAddBalance.setVisible(false);
@@ -306,6 +366,10 @@ public class MainController {
         addBalanceLabel.setText("0.00");
     }
 
+    /**
+     * Wyświetlanie kwoty na labelu addBalanceLabel
+     * @param actionEvent Przycisk + lub -
+     */
     @FXML
     private void addBalanceOnAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(addBalanceLabel.getText());
@@ -318,6 +382,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Dodawanie kwoty na konto z aktualizacją w bazie danych
+     */
     @FXML
     private void updateBalanceOnAction() {
         VBoxAddBalance.setVisible(false);

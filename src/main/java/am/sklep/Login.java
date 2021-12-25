@@ -7,13 +7,15 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Login extends Application {
     private static Stage loginStage;
 
+    /**
+     * Uruchomienie aplikacji, wyświetlenie sceny logowanie i wgranie początkowych danych
+     * @param stage Główny stage
+     */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage){
         setLoginStage(stage);
         stage.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
         stage.show();
@@ -25,10 +27,18 @@ public class Login extends Application {
         launch();
     }
 
+    /**
+     * Zwraca głównego stage, dzięki czemu można zmieniać sceny
+     * @return Zwraca w głównego stage
+     */
     public static Stage getLoginStage() {
         return loginStage;
     }
 
+    /**
+     * Ustawania główny stage
+     * @param loginStage Główny stage
+     */
     public static void setLoginStage(Stage loginStage) {
         Login.loginStage = loginStage;
     }

@@ -13,19 +13,41 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ProductModel {
-
+    /**
+     * Zmienne pomagające ustawić status dla produktu
+     */
     public final static String TO_BUY = FxmlUtils.getResourceBundle().getString("to_buy");
     public final static String BOUGHT = FxmlUtils.getResourceBundle().getString("bought");
     public final static String ADDED = FxmlUtils.getResourceBundle().getString("added");
     public final static String DELETED = FxmlUtils.getResourceBundle().getString("deleted");
 
+    /**
+     * Zalogowany użytkownik
+     */
     private UserFx userFx = LoginController.getUserFx();
+    /**
+     * Produkt, który został wybrany do edycji
+     */
     private static ProductFx productFxEdit;
 
+    /**
+     * Lista produktów, które użytkownik może kupić
+     */
     private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
+
+    /**
+     * Lista produktów, które użytkownik dodał do koszyka
+     */
     private ObservableList<ProductFx> productFxBuyObservableList = FXCollections.observableArrayList();
+
+    /**
+     * Lista produktów zalogowanego użytkownika
+     */
     private static ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
 
+    /**
+     * Pobranie z bazy listy produktów, które zalogowany użytkownik może kupić
+     */
     public void downloadProduct(){
         List<Product> list = DbManager.download(Product.class);
         productFxToBuyObservableList.clear();
@@ -37,6 +59,9 @@ public class ProductModel {
         });
     }
 
+    /**
+     * Dodawanie do bazy kupionych produktów
+     */
     public void buy(){
             productFxBuyObservableList.forEach( item ->{
                 Shopping shopping = new Shopping();
@@ -58,6 +83,9 @@ public class ProductModel {
             productFxBuyObservableList.clear();
     }
 
+    /**
+     * Pobieranie produktów, które zalogowany użytkownik posiada
+     */
     public void myProducts(){
         List<Product> myProducts = DbManager.download(Product.class);
         productFxMyObservableList.clear();

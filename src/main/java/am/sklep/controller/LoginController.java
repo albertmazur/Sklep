@@ -22,7 +22,11 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Obsługuje scene login.fxml (logowanie do sklepu)
+ */
 public class LoginController {
+
     @FXML
     private Label loginFailLabel;
     @FXML
@@ -34,6 +38,9 @@ public class LoginController {
     private static Stage stageSettingUser;
     private static UserFx userFx;
 
+    /**
+     * Ustawianie sceny, kiedy jest uruchomiana (tytuł, ikony, brak możliwości rozszerzaniu okna i wyłączenie aplikacji przy naciśnięci X) i przypisanie Stage do stageSettingUser
+     */
     @FXML
     private void initialize(){
         stageMain = Login.getLoginStage();
@@ -49,9 +56,12 @@ public class LoginController {
                 System.exit(0);
             }
         });
-        stageSettingUser = new Stage();
+        setStageSettingUser(new Stage());
     }
 
+    /**
+     * Logowanie do aplikacji
+     */
     @FXML
     private void logInOnAction(){
         String login = loginTextField.getText();
@@ -79,12 +89,19 @@ public class LoginController {
         }
     }
 
+    /**
+     * Przypisanie stage do stageSettingUser i tym samym jego pokazanie
+     */
     @FXML
     private void registrationOnAction(){
         stageMain.getScene().getRoot().setDisable(true);
         stageSettingUser.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_SETTING_USER_FXML)));
     }
 
+    /**
+     * Wywołanie funkcji logInOnAction (logowanie) po naciśnięciu Enter w passwordPasswordFiled (miejsce na wspinanie hasła)
+     * @param keyEvent Jaki klawisz został wciśnięty
+     */
     @FXML
     private void loginPassOnKeyPressed(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.ENTER){
@@ -92,6 +109,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Ustawia focus na passwordPasswordField po naciśnięciu Enter w loginTextFiled
+     * @param keyEvent Jaki klawisz został wciśnięty
+     */
     @FXML
     private void loginOnKeyPressed(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.ENTER){
@@ -99,18 +120,34 @@ public class LoginController {
         }
     }
 
+    /**
+     * Zwraca zalogowanego użytkownika
+     * @return Zwraca obiekt UserFx
+     */
     public static UserFx getUserFx() {
         return userFx;
     }
 
+    /**
+     * Ustawia zalogowanego użytkownika
+     * @param userFx Przyjmuje obiekty UserFx
+     */
     public static void setUserFx(UserFx userFx) {
         LoginController.userFx = userFx;
     }
 
+    /**
+     * Zwraca stage stageSettingUser (rejestracja użytkownika)
+     * @return Zwraca stage rejestracji
+     */
     public static Stage getStageSettingUser() {
         return stageSettingUser;
     }
 
+    /**
+     * Ustawienie stage dla stageSettingUser (rejestracja użytkownika)
+     * @param stageSettingUser
+     */
     public static void setStageSettingUser(Stage stageSettingUser) {
         LoginController.stageSettingUser = stageSettingUser;
     }

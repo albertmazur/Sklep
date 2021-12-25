@@ -2,6 +2,9 @@ package am.sklep.models;
 
 import javafx.beans.property.*;
 
+/**
+ * Klasa umożliwiająca operować na obiektach Produkt
+ */
 public class ProductFx {
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty nazwa = new SimpleStringProperty();

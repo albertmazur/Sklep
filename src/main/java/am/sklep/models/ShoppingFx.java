@@ -7,6 +7,9 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDate;
 
+/**
+ * Klasa umożliwiająca operować na obiektach Shopping
+ */
 public class ShoppingFx {
     private IntegerProperty id = new SimpleIntegerProperty();
     private ObjectProperty<UserFx> clientFx = new SimpleObjectProperty<>();

@@ -7,6 +7,11 @@ import am.sklep.models.UserFx;
 
 public class Converter {
 
+    /**
+     * Zmiana obiektu z produkt na produktFx
+     * @param product Obiekty klasy Produkt
+     * @return Obiekt klasy ProduktFx
+     */
     public static ProductFx converterToProductFX(Product product){
         ProductFx productFx = new ProductFx();
         productFx.setId(product.getId());
@@ -18,6 +23,11 @@ public class Converter {
         return productFx;
     }
 
+    /**
+     * Zmiana obiektu z user na userFx
+     * @param user Obiekty klasy user
+     * @return Obiekt klasy userFx
+     */
     public static UserFx converterToUserFX(User user){
         UserFx userFx = new UserFx();
         userFx.setId(user.getId());
@@ -32,6 +42,11 @@ public class Converter {
         return userFx;
     }
 
+    /**
+     * Zmiana obiektu z produkt na produktFx
+     * @param productFx Obiekty klasy produktFx
+     * @return Obiekty klasy Produkt
+     */
     public static Product converterToProduct(ProductFx productFx){
         Product product = new Product();
         product.setId(productFx.getId());
@@ -43,6 +58,11 @@ public class Converter {
         return product;
     }
 
+    /**
+     * Zmiana obiektu z userFx na user
+     * @param userFx Obiekt klasy userFx
+     * @return Obiekty klasy user
+     */
     public static User converterToUser(UserFx userFx){
         User user = new User();
         user.setId(userFx.getId());
@@ -57,6 +77,11 @@ public class Converter {
         return user;
     }
 
+    /**
+     * Wyświetlanie ceny z dwoma liczbami po kropce
+     * @param d Cena (double), która ma zostać wyświetlona
+     * @return String, który ma zostać wyświetlony
+     */
     public static String addZero(Double d){
         if((d*100)%10==0) return d+"0";
         else return String.valueOf(d);

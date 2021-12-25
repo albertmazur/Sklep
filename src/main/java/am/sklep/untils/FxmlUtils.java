@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class FxmlUtils {
+    /**
+     * Ustawia scene dal stage
+     * @param path Ścieżka do pliku fxml
+     * @return Pane z ustawioną sceną
+     */
     public static Pane FxmlLoader(String path){
         FXMLLoader loader = new FXMLLoader(FxmlUtils.class.getResource(path), getResourceBundle());
 
@@ -18,6 +23,10 @@ public class FxmlUtils {
         return null;
     }
 
+    /**
+     * ResourceBundle do ustawienia napisów dla danego języka
+     * @return ResourceBundle
+     */
     public static ResourceBundle getResourceBundle(){
         return ResourceBundle.getBundle("bundles/languages");
     }

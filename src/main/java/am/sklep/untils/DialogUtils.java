@@ -13,12 +13,21 @@ import java.util.ResourceBundle;
 public class DialogUtils {
     static ResourceBundle bundle = FxmlUtils.getResourceBundle();
 
+    /**
+     * Ustawianie icon na alertach
+     * @param window Window, na jakim ma zostać ustawiona icon
+     * @return Window z ustawioną icon
+     */
     private static Window setIcon(Window window){
         Stage stage = (Stage) window;
         stage.getIcons().add(new Image(DialogUtils.class.getResourceAsStream(MainController.IMG_M)));
         return stage.getOwner();
     }
 
+    /**
+     * Alert wyświetlany przy próbie zamykania aplikacji
+     * @return Jaki przycisk został naciśnięty
+     */
     public static Optional<ButtonType> confirmationDialog(){
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.initOwner(setIcon(confirmationDialog.getDialogPane().getScene().getWindow()));
@@ -28,6 +37,9 @@ public class DialogUtils {
         return result;
     }
 
+    /**
+     * Alert wyświetlający informacje o aplikacji
+     */
     public static void dialogAboutApplication() {
         Alert informationAlert = new Alert(Alert.AlertType.INFORMATION);
         informationAlert.initOwner(setIcon(informationAlert.getDialogPane().getScene().getWindow()));
@@ -37,6 +49,10 @@ public class DialogUtils {
         informationAlert.showAndWait();
     }
 
+    /**
+     * Alert z błędami
+     * @param error Komunikat, jaki ma zostać wyświetlony
+     */
     public static void errorDialog(String error){
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.initOwner(setIcon(errorAlert.getDialogPane().getScene().getWindow()));

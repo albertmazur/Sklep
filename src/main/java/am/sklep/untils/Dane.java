@@ -9,6 +9,9 @@ import am.sklep.models.ProductModel;
 import java.time.LocalDate;
 
 public class Dane {
+    /**
+     * Dane do bazy danych
+     */
     public Dane() {
         User user1 = new User();
         user1.setImie("Albert");

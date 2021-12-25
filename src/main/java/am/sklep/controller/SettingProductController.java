@@ -33,6 +33,9 @@ public class SettingProductController {
     private ProductFx productFxEdit;
     private UserFx userFx;
 
+    /**
+     * Ustawianie sceny, kiedy jest uruchomiana (tytuł, ikony, brak możliwości rozszerzaniu okna i zgaszenie stage main) i przypisanie produktu do edycji
+     */
     @FXML
     private void initialize(){
         stageMain = Login.getLoginStage();
@@ -77,6 +80,9 @@ public class SettingProductController {
         priceTextField.textProperty().addListener(new CheckPrice(priceTextField));
     }
 
+    /**
+     * Dodawanie lub edytowanie produktu do bazy
+     */
     @FXML
     public void addOnAction() {
         stageMain.getScene().getRoot().setDisable(false);
@@ -102,6 +108,9 @@ public class SettingProductController {
         }
     }
 
+    /**
+     * Usuwanie produktu z bazy
+     */
     @FXML
     public void deleteOnAction() {
         stageMain.getScene().getRoot().setDisable(false);

@@ -4,6 +4,9 @@ import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
+/**
+ * Klasa umożliwiająca operować na obiektach User
+ */
 public class UserFx {
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty name = new SimpleStringProperty();

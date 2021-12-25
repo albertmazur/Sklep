@@ -28,8 +28,8 @@
       <Label text="%repeat_password" GridPane.rowIndex="4" />
       <Label text="%date_birth" GridPane.rowIndex="5" />
       <Label text="%email" GridPane.rowIndex="6" />
-      <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
-      <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="nameTextField" promptText="%first_letter" GridPane.columnIndex="1" />
+      <TextField fx:id="surnameTextField" promptText="%first_letter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="loginTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <PasswordField fx:id="passPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <PasswordField fx:id="repeatPassPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />

@@ -23,7 +23,11 @@ public class DbManager{
         }
     }
 
-
+    /**
+     * Zapisywanie obiektu do bazy danych
+     * @param baseModel Obiekt, który ma zostać zapisany do bazy
+     * @param <b> Klasa obiektu, która ma zostać zapisana i implementuje BaseModel
+     */
     public static<b extends BaseModel> void save(b baseModel){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -32,6 +36,11 @@ public class DbManager{
         session.close();
     }
 
+    /**
+     * Zaktualizowany obiektu do bazy danych
+     * @param baseModel Obiekt, który ma zostać zaktualizowany do bazy
+     * @param <b> Klasa obiektu, która ma zostać zaktualizowana i implementuje BaseModel
+     */
     public static<b extends BaseModel> void update(b baseModel){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -40,6 +49,11 @@ public class DbManager{
         session.close();
     }
 
+    /**
+     * Usunięcie obiektu do bazy danych
+     * @param baseModel Obiekt, który ma zostać usunięty do bazy
+     * @param <b> Klasa obiektu, która ma zostać usunięta i implementuje BaseModel
+     */
     public static<b extends BaseModel> void delete(b baseModel){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -48,6 +62,12 @@ public class DbManager{
         session.close();
     }
 
+    /**
+     * Pobranie listy z bazy danych
+     * @param cls Klasa obiektów, jaka ma zostać pobrana
+     * @param <b> Klasa obiektu, która ma zostać pobrana i implementuje BaseModel
+     * @return Lista obiektów klasy b
+     */
     public static<b extends BaseModel> List download(Class<b> cls){
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
