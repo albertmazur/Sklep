@@ -146,7 +146,7 @@ public class LoginController {
 
     /**
      * Ustawienie stage dla stageSettingUser (rejestracja użytkownika)
-     * @param stageSettingUser
+     * @param stageSettingUser Stage jaki ma buć dla stageSettingUser
      */
     public static void setStageSettingUser(Stage stageSettingUser) {
         LoginController.stageSettingUser = stageSettingUser;

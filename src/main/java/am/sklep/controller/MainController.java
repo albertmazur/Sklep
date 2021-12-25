@@ -22,12 +22,24 @@ import java.util.Optional;
 
 public class MainController {
     /**
-     * Odnośniki do plików fxml (scen)
+     * Odnośniki do pliku settingUser.fxml
      */
     public static final String VIEW_SETTING_USER_FXML = "/view/settingUser.fxml";
+    /**
+     * Odnośniki do pliku login.fxml
+     */
     public static final String VIEW_LOGIN_FXML = "/view/login.fxml";
+    /**
+     * Odnośniki do pliku settingProduct.fxml
+     */
     public static final String VIEW_SETTING_PRODUCT_FXML = "/view/settingProduct.fxml";
+    /**
+     * Odnośniki do pliku main.fxml
+     */
     public static final String VIEW_MAIN_FXML = "/view/main.fxml";
+    /**
+     * Odnośniki do pliku iconM.png
+     */
     public static final String IMG_M = "/img/iconM.png";
 
     @FXML

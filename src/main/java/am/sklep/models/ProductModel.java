@@ -14,11 +14,20 @@ import java.util.List;
 
 public class ProductModel {
     /**
-     * Zmienne pomagające ustawić status dla produktu
+     * Zmienne do ustawienia statusu to buy
      */
     public final static String TO_BUY = FxmlUtils.getResourceBundle().getString("to_buy");
+    /**
+     * Zmienne do ustawienia statusu bought
+     */
     public final static String BOUGHT = FxmlUtils.getResourceBundle().getString("bought");
+    /**
+     * Zmienne do ustawienia statusu added
+     */
     public final static String ADDED = FxmlUtils.getResourceBundle().getString("added");
+    /**
+     * Zmienne do ustawienia statusu deleted
+     */
     public final static String DELETED = FxmlUtils.getResourceBundle().getString("deleted");
 
     /**
