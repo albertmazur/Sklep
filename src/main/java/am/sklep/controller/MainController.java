@@ -406,5 +406,7 @@ public class MainController {
         DbManager.update(Converter.converterToUser(userFx));
 
         addBalanceLabel.setText("0.00");
+
+        checkBuy();
     }
 }

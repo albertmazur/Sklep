@@ -96,7 +96,7 @@ public class Dane {
 
         Product product7 = new Product();
         product7.setCena(725.00);
-        product7.setNazwa("Monotor");
+        product7.setNazwa("Monitor");
         product7.setOpis("Monitor do gier");
         product7.setStatus(ProductModel.TO_BUY);
         product7.setIdUser(user1);
