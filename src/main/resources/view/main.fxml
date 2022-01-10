@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
+<BorderPane stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -119,6 +119,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
+                              <TextField fx:id="searchProductsTextField" promptText="%search_products" />
                            </children>
                         </HBox>
                         <Label fx:id="balanceFailedLabel" text="%not_balance" textFill="RED" visible="false" />

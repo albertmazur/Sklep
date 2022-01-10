@@ -2,6 +2,7 @@ package am.sklep.controller;
 
 import am.sklep.Login;
 import am.sklep.database.DbManager;
+import am.sklep.listener.SearchProducts;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
@@ -75,6 +76,8 @@ public class MainController {
     private Button buyButton;
     @FXML
     private Label addBalanceLabel;
+    @FXML
+    private TextField searchProductsTextField;
 
     private ProductModel productModel;
     private UserFx userFx;
@@ -128,6 +131,8 @@ public class MainController {
     @FXML
     private void productsOnAction() {
         tableView.setItems(productModel.getProductFxToBuyObservableList());
+        searchProductsTextField.textProperty().addListener(new SearchProducts(productModel.getProductFxToBuyObservableList()));
+        searchProductsTextField.setVisible(true);
 
         viewMyBasket(false);
         editProductMenuItem.setVisible(false);
@@ -155,6 +160,7 @@ public class MainController {
     @FXML
     private void basketOnAction() {
         tableView.setItems(productModel.getProductFxBuyObservableList());
+        searchProductsTextField.setVisible(false);
 
         viewMyBasket(true);
         editProductMenuItem.setVisible(false);
@@ -217,6 +223,7 @@ public class MainController {
     private void boughtOnAction() {
         productModel.myProducts();
         tableView.setItems(productModel.getProductFxMyObservableList());
+        searchProductsTextField.setVisible(false);
 
         checkBuy();
 
@@ -254,7 +261,6 @@ public class MainController {
     }
 
     /**
-     *
      * @param b Jeśli jest <strong>true</strong> to wyświetla przysiek kup, kwotę do zapłaty produktów w koszyku, jeśli jest <strong>false</strong> to wyświetla kolumnę status
      */
     private void viewMyBasket(boolean b){
@@ -366,7 +372,7 @@ public class MainController {
         DialogUtils.dialogAboutApplication();
     }
 
-    //---------Add balance----------------------------------------------------
+    //-----------------------------Add balance--------------------------------------------
 
     /**
      * Wyświetlanie lub chowanie pane z możliwością dodawania środków na konto
