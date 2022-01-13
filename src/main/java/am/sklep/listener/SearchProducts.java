@@ -16,7 +16,13 @@ import static am.sklep.models.ProductModel.TO_BUY;
 
 public class SearchProducts implements ChangeListener<String> {
 
+    /**
+     * Lista produktów
+     */
     private ObservableList<ProductFx> productFxToBuyObservableList;
+    /**
+     * Zalogowany użytkownik
+     */
     private UserFx userFx;
 
     public SearchProducts(ObservableList<ProductFx>  listProducts) {
@@ -24,6 +30,12 @@ public class SearchProducts implements ChangeListener<String> {
         userFx = LoginController.getUserFx();
     }
 
+    /**
+     * Wyświetla produkty, które użytkownik chce wyszukać
+     * @param observableValue Obiekt
+     * @param s Stara wartość nasłuchiwanego textFiledu
+     * @param t1 Nowa wartość nasłuchiwanego textFiledu
+     */
     @Override
     public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
         List<Product> productAllList = DbManager.download(Product.class);
