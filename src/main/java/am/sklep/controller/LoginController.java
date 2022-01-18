@@ -68,6 +68,10 @@ public class LoginController {
         String pass = passwordPasswordField.getText();
         boolean log = true;
         List<User> users = DbManager.download(User.class);
+        if(users.size()==0){
+            failLogin(log);
+            log=true;
+        }
         for(User user : users){
             if(login.equals(user.getLogin()) && pass.equals(user.getHaslo()) && user.getCzyAktywne()==1){
                 setUserFx(Converter.converterToUserFX(user));
@@ -80,13 +84,22 @@ public class LoginController {
                 stageMain.show();
             }
             else{
-                loginFailLabel.setVisible(log);
-                loginTextField.clear();
-                passwordPasswordField.clear();
-                loginTextField.requestFocus();
+                failLogin(log);
                 log=true;
             }
         }
+    }
+
+    /**
+     * Funkcja wywoływana, kiedy jest nie poprawny login lub hasło
+     * @param log warunek wyświetlenia komunikatu
+     */
+    private void failLogin(boolean log){
+        System.out.println(log);
+        loginFailLabel.setVisible(log);
+        loginTextField.clear();
+        passwordPasswordField.clear();
+        loginTextField.requestFocus();
     }
 
     /**

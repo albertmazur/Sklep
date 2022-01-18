@@ -1,7 +1,6 @@
 package am.sklep;
 
 import am.sklep.controller.MainController;
-import am.sklep.untils.Dane;
 import am.sklep.untils.FxmlUtils;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,8 +18,6 @@ public class Login extends Application {
         setLoginStage(stage);
         stage.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
         stage.show();
-
-        new Dane();
     }
 
     public static void main(String[] args) {
