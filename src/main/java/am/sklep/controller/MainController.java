@@ -96,6 +96,8 @@ public class MainController {
         stageMain = Login.getLoginStage();
         stageMain.setResizable(true);
         stageMain.setMaximized(true);
+        stageMain.setMinWidth(850);
+        stageMain.setMinHeight(500);
 
         userFx = LoginController.getUserFx();
 
