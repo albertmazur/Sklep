@@ -138,6 +138,7 @@ public class MainController {
 
         viewMyBasket(false);
         editProductMenuItem.setVisible(false);
+        sellerColumn.setVisible(true);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button button = new Button(FxmlUtils.getResourceBundle().getString("add_basket"));
@@ -166,6 +167,8 @@ public class MainController {
 
         viewMyBasket(true);
         editProductMenuItem.setVisible(false);
+        sellerColumn.setVisible(true);
+
         checkBuy();
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
@@ -231,6 +234,7 @@ public class MainController {
 
         viewMyBasket(false);
         editProductMenuItem.setVisible(true);
+        sellerColumn.setVisible(false);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button buttonSell = new Button(FxmlUtils.getResourceBundle().getString("sell"));

@@ -95,7 +95,6 @@ public class LoginController {
      * @param log warunek wyświetlenia komunikatu
      */
     private void failLogin(boolean log){
-        System.out.println(log);
         loginFailLabel.setVisible(log);
         loginTextField.clear();
         passwordPasswordField.clear();
