@@ -4,7 +4,9 @@ import am.sklep.controller.LoginController;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.Product;
 import am.sklep.database.models.Shopping;
+import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
+import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,49 +60,72 @@ public class ProductModel {
      * Pobranie z bazy listy produktów, które zalogowany użytkownik może kupić
      */
     public void downloadProduct(){
-        List<Product> list = DbManager.download(Product.class);
-        productFxToBuyObservableList.clear();
-        list.forEach(item->{
-            if(item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId()){
-                ProductFx productFx = Converter.converterToProductFX(item);
-                productFxToBuyObservableList.add(productFx);
-           }
-        });
+        try {
+            List<Product> list = DbManager.download(Product.class);
+            productFxToBuyObservableList.clear();
+            list.forEach(item->{
+                if(item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId()){
+                    ProductFx productFx = Converter.converterToProductFX(item);
+                    productFxToBuyObservableList.add(productFx);
+                }
+            });
+        }
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
+        }
+
     }
 
     /**
      * Dodawanie do bazy kupionych produktów
      */
     public void buy(){
+        try {
             productFxBuyObservableList.forEach( item ->{
-                Shopping shopping = new Shopping();
-                shopping.setIdProduct(Converter.converterToProduct(item));
-                shopping.setIdUser(Converter.converterToUser(userFx));
-                shopping.setDataZakupu(LocalDate.now());
-                DbManager.save(shopping);
+                try {
+                    Shopping shopping = new Shopping();
+                    shopping.setIdProduct(Converter.converterToProduct(item));
+                    shopping.setIdUser(Converter.converterToUser(userFx));
+                    shopping.setDataZakupu(LocalDate.now());
+                    DbManager.save(shopping);
 
-                userFx.setStanKonta(userFx.getStanKonta() - item.getCena());
+                    userFx.setStanKonta(userFx.getStanKonta() - item.getCena());
 
-                item.getSprzedajacy().setStanKonta(item.getSprzedajacy().getStanKonta()+ item.getCena());
-                DbManager.update(Converter.converterToUser(item.getSprzedajacy()));
+                    item.getSprzedajacy().setStanKonta(item.getSprzedajacy().getStanKonta()+ item.getCena());
+                    DbManager.update(Converter.converterToUser(item.getSprzedajacy()));
 
-                item.setStatus(ProductModel.BOUGHT);
-                item.setSprzedajacy(userFx);
-                DbManager.update(Converter.converterToProduct(item));
-            });
+                    item.setStatus(ProductModel.BOUGHT);
+                    item.setSprzedajacy(userFx);
+                    DbManager.update(Converter.converterToProduct(item));
+
+                }
+                catch (ApplicationException e){
+                    DialogUtils.errorDialog(e.getMessage());
+                }
+                });
             DbManager.update(Converter.converterToUser(userFx));
             productFxBuyObservableList.clear();
+        }
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
+        }
     }
 
     /**
      * Pobieranie produktów, które zalogowany użytkownik posiada
      */
     public void myProducts(){
-        List<Product> myProducts = DbManager.download(Product.class);
-        productFxMyObservableList.clear();
-        myProducts.forEach(item ->{
-            if(item.getIdUser().getId() == userFx.getId() && !item.getStatus().equals(DELETED)) productFxMyObservableList.add(Converter.converterToProductFX(item));
-        });
+        try {
+            List<Product> myProducts = DbManager.download(Product.class);
+            productFxMyObservableList.clear();
+            myProducts.forEach(item ->{
+                if(item.getIdUser().getId() == userFx.getId() && !item.getStatus().equals(DELETED)) productFxMyObservableList.add(Converter.converterToProductFX(item));
+            });
+        }
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
+        }
+
     }
 
     public ObservableList<ProductFx> getProductFxToBuyObservableList() {

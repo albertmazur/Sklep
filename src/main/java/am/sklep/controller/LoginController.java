@@ -4,6 +4,7 @@ import am.sklep.Login;
 import am.sklep.database.DbManager;
 import am.sklep.database.models.User;
 import am.sklep.models.UserFx;
+import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
 import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
@@ -44,18 +45,13 @@ public class LoginController {
     @FXML
     private void initialize(){
         stageMain = Login.getLoginStage();
-        stageMain.show();
-        stageMain.setTitle(FxmlUtils.getResourceBundle().getString("title_application"));
-        stageMain.getIcons().add(new Image(LoginController.class.getResourceAsStream(MainController.IMG_M)));
         stageMain.setResizable(false);
         stageMain.setMaximized(false);
-        stageMain.setOnCloseRequest(c ->{
-            Optional<ButtonType> result = DialogUtils.confirmationDialog();
-            if(result.get()==ButtonType.OK){
-                Platform.exit();
-                System.exit(0);
-            }
-        });
+        stageMain.setMinWidth(0);
+        stageMain.setMinHeight(0);
+        stageMain.setWidth(450);
+        stageMain.setHeight(320);
+        stageMain.show();
         setStageSettingUser(new Stage());
     }
 
@@ -64,29 +60,34 @@ public class LoginController {
      */
     @FXML
     private void logInOnAction(){
-        String login = loginTextField.getText();
-        String pass = passwordPasswordField.getText();
-        boolean log = true;
-        List<User> users = DbManager.download(User.class);
-        if(users.size()==0){
-            failLogin(log);
-            log=true;
-        }
-        for(User user : users){
-            if(login.equals(user.getLogin()) && pass.equals(user.getHaslo()) && user.getCzyAktywne()==1){
-                setUserFx(Converter.converterToUserFX(user));
-
-                log=false;
-                loginFailLabel.setVisible(log);
-
-                stageMain.close();
-                stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_MAIN_FXML)));
-                stageMain.show();
-            }
-            else{
+        try {
+            String login = loginTextField.getText();
+            String pass = passwordPasswordField.getText();
+            boolean log = true;
+            List<User> users = DbManager.download(User.class);
+            if(users.size()==0){
                 failLogin(log);
                 log=true;
             }
+            for(User user : users){
+                if(login.equals(user.getLogin()) && pass.equals(user.getHaslo()) && user.getCzyAktywne()==1){
+                    setUserFx(Converter.converterToUserFX(user));
+
+                    log=false;
+                    loginFailLabel.setVisible(log);
+
+                    stageMain.close();
+                    stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_MAIN_FXML)));
+                    stageMain.show();
+                }
+                else{
+                    failLogin(log);
+                    log=true;
+                }
+            }
+        }
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
         }
     }
 

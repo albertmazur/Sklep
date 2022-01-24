@@ -6,6 +6,7 @@ import am.sklep.listener.SearchProducts;
 import am.sklep.models.ProductFx;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
+import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
 import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
@@ -249,16 +250,26 @@ public class MainController {
                 else if(item.getStatus().equals(ProductModel.TO_BUY)){
                     setGraphic(buttonRemove);
                     buttonRemove.setOnAction(event ->{
-                        item.setStatus(ProductModel.ADDED);
-                        DbManager.update(Converter.converterToProduct(item));
+                        try {
+                            item.setStatus(ProductModel.ADDED);
+                            DbManager.update(Converter.converterToProduct(item));
+                        }
+                        catch (ApplicationException e){
+                            DialogUtils.errorDialog(e.getMessage());
+                        }
                         boughtOnAction();
                     });
                 }
                 else{
                     setGraphic(buttonSell);
                     buttonSell.setOnAction(event -> {
-                        item.setStatus(ProductModel.TO_BUY);
-                        DbManager.update(Converter.converterToProduct(item));
+                        try {
+                            item.setStatus(ProductModel.TO_BUY);
+                            DbManager.update(Converter.converterToProduct(item));
+                        }
+                        catch (ApplicationException e){
+                            DialogUtils.errorDialog(e.getMessage());
+                        }
                         boughtOnAction();
                     });
                 }
@@ -310,7 +321,6 @@ public class MainController {
         LoginController.setUserFx(null);
         stageMain.close();
         stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_LOGIN_FXML)));
-        stageMain.show();
     }
 
     /**
@@ -411,14 +421,19 @@ public class MainController {
      */
     @FXML
     private void updateBalanceOnAction() {
-        VBoxAddBalance.setVisible(false);
+        try {
+            VBoxAddBalance.setVisible(false);
 
-        userFx.setStanKonta(userFx.getStanKonta()+Double.parseDouble(addBalanceLabel.getText()));
+            userFx.setStanKonta(userFx.getStanKonta()+Double.parseDouble(addBalanceLabel.getText()));
+            DbManager.update(Converter.converterToUser(userFx));
+
+            checkBuy();
+        }
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
+            userFx.setStanKonta(userFx.getStanKonta()-Double.parseDouble(addBalanceLabel.getText()));
+        }
         balanceLabel.setText(Converter.addZero(userFx.getStanKonta()));
-        DbManager.update(Converter.converterToUser(userFx));
-
         addBalanceLabel.setText("0.00");
-
-        checkBuy();
     }
 }

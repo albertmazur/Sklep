@@ -5,7 +5,9 @@ import am.sklep.database.DbManager;
 import am.sklep.database.models.Product;
 import am.sklep.models.ProductFx;
 import am.sklep.models.UserFx;
+import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
+import am.sklep.untils.DialogUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -38,24 +40,30 @@ public class SearchProducts implements ChangeListener<String> {
      */
     @Override
     public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-        List<Product> productAllList = DbManager.download(Product.class);
+        try {
+            List<Product> productAllList = DbManager.download(Product.class);
 
-        productFxToBuyObservableList.clear();
+            productFxToBuyObservableList.clear();
 
-        if(t1.length()!=0){
-            productAllList.forEach(item ->{
-                String nameProduct = item.getNazwa().toLowerCase();
-                if (item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId() && (item.getNazwa().equals(t1) || nameProduct.equals(t1))){
-                    productFxToBuyObservableList.add(Converter.converterToProductFX(item));
-                }
-            });
+            if(t1.length()!=0){
+                productAllList.forEach(item ->{
+                    String nameProduct = item.getNazwa().toLowerCase();
+                    if (item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId() && (item.getNazwa().equals(t1) || nameProduct.equals(t1))){
+                        productFxToBuyObservableList.add(Converter.converterToProductFX(item));
+                    }
+                });
+            }
+            else {
+                productAllList.forEach(item ->{
+                    if (item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId()){
+                        productFxToBuyObservableList.add(Converter.converterToProductFX(item));
+                    }
+                });
+            }
         }
-        else {
-            productAllList.forEach(item ->{
-                if (item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId()){
-                    productFxToBuyObservableList.add(Converter.converterToProductFX(item));
-                }
-            });
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
         }
+
     }
 }

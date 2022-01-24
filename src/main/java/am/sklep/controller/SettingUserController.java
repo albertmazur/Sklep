@@ -8,7 +8,9 @@ import am.sklep.listener.CheckText;
 import am.sklep.listener.CheckName;
 import am.sklep.models.ProductModel;
 import am.sklep.models.UserFx;
+import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
+import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -117,50 +119,55 @@ public class SettingUserController {
      */
     @FXML
     private void registrationOnAction() {
-        String pass = passPasswordField.getText();
-        String repeatPass = repeatPassPasswordField.getText();
-        String email = emailTextField.getText();
+        try {
+            String pass = passPasswordField.getText();
+            String repeatPass = repeatPassPasswordField.getText();
+            String email = emailTextField.getText();
 
-        if(email.indexOf('@')==email.lastIndexOf('@') && email.lastIndexOf('@')!=-1 && email.indexOf('.')==email.lastIndexOf('.') && email.lastIndexOf('.')!=-1 && (email.lastIndexOf('@')+1)<email.lastIndexOf('.') && email.lastIndexOf('.')<email.length()) {
-            if (pass.length() > 8) {
-                if (pass.equals(repeatPass)) {
-                    if (userFx == null) {
-                        User newUser = new User();
-                        newUser.setImie(nameTextField.getText());
-                        newUser.setNazwisko(surnameTextField.getText());
-                        newUser.setHaslo(pass);
-                        newUser.setLogin(loginTextField.getText());
-                        newUser.setEmail(emailTextField.getText());
-                        newUser.setRokUrodzenia(birthDatePicker.getValue());
-                        newUser.setStanKonta(1000.00);
-                        newUser.setCzyAktywne(1);
+            if(email.indexOf('@')==email.lastIndexOf('@') && email.lastIndexOf('@')!=-1 && email.indexOf('.')==email.lastIndexOf('.') && email.lastIndexOf('.')!=-1 && (email.lastIndexOf('@')+1)<email.lastIndexOf('.') && email.lastIndexOf('.')<email.length()) {
+                if (pass.length() > 8) {
+                    if (pass.equals(repeatPass)) {
+                        if (userFx == null) {
+                            User newUser = new User();
+                            newUser.setImie(nameTextField.getText());
+                            newUser.setNazwisko(surnameTextField.getText());
+                            newUser.setHaslo(pass);
+                            newUser.setLogin(loginTextField.getText());
+                            newUser.setEmail(emailTextField.getText());
+                            newUser.setRokUrodzenia(birthDatePicker.getValue());
+                            newUser.setStanKonta(1000.00);
+                            newUser.setCzyAktywne(1);
 
-                        DbManager.save(newUser);
+                            DbManager.save(newUser);
+                        } else {
+                            userFx.setName(nameTextField.getText());
+                            userFx.setSurname(surnameTextField.getText());
+                            userFx.setHaslo(pass);
+                            userFx.setLogin(loginTextField.getText());
+                            userFx.setEmail(emailTextField.getText());
+                            userFx.setDataUrodzenia(birthDatePicker.getValue());
+                            System.out.println(userFx.getCzyAktywne());
+                            DbManager.update(Converter.converterToUser(userFx));
+                        }
+                        passFailLabel.setVisible(false);
+
+                        stageSettingUser.close();
+                        stageMain.getScene().getRoot().setDisable(false);
                     } else {
-                        userFx.setName(nameTextField.getText());
-                        userFx.setSurname(surnameTextField.getText());
-                        userFx.setHaslo(pass);
-                        userFx.setLogin(loginTextField.getText());
-                        userFx.setEmail(emailTextField.getText());
-                        userFx.setDataUrodzenia(birthDatePicker.getValue());
-                        System.out.println(userFx.getCzyAktywne());
-                        DbManager.update(Converter.converterToUser(userFx));
+                        passFailLabel.setText(FxmlUtils.getResourceBundle().getString("not_similar_passwords"));
+                        passFailLabel.setVisible(true);
                     }
-                    passFailLabel.setVisible(false);
-
-                    stageSettingUser.close();
-                    stageMain.getScene().getRoot().setDisable(false);
                 } else {
-                    passFailLabel.setText(FxmlUtils.getResourceBundle().getString("not_similar_passwords"));
+                    passFailLabel.setText(FxmlUtils.getResourceBundle().getString("too_short_password"));
                     passFailLabel.setVisible(true);
                 }
             } else {
-                passFailLabel.setText(FxmlUtils.getResourceBundle().getString("too_short_password"));
+                passFailLabel.setText(FxmlUtils.getResourceBundle().getString("incorrect_email"));
                 passFailLabel.setVisible(true);
             }
-        } else {
-            passFailLabel.setText(FxmlUtils.getResourceBundle().getString("incorrect_email"));
-            passFailLabel.setVisible(true);
+        }
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
         }
     }
 
@@ -169,28 +176,33 @@ public class SettingUserController {
      */
     @FXML
     private void deleteUserOnAction(){
-        productModel.myProducts();
-        if(productModel.getProductFxMyObservableList().isEmpty()){
-            stageSettingUser.close();
+        try {
+            productModel.myProducts();
+            if(productModel.getProductFxMyObservableList().isEmpty()){
+                stageSettingUser.close();
 
-            User user = Converter.converterToUser(userFx);
+                User user = Converter.converterToUser(userFx);
 
-            try{
-                DbManager.delete(user);
+                try{
+                    DbManager.delete(user);
+                }
+                catch (Exception e){
+                    user.setCzyAktywne(0);
+                    DbManager.update(user);
+                }
+                LoginController.setUserFx(null);
+
+                stageMain.getScene().getRoot().setDisable(false);
+                stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
+                stageMain.show();
             }
-            catch (Exception e){
-                user.setCzyAktywne(0);
-                DbManager.update(user);
+            else{
+                passFailLabel.setText(FxmlUtils.getResourceBundle().getString("remove_products"));
+                passFailLabel.setVisible(true);
             }
-            LoginController.setUserFx(null);
-
-            stageMain.getScene().getRoot().setDisable(false);
-            stageMain.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_LOGIN_FXML)));
-            stageMain.show();
         }
-        else{
-            passFailLabel.setText(FxmlUtils.getResourceBundle().getString("remove_products"));
-            passFailLabel.setVisible(true);
+        catch (ApplicationException e){
+            DialogUtils.errorDialog(e.getMessage());
         }
     }
 }
