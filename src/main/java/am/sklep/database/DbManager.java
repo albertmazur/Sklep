@@ -30,6 +30,7 @@ public class DbManager{
      * Zapisywanie obiektu do bazy danych
      * @param baseModel Obiekt, który ma zostać zapisany do bazy
      * @param <b> Klasa obiektu, która ma zostać zapisana i implementuje BaseModel
+     * @throws ApplicationException własny wyjątek przy nieudanym zapisywaniu
      */
     public static<b extends BaseModel> void save(b baseModel) throws ApplicationException {
         createSessionFactory();
@@ -50,6 +51,7 @@ public class DbManager{
      * Zaktualizowany obiektu do bazy danych
      * @param baseModel Obiekt, który ma zostać zaktualizowany do bazy
      * @param <b> Klasa obiektu, która ma zostać zaktualizowana i implementuje BaseModel
+     * @throws ApplicationException własny wyjątek przy nieudanym aktualizowaniu
      */
     public static<b extends BaseModel> void update(b baseModel) throws ApplicationException {
         createSessionFactory();
@@ -70,6 +72,7 @@ public class DbManager{
      * Usunięcie obiektu do bazy danych
      * @param baseModel Obiekt, który ma zostać usunięty do bazy
      * @param <b> Klasa obiektu, która ma zostać usunięta i implementuje BaseModel
+     * @throws ApplicationException własny wyjątek przy nieudanym usuwaniu
      */
     public static<b extends BaseModel> void delete(b baseModel) throws ApplicationException {
         createSessionFactory();
@@ -91,6 +94,7 @@ public class DbManager{
      * @param cls Klasa obiektów, jaka ma zostać pobrana
      * @param <b> Klasa obiektu, która ma zostać pobrana i implementuje BaseModel
      * @return Lista obiektów klasy b
+     * @throws ApplicationException własny wyjątek przy nieudanym pobieraniu
      */
     public static<b extends BaseModel> List download(Class<b> cls) throws ApplicationException {
         createSessionFactory();
