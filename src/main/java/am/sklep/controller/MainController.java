@@ -102,6 +102,8 @@ public class MainController {
 
         userFx = LoginController.getUserFx();
 
+        tableView.setPlaceholder(new Label(FxmlUtils.getResourceBundle().getString("noproducts")));
+
         nameColumn.setCellValueFactory(cellDate -> cellDate.getValue().nazwaProperty());
         descColumn.setCellValueFactory(cellDate -> cellDate.getValue().opisProperty());
         priceColumn.setCellValueFactory(cellDate ->{

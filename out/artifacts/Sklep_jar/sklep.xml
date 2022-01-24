@@ -4,11 +4,11 @@
   <headerType>gui</headerType>
   <jar>C:\Users\Alber\Desktop\Projekty\Wlasne\Java_Na_Uczelnie\Sklep\out\artifacts\Sklep_jar\Sklep.jar</jar>
   <outfile>C:\Users\Alber\Desktop\Projekty\Wlasne\Java_Na_Uczelnie\Sklep\out\artifacts\Sklep_jar\Sklep.exe</outfile>
-  <errTitle>Error</errTitle>
+  <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl>https://www.oracle.com/java/technologies/java-se-glance.html</downloadUrl>
+  <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
