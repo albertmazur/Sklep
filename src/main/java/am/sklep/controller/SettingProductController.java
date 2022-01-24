@@ -126,14 +126,14 @@ public class SettingProductController {
 
             try{
                 DbManager.delete(product);
-
-                stageMain.getScene().getRoot().setDisable(false);
-                stageSettingProduct.close();
             }
             catch (Exception e){
                 product.setStatus(ProductModel.DELETED);
                 DbManager.update(product);
             }
+            stageMain.getScene().getRoot().setDisable(false);
+            stageSettingProduct.close();
+
             ProductModel.getProductFxMyObservableList().remove(productFxEdit);
         }
         catch (ApplicationException e){
