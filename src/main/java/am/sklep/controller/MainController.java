@@ -433,7 +433,9 @@ public class MainController {
             DialogUtils.errorDialog(e.getMessage());
             userFx.setStanKonta(userFx.getStanKonta()-Double.parseDouble(addBalanceLabel.getText()));
         }
-        balanceLabel.setText(Converter.addZero(userFx.getStanKonta()));
-        addBalanceLabel.setText("0.00");
+        finally {
+            balanceLabel.setText(Converter.addZero(userFx.getStanKonta()));
+            addBalanceLabel.setText("0.00");
+        }
     }
 }

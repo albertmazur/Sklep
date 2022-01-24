@@ -8,20 +8,16 @@ import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
 import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Obsługuje scene login.fxml (logowanie do sklepu)
