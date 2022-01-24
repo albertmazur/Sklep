@@ -2,7 +2,6 @@ package am.sklep.database;
 
 import am.sklep.database.models.BaseModel;
 import am.sklep.untils.ApplicationException;
-import am.sklep.untils.DialogUtils;
 import am.sklep.untils.FxmlUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +15,9 @@ import java.util.List;
 public class DbManager{
     private static SessionFactory sessionFactory;
 
+    /**
+     * Tworzenie SessionFactory, który umożliwia połączenie z bazą danych
+     */
     private static void createSessionFactory() {
         try {
             sessionFactory = SingletonConnection.getSessionFactory();
