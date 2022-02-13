@@ -61,7 +61,7 @@ public class LoginController {
             String pass = passwordPasswordField.getText();
             boolean log = true;
             List<User> users = DbManager.download(User.class);
-            if(users.size()==0){
+            if(users.isEmpty()){
                 failLogin(log);
                 log=true;
             }
@@ -83,6 +83,8 @@ public class LoginController {
             }
         }
         catch (ApplicationException e){
+            loginTextField.clear();
+            passwordPasswordField.clear();
             DialogUtils.errorDialog(e.getMessage());
         }
     }
@@ -103,7 +105,6 @@ public class LoginController {
      */
     @FXML
     private void registrationOnAction(){
-        stageMain.getScene().getRoot().setDisable(true);
         stageSettingUser.setScene(new Scene(FxmlUtils.FxmlLoader(MainController.VIEW_SETTING_USER_FXML)));
     }
 

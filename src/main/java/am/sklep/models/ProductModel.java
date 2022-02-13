@@ -7,30 +7,32 @@ import am.sklep.database.models.Shopping;
 import am.sklep.untils.ApplicationException;
 import am.sklep.untils.Converter;
 import am.sklep.untils.DialogUtils;
-import am.sklep.untils.FxmlUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProductModel {
     /**
      * Zmienne do ustawienia statusu to buy
      */
-    public final static String TO_BUY = FxmlUtils.getResourceBundle().getString("to_buy");
+    public final static String TO_BUY = "to_buy";
     /**
      * Zmienne do ustawienia statusu bought
      */
-    public final static String BOUGHT = FxmlUtils.getResourceBundle().getString("bought");
+    public final static String BOUGHT = "bought";
     /**
      * Zmienne do ustawienia statusu added
      */
-    public final static String ADDED = FxmlUtils.getResourceBundle().getString("added");
+    public final static String ADDED = "added";
     /**
      * Zmienne do ustawienia statusu deleted
      */
-    public final static String DELETED = FxmlUtils.getResourceBundle().getString("deleted");
+    public final static String DELETED = "deleted";
+    public static Stage stageSettingProduct;
 
     /**
      * Zalogowany użytkownik
@@ -44,12 +46,12 @@ public class ProductModel {
     /**
      * Lista produktów, które użytkownik może kupić
      */
-    private ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
+    private static ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
 
     /**
      * Lista produktów, które użytkownik dodał do koszyka
      */
-    private ObservableList<ProductFx> productFxBuyObservableList = FXCollections.observableArrayList();
+    private static ObservableList<ProductFx> productFxWithBasketObservableList = FXCollections.observableArrayList();
 
     /**
      * Lista produktów zalogowanego użytkownika
@@ -66,14 +68,17 @@ public class ProductModel {
             list.forEach(item->{
                 if(item.getStatus().equals(TO_BUY) && item.getIdUser().getId()!=userFx.getId()){
                     ProductFx productFx = Converter.converterToProductFX(item);
-                    productFxToBuyObservableList.add(productFx);
+                    AtomicBoolean f= new AtomicBoolean(true);
+                    productFxWithBasketObservableList.forEach(i ->{
+                        if(i.getId()==item.getId()) f.set(false);
+                    });
+                    if(f.get()) productFxToBuyObservableList.add(productFx);
                 }
             });
         }
         catch (ApplicationException e){
             DialogUtils.errorDialog(e.getMessage());
         }
-
     }
 
     /**
@@ -81,7 +86,7 @@ public class ProductModel {
      */
     public void buy(){
         try {
-            productFxBuyObservableList.forEach( item ->{
+            productFxWithBasketObservableList.forEach(item ->{
                 try {
                     Shopping shopping = new Shopping();
                     shopping.setIdProduct(Converter.converterToProduct(item));
@@ -104,7 +109,7 @@ public class ProductModel {
                 }
                 });
             DbManager.update(Converter.converterToUser(userFx));
-            productFxBuyObservableList.clear();
+            productFxWithBasketObservableList.clear();
         }
         catch (ApplicationException e){
             DialogUtils.errorDialog(e.getMessage());
@@ -125,10 +130,9 @@ public class ProductModel {
         catch (ApplicationException e){
             DialogUtils.errorDialog(e.getMessage());
         }
-
     }
 
-    public ObservableList<ProductFx> getProductFxToBuyObservableList() {
+    public static ObservableList<ProductFx> getProductFxToBuyObservableList() {
         return productFxToBuyObservableList;
     }
 
@@ -136,12 +140,12 @@ public class ProductModel {
         this.productFxToBuyObservableList = productFxObservableList;
     }
 
-    public ObservableList<ProductFx> getProductFxBuyObservableList() {
-        return productFxBuyObservableList;
+    public static ObservableList<ProductFx> getProductFxWithBasketObservableList() {
+        return productFxWithBasketObservableList;
     }
 
-    public void setProductFxBuyObservableList(ObservableList<ProductFx> productFxBuyObservableList) {
-        this.productFxBuyObservableList = productFxBuyObservableList;
+    public void setProductFxWithBasketObservableList(ObservableList<ProductFx> productFxWithBasketObservableList) {
+        this.productFxWithBasketObservableList = productFxWithBasketObservableList;
     }
 
     public static ObservableList<ProductFx> getProductFxMyObservableList() {

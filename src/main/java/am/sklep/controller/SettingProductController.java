@@ -44,10 +44,11 @@ public class SettingProductController {
         stageMain.getScene().getRoot().setDisable(true);
 
         userFx = LoginController.getUserFx();
+        productFxEdit = ProductModel.getProductFxEdit();
 
         deleteButton.setVisible(false);
-
-        stageSettingProduct = MainController.getStageSettingProduct();
+        if(productFxEdit==null) stageSettingProduct = MainController.getStageSettingProduct();
+        else stageSettingProduct = MyProducts.getStageSettingProduct();
         stageSettingProduct.getIcons().add(new Image(SettingProductController.class.getResourceAsStream(MainController.IMG_M)));
         stageSettingProduct.setAlwaysOnTop(true);
         stageSettingProduct.setResizable(false);
@@ -62,9 +63,7 @@ public class SettingProductController {
             .or(priceTextField.textProperty().isEmpty())
         );
 
-        productFxEdit = ProductModel.getProductFxEdit();
         if(productFxEdit!=null){
-
             deleteButton.setVisible(true);
 
             nameTextField.setText(productFxEdit.getNazwa());

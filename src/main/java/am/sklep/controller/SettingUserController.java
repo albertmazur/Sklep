@@ -53,6 +53,7 @@ public class SettingUserController {
     @FXML
     private void initialize() {
         stageMain = Login.getLoginStage();
+        stageMain.getScene().getRoot().setDisable(true);
 
         userFx = LoginController.getUserFx();
 

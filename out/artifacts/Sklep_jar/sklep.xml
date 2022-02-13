@@ -2,18 +2,18 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\Alber\Desktop\Projekty\Wlasne\Java_Na_Uczelnie\Sklep\out\artifacts\Sklep_jar\Sklep.jar</jar>
-  <outfile>C:\Users\Alber\Desktop\Projekty\Wlasne\Java_Na_Uczelnie\Sklep\out\artifacts\Sklep_jar\Sklep.exe</outfile>
-  <errTitle></errTitle>
+  <jar>C:\Users\Alber\Desktop\Projekty\Wlasne\Uczelnia\Java\AppSklep\Sklep\out\artifacts\Sklep_jar\Sklep.jar</jar>
+  <outfile>C:\Users\Alber\Desktop\Projekty\Wlasne\Uczelnia\Java\AppSklep\Sklep\out\artifacts\Sklep_jar\Sklep.exe</outfile>
+  <errTitle>Error</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl>http://java.com/download</downloadUrl>
+  <downloadUrl>https://www.oracle.com/java/technologies/java-se-glance.html</downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\Alber\Desktop\Projekty\Wlasne\Java_Na_Uczelnie\iconM.ico</icon>
+  <icon>C:\Users\Alber\Desktop\Projekty\Wlasne\Uczelnia\Java\AppSklep\iconM.ico</icon>
   <singleInstance>
     <mutexName>Sklep</mutexName>
     <windowTitle>Sklep</windowTitle>

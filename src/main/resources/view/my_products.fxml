@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MyProducts">
+   <children>
+      <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="-1.0" styleClass="table_column" text="%name" />
+          <TableColumn fx:id="descColumn" prefWidth="-1.0" styleClass="table_column" text="%description" />
+            <TableColumn fx:id="priceColumn" prefWidth="-1.0" styleClass="table_column" text="%price" />
+            <TableColumn fx:id="statusColumn" prefWidth="-1.0" styleClass="table_column" text="%status" />
+            <TableColumn fx:id="buyColumn" prefWidth="-1.0" styleClass="table_column" />
+        </columns>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="editProductMenuItem" mnemonicParsing="false" onAction="#editProductOnAction" text="%edit_product" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <HBox alignment="CENTER_RIGHT">
+         <children>
+            <fx:include source="balance.fxml" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding></HBox>
+   </children>
+</VBox>

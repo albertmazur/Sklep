@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.Balance">
+   <children>
+      <Label text="%acc_balance">
+         <padding>
+            <Insets right="3.0" />
+         </padding></Label>
+      <Label fx:id="balanceLabel">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <Label text=" zł">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+   </children>
+</HBox>
