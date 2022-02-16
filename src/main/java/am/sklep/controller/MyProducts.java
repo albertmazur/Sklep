@@ -15,8 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import static am.sklep.controller.MainController.VIEW_SETTING_PRODUCT_FXML;
-
 public class MyProducts {
     @FXML
     private TableView<ProductFx> tableView;
@@ -93,7 +91,7 @@ public class MyProducts {
         });
 
         productModel.myProducts();
-        tableView.setItems(ProductModel.getProductFxMyObservableList());
+        tableView.setItems(productModel.getProductFxMyObservableList());
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
             Button buttonSell = new Button(FxmlUtils.getResourceBundle().getString("sell"));

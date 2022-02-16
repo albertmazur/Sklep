@@ -46,17 +46,17 @@ public class ProductModel {
     /**
      * Lista produktów, które użytkownik może kupić
      */
-    private static ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
+    private final ObservableList<ProductFx> productFxToBuyObservableList = FXCollections.observableArrayList();
 
     /**
      * Lista produktów, które użytkownik dodał do koszyka
      */
-    private static ObservableList<ProductFx> productFxWithBasketObservableList = FXCollections.observableArrayList();
+    private final ObservableList<ProductFx> productFxWithBasketObservableList = FXCollections.observableArrayList();
 
     /**
      * Lista produktów zalogowanego użytkownika
      */
-    private static ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
+    private final ObservableList<ProductFx> productFxMyObservableList = FXCollections.observableArrayList();
 
     /**
      * Pobranie z bazy listy produktów, które zalogowany użytkownik może kupić
@@ -132,28 +132,16 @@ public class ProductModel {
         }
     }
 
-    public static ObservableList<ProductFx> getProductFxToBuyObservableList() {
+    public ObservableList<ProductFx> getProductFxToBuyObservableList() {
         return productFxToBuyObservableList;
     }
 
-    public void setProductFxObservableList(ObservableList<ProductFx> productFxObservableList) {
-        this.productFxToBuyObservableList = productFxObservableList;
-    }
-
-    public static ObservableList<ProductFx> getProductFxWithBasketObservableList() {
+    public ObservableList<ProductFx> getProductFxWithBasketObservableList() {
         return productFxWithBasketObservableList;
     }
 
-    public void setProductFxWithBasketObservableList(ObservableList<ProductFx> productFxWithBasketObservableList) {
-        this.productFxWithBasketObservableList = productFxWithBasketObservableList;
-    }
-
-    public static ObservableList<ProductFx> getProductFxMyObservableList() {
+    public  ObservableList<ProductFx> getProductFxMyObservableList() {
         return productFxMyObservableList;
-    }
-
-    public void setProductFxMyObservableList(ObservableList<ProductFx> productFxMyObservableList) {
-        this.productFxMyObservableList = productFxMyObservableList;
     }
 
     public static ProductFx getProductFxEdit() {

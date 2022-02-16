@@ -56,8 +56,8 @@ public class ProductsToBuy {
 
         setItems();
 
-        tableView.setItems(ProductModel.getProductFxToBuyObservableList());
-        searchProductsTextField.textProperty().addListener(new SearchProducts(ProductModel.getProductFxToBuyObservableList()));
+        tableView.setItems(productModel.getProductFxToBuyObservableList());
+        searchProductsTextField.textProperty().addListener(new SearchProducts(productModel.getProductFxToBuyObservableList()));
         searchProductsTextField.setVisible(true);
 
         buyColumn.setCellFactory(param -> new TableCell<ProductFx, ProductFx>(){
@@ -69,8 +69,8 @@ public class ProductsToBuy {
                 else{
                     setGraphic(button);
                     button.setOnAction(event -> {
-                        ProductModel.getProductFxWithBasketObservableList().add(item);
-                        ProductModel.getProductFxToBuyObservableList().remove(item);
+                        productModel.getProductFxWithBasketObservableList().add(item);
+                        productModel.getProductFxToBuyObservableList().remove(item);
                         setItems();
                     });
                 }

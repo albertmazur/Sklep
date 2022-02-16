@@ -81,7 +81,7 @@ public class Basket {
      * Wyświetlenie produktów, które zostały dodane do koszyka
      */
     private void basketOnAction(){
-        tableView.setItems(ProductModel.getProductFxWithBasketObservableList());
+        tableView.setItems(productModel.getProductFxWithBasketObservableList());
 
         checkBuy();
 
@@ -94,8 +94,8 @@ public class Basket {
                 else{
                     setGraphic(button);
                     button.setOnAction(event -> {
-                        ProductModel.getProductFxWithBasketObservableList().remove(item);
-                        ProductModel.getProductFxToBuyObservableList().add(item);
+                        productModel.getProductFxWithBasketObservableList().remove(item);
+                        productModel.getProductFxToBuyObservableList().add(item);
                         basketOnAction();
                     });
                 }
@@ -107,7 +107,7 @@ public class Basket {
      * Funkcja odpowiedzialna za wyświetlenie użytkownikowi odpowiedniego komunikatu zależności czy jest coś w koszyku lub nie ma wystarczających środków na koncie
      */
     public void checkBuy(){
-        double suma = ProductModel.getProductFxWithBasketObservableList().stream().mapToDouble(ProductFx::getCena).sum();
+        double suma = productModel.getProductFxWithBasketObservableList().stream().mapToDouble(ProductFx::getCena).sum();
         if(suma==0.0){
             checkBuy.setValue(true);
             balanceFailedLabel.setText(FxmlUtils.getResourceBundle().getString("nothing"));

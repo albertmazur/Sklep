@@ -34,6 +34,7 @@ public class SettingProductController {
     private Stage stageSettingProduct;
     private ProductFx productFxEdit;
     private UserFx userFx;
+    private ProductModel productModel;
 
     /**
      * Ustawianie sceny, kiedy jest uruchomiana (tytuł, ikony, brak możliwości rozszerzaniu okna i zgaszenie stage main) i przypisanie produktu do edycji
@@ -43,8 +44,9 @@ public class SettingProductController {
         stageMain = Login.getLoginStage();
         stageMain.getScene().getRoot().setDisable(true);
 
+        productModel = new ProductModel();
         userFx = LoginController.getUserFx();
-        productFxEdit = ProductModel.getProductFxEdit();
+        productFxEdit = productModel.getProductFxEdit();
 
         deleteButton.setVisible(false);
         if(productFxEdit==null) stageSettingProduct = MainController.getStageSettingProduct();
@@ -88,14 +90,14 @@ public class SettingProductController {
     public void addOnAction() {
         try {
             if(productFxEdit!=null){
-                ProductModel.getProductFxMyObservableList().remove(productFxEdit);
+                productModel.getProductFxMyObservableList().remove(productFxEdit);
 
                 productFxEdit.setNazwa(nameTextField.getText());
                 productFxEdit.setOpis(descTextArea.getText());
                 productFxEdit.setCena(Double.valueOf(priceTextField.getText()));
 
                 DbManager.update(Converter.converterToProduct(productFxEdit));
-                ProductModel.getProductFxMyObservableList().add(productFxEdit);
+                productModel.getProductFxMyObservableList().add(productFxEdit);
             }
             else{
                 Product product = new Product();
@@ -105,7 +107,7 @@ public class SettingProductController {
                 product.setStatus(ProductModel.ADDED);
                 product.setIdUser(Converter.converterToUser(userFx));
                 DbManager.save(product);
-                ProductModel.getProductFxMyObservableList().add(Converter.converterToProductFX(product));
+                productModel.getProductFxMyObservableList().add(Converter.converterToProductFX(product));
             }
             stageMain.getScene().getRoot().setDisable(false);
             stageSettingProduct.close();
@@ -133,7 +135,7 @@ public class SettingProductController {
             stageMain.getScene().getRoot().setDisable(false);
             stageSettingProduct.close();
 
-            ProductModel.getProductFxMyObservableList().remove(productFxEdit);
+            productModel.getProductFxMyObservableList().remove(productFxEdit);
         }
         catch (ApplicationException e){
             DialogUtils.errorDialog(e.getMessage());
