@@ -8,15 +8,15 @@ import java.time.LocalDate;
  * Klasa umożliwiająca operować na obiektach User
  */
 public class UserFx {
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private StringProperty name = new SimpleStringProperty();
-    private StringProperty surname = new SimpleStringProperty();
-    private StringProperty login = new SimpleStringProperty();
-    private StringProperty haslo = new SimpleStringProperty();
-    private ObjectProperty<LocalDate> dataUrodzenia = new SimpleObjectProperty<>();
-    private StringProperty email = new SimpleStringProperty();
-    private DoubleProperty stanKonta = new SimpleDoubleProperty();
-    private IntegerProperty czyAktywne = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty name = new SimpleStringProperty();
+    private final StringProperty surname = new SimpleStringProperty();
+    private final StringProperty login = new SimpleStringProperty();
+    private final StringProperty haslo = new SimpleStringProperty();
+    private final ObjectProperty<LocalDate> dataUrodzenia = new SimpleObjectProperty<>();
+    private final StringProperty email = new SimpleStringProperty();
+    private final DoubleProperty stanKonta = new SimpleDoubleProperty();
+    private final IntegerProperty czyAktywne = new SimpleIntegerProperty();
 
     public int getId() {
         return id.get();

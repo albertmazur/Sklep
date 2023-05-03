@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -31,8 +32,9 @@ public class LoginController {
     @FXML
     private PasswordField passwordPasswordField;
 
+    private static LoginController loginController;
     private static Stage stageMain;
-    private static Stage stageSettingUser;
+    private Stage stageSettingUser;
     private static UserFx userFx;
 
     /**
@@ -49,6 +51,8 @@ public class LoginController {
         stageMain.setHeight(320);
         stageMain.show();
         setStageSettingUser(new Stage());
+
+        loginController = this;
     }
 
     /**
@@ -66,7 +70,7 @@ public class LoginController {
                 log=true;
             }
             for(User user : users){
-                if(login.equals(user.getLogin()) && pass.equals(user.getHaslo()) && user.getCzyAktywne()==1){
+                if(login.equals(user.getLogin()) && BCrypt.checkpw(pass, user.getHaslo()) && user.getCzyAktywne()==1){
                     setUserFx(Converter.converterToUserFX(user));
 
                     log=false;
@@ -150,7 +154,7 @@ public class LoginController {
      * Zwraca stage stageSettingUser (rejestracja użytkownika)
      * @return Zwraca stage rejestracji
      */
-    public static Stage getStageSettingUser() {
+    public Stage getStageSettingUser() {
         return stageSettingUser;
     }
 
@@ -158,7 +162,11 @@ public class LoginController {
      * Ustawienie stage dla stageSettingUser (rejestracja użytkownika)
      * @param stageSettingUser Stage jaki ma buć dla stageSettingUser
      */
-    public static void setStageSettingUser(Stage stageSettingUser) {
-        LoginController.stageSettingUser = stageSettingUser;
+    public void setStageSettingUser(Stage stageSettingUser) {
+        this.stageSettingUser = stageSettingUser;
+    }
+
+    public static LoginController getLoginController() {
+        return loginController;
     }
 }

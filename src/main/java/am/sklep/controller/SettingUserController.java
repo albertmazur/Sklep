@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDate;
 
@@ -45,7 +46,6 @@ public class SettingUserController {
     private Stage stageMain;
     private Stage stageSettingUser;
     private UserFx userFx;
-    private ProductModel productModel;
 
     /**
      * Ustawianie sceny, kiedy jest uruchomiana (tytuł, ikony, brak możliwości rozszerzaniu okna i zgaszenie stage main) i przypisanie zalogowanego użytkownika do edycji
@@ -57,9 +57,7 @@ public class SettingUserController {
 
         userFx = LoginController.getUserFx();
 
-        productModel = new ProductModel();
-
-        stageSettingUser = LoginController.getStageSettingUser();
+        stageSettingUser = LoginController.getLoginController().getStageSettingUser();
         stageSettingUser.getIcons().add(new Image(SettingUserController.class.getResourceAsStream(MainController.IMG_M)));
         stageSettingUser.setAlwaysOnTop(true);
         stageSettingUser.setResizable(false);
@@ -82,9 +80,7 @@ public class SettingUserController {
         emailTextField.textProperty().addListener(new CheckEmail(emailTextField));
 
         registrationButton.disableProperty().bind(
-                passPasswordField.textProperty().isEmpty()
-                        .or(repeatPassPasswordField.textProperty().isEmpty())
-                        .or(nameTextField.textProperty().isEmpty())
+                        nameTextField.textProperty().isEmpty()
                         .or(surnameTextField.textProperty().isEmpty())
                         .or(loginTextField.textProperty().isEmpty())
                         .or(birthDatePicker.valueProperty().isNull())
@@ -102,8 +98,6 @@ public class SettingUserController {
             nameTextField.setText(userFx.getName());
             surnameTextField.setText(userFx.getSurname());
             loginTextField.setText(userFx.getLogin());
-            passPasswordField.setText(userFx.getHaslo());
-            repeatPassPasswordField.setText(userFx.getHaslo());
             birthDatePicker.setValue(userFx.getDataUrodzenia());
             emailTextField.setText(userFx.getEmail());
 
@@ -122,38 +116,49 @@ public class SettingUserController {
     private void registrationOnAction() {
         try {
             String pass = passPasswordField.getText();
+            String login = loginTextField.getText();
             String repeatPass = repeatPassPasswordField.getText();
             String email = emailTextField.getText();
 
             if(email.indexOf('@')==email.lastIndexOf('@') && email.lastIndexOf('@')!=-1 && email.indexOf('.')==email.lastIndexOf('.') && email.lastIndexOf('.')!=-1 && (email.lastIndexOf('@')+1)<email.lastIndexOf('.') && email.lastIndexOf('.')<email.length()) {
-                if (pass.length() > 8) {
+                if (pass.length() > 8 || (pass.isEmpty() && userFx != null)) {
                     if (pass.equals(repeatPass)) {
-                        if (userFx == null) {
-                            User newUser = new User();
-                            newUser.setImie(nameTextField.getText());
-                            newUser.setNazwisko(surnameTextField.getText());
-                            newUser.setHaslo(pass);
-                            newUser.setLogin(loginTextField.getText());
-                            newUser.setEmail(emailTextField.getText());
-                            newUser.setRokUrodzenia(birthDatePicker.getValue());
-                            newUser.setStanKonta(1000.00);
-                            newUser.setCzyAktywne(1);
+                        if(checkEmailAndLogin(userFx, email, login)){
+                            if (userFx == null) {
+                                User newUser = new User();
+                                newUser.setImie(nameTextField.getText());
+                                newUser.setNazwisko(surnameTextField.getText());
+                                String salt = BCrypt.gensalt(12);
+                                newUser.setHaslo(BCrypt.hashpw(pass, salt));
+                                newUser.setLogin(loginTextField.getText());
+                                newUser.setEmail(emailTextField.getText());
+                                newUser.setRokUrodzenia(birthDatePicker.getValue());
+                                newUser.setStanKonta(1000.00);
+                                newUser.setCzyAktywne(1);
 
-                            DbManager.save(newUser);
+                                DbManager.save(newUser);
+                            } else {
+                                String salt = BCrypt.gensalt(12);
+
+                                userFx.setName(nameTextField.getText());
+                                userFx.setSurname(surnameTextField.getText());
+                                if(!pass.isBlank()){
+                                    pass = BCrypt.hashpw(pass, salt);
+                                    userFx.setHaslo(pass);
+                                }
+                                userFx.setLogin(loginTextField.getText());
+                                userFx.setEmail(emailTextField.getText());
+                                userFx.setDataUrodzenia(birthDatePicker.getValue());
+                                DbManager.update(Converter.converterToUser(userFx));
+                            }
+                            passFailLabel.setVisible(false);
+
+                            stageSettingUser.close();
+                            stageMain.getScene().getRoot().setDisable(false);
                         } else {
-                            userFx.setName(nameTextField.getText());
-                            userFx.setSurname(surnameTextField.getText());
-                            userFx.setHaslo(pass);
-                            userFx.setLogin(loginTextField.getText());
-                            userFx.setEmail(emailTextField.getText());
-                            userFx.setDataUrodzenia(birthDatePicker.getValue());
-                            System.out.println(userFx.getCzyAktywne());
-                            DbManager.update(Converter.converterToUser(userFx));
+                            passFailLabel.setText(FxmlUtils.getResourceBundle().getString("unique_fail"));
+                            passFailLabel.setVisible(true);
                         }
-                        passFailLabel.setVisible(false);
-
-                        stageSettingUser.close();
-                        stageMain.getScene().getRoot().setDisable(false);
                     } else {
                         passFailLabel.setText(FxmlUtils.getResourceBundle().getString("not_similar_passwords"));
                         passFailLabel.setVisible(true);
@@ -172,12 +177,20 @@ public class SettingUserController {
         }
     }
 
+    private boolean checkEmailAndLogin(UserFx user, String email, String login) throws ApplicationException {
+        boolean f;
+        if(user!=null) f = (DbManager.isEmailUnique(email) && DbManager.isLoginUnique(login)) || (email.equals(user.getEmail()) || login.equals(user.getLogin())) ;
+        else f = DbManager.isEmailUnique(email) && DbManager.isLoginUnique(login);
+        return f;
+    }
     /**
      * Usuwanie użytkownika z bazy
      */
     @FXML
     private void deleteUserOnAction(){
         try {
+            MainController mainController = MainController.getMainController();
+            ProductModel productModel = mainController.getProductModel();
             productModel.myProducts();
             if(productModel.getProductFxMyObservableList().isEmpty()){
                 stageSettingUser.close();

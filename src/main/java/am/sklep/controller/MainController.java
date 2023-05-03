@@ -16,11 +16,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Optional;
+
 
 public class MainController {
     /**
@@ -62,12 +64,15 @@ public class MainController {
     private Label addBalanceLabel;
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private ToggleButton myProductsToggleButton;
 
     private UserFx userFx;
     private Stage stageMain;
-    private static Stage stageSettingProduct;
+    private  ProductModel productModel;
+    private Stage stageSettingProduct;
     private static Basket basket;
-
+    private static MainController mainController;
     public static void setBasket(Basket basket) {
         MainController.basket = basket;
     }
@@ -85,6 +90,8 @@ public class MainController {
 
         userFx = LoginController.getUserFx();
 
+        MainController.mainController = this;
+        productModel = new ProductModel();
         productsOnAction();
     }
 
@@ -108,8 +115,9 @@ public class MainController {
      * Wyświetlanie produktów, które należą do zalogowanego użytkownika
      */
     @FXML
-    private void boughtOnAction() {
+    public void boughtOnAction() {
         borderPane.setCenter(FxmlUtils.FxmlLoader(VIEW_MY_PRODUCTS_FXML));
+        myProductsToggleButton.setSelected(true);
     }
 
     /**
@@ -117,7 +125,7 @@ public class MainController {
      */
     @FXML
     private void addProductsOnAction() {
-        ProductModel.setProductFxEdit(null);
+        productModel.setProductFxEdit(null);
 
         setStageSettingProduct(new Stage());
         stageSettingProduct.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_PRODUCT_FXML)));
@@ -128,7 +136,7 @@ public class MainController {
      */
     @FXML
     private void settingOnAction() {
-        Stage stage = LoginController.getStageSettingUser();
+        Stage stage = LoginController.getLoginController().getStageSettingUser();
         stage.setScene(new Scene(FxmlUtils.FxmlLoader(VIEW_SETTING_USER_FXML)));
     }
 
@@ -148,16 +156,16 @@ public class MainController {
      *  Zwraca stage stageSettingProdukt
      * @return stage dodawania lub edytowania produktu
      */
-    public static Stage getStageSettingProduct() {
+    public Stage getStageSettingProduct() {
         return stageSettingProduct;
     }
 
     /**
-     * Ustawia stage dla stageSettingProdukt
+     * Ustawia stage dla stageSettingProduct
      * @param stageSettingProduct stage dla stageSettingProdukt
      */
-    public static void setStageSettingProduct(Stage stageSettingProduct) {
-        MainController.stageSettingProduct = stageSettingProduct;
+    public void setStageSettingProduct(Stage stageSettingProduct) {
+        this.stageSettingProduct = stageSettingProduct;
     }
 
     //----------------------TopMenuBar------------------------------
@@ -246,4 +254,13 @@ public class MainController {
             addBalanceLabel.setText("0.00");
         }
     }
+
+    public static MainController getMainController() {
+        return mainController;
+    }
+
+    public ProductModel getProductModel() {
+        return productModel;
+    }
+
 }

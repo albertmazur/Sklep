@@ -40,8 +40,8 @@ public class Basket {
     @FXML
     private void initialize(){
         MainController.setBasket(this);
-        productModel = new ProductModel();
-        productModel.downloadProduct();
+        MainController mainController = MainController.getMainController();
+        productModel = mainController.getProductModel();
 
         userFx = LoginController.getUserFx();
 

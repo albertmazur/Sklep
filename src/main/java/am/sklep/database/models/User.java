@@ -1,5 +1,6 @@
 package am.sklep.database.models;
 
+import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -12,9 +13,8 @@ public class User implements BaseModel {
     private Integer id;
 
     @Lob
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-
     @Lob
     @Column(name = "haslo", nullable = false)
     private String haslo;
@@ -24,7 +24,7 @@ public class User implements BaseModel {
     private String imie;
 
     @Lob
-    @Column(name = "login", nullable = false)
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
 
     @Lob
@@ -87,7 +87,7 @@ public class User implements BaseModel {
     public void setImie(String imie) {
         this.imie = imie;
     }
-
+    @Type(type="encryptedString")
     public String getHaslo() {
         return haslo;
     }

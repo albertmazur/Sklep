@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -40,7 +40,7 @@
                </toggleGroup>
             </ToggleButton>
             <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#basketOnAction" text="%basket" toggleGroup="$menuToggleButton" />
-            <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="%my_products" toggleGroup="$menuToggleButton" />
+            <ToggleButton fx:id="myProductsToggleButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boughtOnAction" text="%my_products" toggleGroup="$menuToggleButton" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addProductsOnAction" text="%add_product" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#settingOnAction" text="%account_setup" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAddBalanceOnAction" text="%add_balance" />

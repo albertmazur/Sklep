@@ -41,7 +41,7 @@ public class ProductModel {
     /**
      * Produkt, który został wybrany do edycji
      */
-    private static ProductFx productFxEdit;
+    private ProductFx productFxEdit;
 
     /**
      * Lista produktów, które użytkownik może kupić
@@ -144,11 +144,11 @@ public class ProductModel {
         return productFxMyObservableList;
     }
 
-    public static ProductFx getProductFxEdit() {
+    public ProductFx getProductFxEdit() {
         return productFxEdit;
     }
 
-    public static void setProductFxEdit(ProductFx productFxEdit) {
-        ProductModel.productFxEdit = productFxEdit;
+    public void setProductFxEdit(ProductFx productFxEdit) {
+        this.productFxEdit = productFxEdit;
     }
 }

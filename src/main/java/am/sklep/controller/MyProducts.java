@@ -41,8 +41,9 @@ public class MyProducts {
      */
     @FXML
     private void initialize(){
-        productModel = new ProductModel();
-        productModel.downloadProduct();
+        MainController mainController = MainController.getMainController();
+        productModel = mainController.getProductModel();
+        //productModel.downloadProduct();
 
         tableView.setPlaceholder(new Label(FxmlUtils.getResourceBundle().getString("no_products")));
 
@@ -54,11 +55,11 @@ public class MyProducts {
             s.setValue(Converter.addZero(d));
             return s;
         });
-        statusColumn.setCellValueFactory(cellDate -> cellDate.getValue().statusProperty());
+        statusColumn.setCellValueFactory(cellDate -> cellDate.getValue().stringPropertyName());
         buyColumn.setCellValueFactory(cellDate -> new SimpleObjectProperty<>(cellDate.getValue()));
 
         this.tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
-            ProductModel.setProductFxEdit(newValue);
+            productModel.setProductFxEdit(newValue);
         });
         editProductMenuItem.disableProperty().bind(this.tableView.getSelectionModel().selectedItemProperty().isNull());
 
@@ -78,18 +79,6 @@ public class MyProducts {
      * Wyświetlanie produktów, które należą do zalogowanego użytkownika
      */
     private void boughtOnAction(){
-        statusColumn.setCellFactory(para -> new TableCell<ProductFx, String>(){
-            @Override
-            protected void updateItem(String s, boolean b) {
-                super.updateItem(s, b);
-                if(!b){
-                    if (s.equals(ProductModel.ADDED)) setText(FxmlUtils.getResourceBundle().getString("added"));
-                    if (s.equals(ProductModel.BOUGHT)) setText(FxmlUtils.getResourceBundle().getString("bought"));
-                    if (s.equals(ProductModel.TO_BUY)) setText(FxmlUtils.getResourceBundle().getString("to_buy"));
-                }
-            }
-        });
-
         productModel.myProducts();
         tableView.setItems(productModel.getProductFxMyObservableList());
 

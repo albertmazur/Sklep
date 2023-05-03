@@ -35,6 +35,7 @@ public class SettingProductController {
     private ProductFx productFxEdit;
     private UserFx userFx;
     private ProductModel productModel;
+    private  MainController mainController;
 
     /**
      * Ustawianie sceny, kiedy jest uruchomiana (tytuł, ikony, brak możliwości rozszerzaniu okna i zgaszenie stage main) i przypisanie produktu do edycji
@@ -44,12 +45,14 @@ public class SettingProductController {
         stageMain = Login.getLoginStage();
         stageMain.getScene().getRoot().setDisable(true);
 
-        productModel = new ProductModel();
+        mainController = MainController.getMainController();
+        productModel = mainController.getProductModel();
+
         userFx = LoginController.getUserFx();
         productFxEdit = productModel.getProductFxEdit();
 
         deleteButton.setVisible(false);
-        if(productFxEdit==null) stageSettingProduct = MainController.getStageSettingProduct();
+        if(productFxEdit==null) stageSettingProduct = mainController.getStageSettingProduct();
         else stageSettingProduct = MyProducts.getStageSettingProduct();
         stageSettingProduct.getIcons().add(new Image(SettingProductController.class.getResourceAsStream(MainController.IMG_M)));
         stageSettingProduct.setAlwaysOnTop(true);
@@ -94,7 +97,7 @@ public class SettingProductController {
 
                 productFxEdit.setNazwa(nameTextField.getText());
                 productFxEdit.setOpis(descTextArea.getText());
-                productFxEdit.setCena(Double.valueOf(priceTextField.getText()));
+                productFxEdit.setCena(Double.parseDouble(priceTextField.getText()));
 
                 DbManager.update(Converter.converterToProduct(productFxEdit));
                 productModel.getProductFxMyObservableList().add(productFxEdit);
@@ -110,6 +113,8 @@ public class SettingProductController {
                 productModel.getProductFxMyObservableList().add(Converter.converterToProductFX(product));
             }
             stageMain.getScene().getRoot().setDisable(false);
+            mainController.boughtOnAction();
+            stageMain.getScene().getRoot();
             stageSettingProduct.close();
         }
         catch (ApplicationException e){
@@ -132,6 +137,7 @@ public class SettingProductController {
                 product.setStatus(ProductModel.DELETED);
                 DbManager.update(product);
             }
+            MainController.getMainController().boughtOnAction();
             stageMain.getScene().getRoot().setDisable(false);
             stageSettingProduct.close();
 

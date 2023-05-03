@@ -1,17 +1,18 @@
 package am.sklep.models;
 
+import am.sklep.untils.FxmlUtils;
 import javafx.beans.property.*;
 
 /**
  * Klasa umożliwiająca operować na obiektach Produkt
  */
 public class ProductFx {
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private StringProperty nazwa = new SimpleStringProperty();
-    private StringProperty opis = new SimpleStringProperty();
-    private DoublePropertyBase cena = new SimpleDoubleProperty();
-    private StringProperty status = new SimpleStringProperty();
-    private ObjectProperty<UserFx> sprzedajacy = new SimpleObjectProperty<>();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty nazwa = new SimpleStringProperty();
+    private final StringProperty opis = new SimpleStringProperty();
+    private final DoublePropertyBase cena = new SimpleDoubleProperty();
+    private final StringProperty status = new SimpleStringProperty();
+    private final ObjectProperty<UserFx> sprzedajacy = new SimpleObjectProperty<>();
 
     public int getId() {
         return id.get();
@@ -67,6 +68,14 @@ public class ProductFx {
 
     public StringProperty statusProperty() {
         return status;
+    }
+
+    public StringProperty stringPropertyName(){
+        String name = status.get();
+        if (name.equals(ProductModel.ADDED)) name = FxmlUtils.getResourceBundle().getString("added");
+        if (name.equals(ProductModel.BOUGHT)) name = FxmlUtils.getResourceBundle().getString("bought");
+        if (name.equals(ProductModel.TO_BUY)) name = FxmlUtils.getResourceBundle().getString("to_buy");
+        return new SimpleStringProperty(name);
     }
 
     public void setStatus(String status) {

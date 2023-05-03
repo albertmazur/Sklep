@@ -37,7 +37,9 @@ public class ProductsToBuy {
      */
     @FXML
     private void initialize(){
-        productModel = new ProductModel();
+        MainController mainController = MainController.getMainController();
+        productModel = mainController.getProductModel();
+        //productModel = new ProductModel();
         productModel.downloadProduct();
 
         tableView.setPlaceholder(new Label(FxmlUtils.getResourceBundle().getString("no_products")));
@@ -50,11 +52,9 @@ public class ProductsToBuy {
             s.setValue(Converter.addZero(d));
             return s;
         });
-        statusColumn.setCellValueFactory(cellDate -> cellDate.getValue().statusProperty());
+        statusColumn.setCellValueFactory(cellDate -> cellDate.getValue().stringPropertyName());
         sellerColumn.setCellValueFactory(cellDate -> cellDate.getValue().sprzedajacyProperty());
         buyColumn.setCellValueFactory(cellDate -> new SimpleObjectProperty<>(cellDate.getValue()));
-
-        setItems();
 
         tableView.setItems(productModel.getProductFxToBuyObservableList());
         searchProductsTextField.textProperty().addListener(new SearchProducts(productModel.getProductFxToBuyObservableList()));
@@ -71,22 +71,7 @@ public class ProductsToBuy {
                     button.setOnAction(event -> {
                         productModel.getProductFxWithBasketObservableList().add(item);
                         productModel.getProductFxToBuyObservableList().remove(item);
-                        setItems();
                     });
-                }
-            }
-        });
-    }
-
-    private void setItems() {
-        statusColumn.setCellFactory(para -> new TableCell<ProductFx, String>(){
-            @Override
-            protected void updateItem(String s, boolean b) {
-                super.updateItem(s, b);
-                if(!b){
-                    if (s.equals(ProductModel.ADDED)) setText(FxmlUtils.getResourceBundle().getString("added"));
-                    if (s.equals(ProductModel.BOUGHT)) setText(FxmlUtils.getResourceBundle().getString("bought"));
-                    if (s.equals(ProductModel.TO_BUY)) setText(FxmlUtils.getResourceBundle().getString("to_buy"));
                 }
             }
         });

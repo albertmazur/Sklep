@@ -1,6 +1,7 @@
 package am.sklep.database;
 
 import am.sklep.database.models.BaseModel;
+import am.sklep.database.models.User;
 import am.sklep.untils.ApplicationException;
 import am.sklep.untils.FxmlUtils;
 import org.hibernate.Session;
@@ -26,6 +27,40 @@ public class DbManager{
 
         }
     }
+
+    public static boolean isEmailUnique(String email) throws ApplicationException{
+        createSessionFactory();
+        try {
+            Session session = sessionFactory.openSession();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> userRoot = criteriaQuery.from(User.class);
+
+            criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get("email"), email));
+            return session.createQuery(criteriaQuery).uniqueResult() == null;
+        }
+        catch (Exception e){
+            throw new ApplicationException(FxmlUtils.getResourceBundle().getString("disconnect_date"));
+        }
+    }
+
+    public static boolean isLoginUnique(String login) throws ApplicationException{
+        createSessionFactory();
+        try {
+            Session session = sessionFactory.openSession();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> userRoot = criteriaQuery.from(User.class);
+
+            criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get("login"), login));
+            return session.createQuery(criteriaQuery).uniqueResult() == null;
+        }
+        catch (Exception e){
+            throw new ApplicationException(FxmlUtils.getResourceBundle().getString("disconnect_date"));
+        }
+    }
+
+
 
     /**
      * Zapisywanie obiektu do bazy danych

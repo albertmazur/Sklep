@@ -11,10 +11,10 @@ import java.time.LocalDate;
  * Klasa umożliwiająca operować na obiektach Shopping
  */
 public class ShoppingFx {
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private ObjectProperty<UserFx> clientFx = new SimpleObjectProperty<>();
-    private ObjectProperty<ProductFx> productFx = new SimpleObjectProperty<>();
-    private ObjectProperty<LocalDate> dataDodanie = new SimpleObjectProperty<>();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final ObjectProperty<UserFx> clientFx = new SimpleObjectProperty<>();
+    private final ObjectProperty<ProductFx> productFx = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalDate> dataDodanie = new SimpleObjectProperty<>();
 
     public int getId() {
         return id.get();

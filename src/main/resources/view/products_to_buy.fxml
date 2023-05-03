@@ -4,12 +4,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.ProductsToBuy">
+<VBox stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="am.sklep.controller.ProductsToBuy">
    <children>
       <TableView fx:id="tableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="nameColumn" minWidth="-Infinity" styleClass="table_column" text="%name" />
-          <TableColumn fx:id="descColumn" minWidth="-1.0" prefWidth="-1.0" styleClass="table_column" text="%description" />
+          <TableColumn fx:id="nameColumn" prefWidth="-1.0" styleClass="table_column" text="%name" />
+          <TableColumn fx:id="descColumn" prefWidth="-1.0" styleClass="table_column" text="%description" />
             <TableColumn fx:id="priceColumn" prefWidth="-1.0" styleClass="table_column" text="%price" />
             <TableColumn fx:id="statusColumn" prefWidth="-1.0" styleClass="table_column" text="%status" />
             <TableColumn fx:id="sellerColumn" prefWidth="-1.0" styleClass="table_column" text="%seller" />
