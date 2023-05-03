@@ -6,7 +6,6 @@ import am.sklep.untils.ApplicationException;
 import am.sklep.untils.FxmlUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;

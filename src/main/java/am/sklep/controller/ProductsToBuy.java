@@ -39,7 +39,6 @@ public class ProductsToBuy {
     private void initialize(){
         MainController mainController = MainController.getMainController();
         productModel = mainController.getProductModel();
-        //productModel = new ProductModel();
         productModel.downloadProduct();
 
         tableView.setPlaceholder(new Label(FxmlUtils.getResourceBundle().getString("no_products")));
